@@ -153,7 +153,11 @@
       scene: 'Scene: only runs in Wallpaper Engine',
       app: 'Application: not supported',
       unsupported: 'Not supported',
-      schemeColor: 'Scheme color'
+      schemeColor: 'Scheme color',
+      hue: 'Hue',
+      shade: 'Saturation and brightness',
+      eyedropper: 'Pick a color from the screen',
+      hex: 'Hex color'
     },
     ar: {
       customize: 'تخصيص',
@@ -172,7 +176,11 @@
       scene: 'مشهد: يعمل فقط في Wallpaper Engine',
       app: 'تطبيق: غير مدعوم',
       unsupported: 'غير مدعوم',
-      schemeColor: 'لون المخطط'
+      schemeColor: 'لون المخطط',
+      hue: 'تدرج اللون',
+      shade: 'التشبع والسطوع',
+      eyedropper: 'اختر لونًا من الشاشة',
+      hex: 'اللون بالنظام الست عشري'
     },
     be: {
       customize: 'Наладзіць',
@@ -191,7 +199,11 @@
       scene: 'Сцэна: працуе толькі ў Wallpaper Engine',
       app: 'Праграма: не падтрымліваецца',
       unsupported: 'Не падтрымліваецца',
-      schemeColor: 'Колер схемы'
+      schemeColor: 'Колер схемы',
+      hue: 'Адценне',
+      shade: 'Насычанасць і яркасць',
+      eyedropper: 'Узяць колер з экрана',
+      hex: 'Шаснаццатковы колер'
     },
     bg: {
       customize: 'Персонализиране',
@@ -210,7 +222,11 @@
       scene: 'Сцена: работи само в Wallpaper Engine',
       app: 'Приложение: не се поддържа',
       unsupported: 'Не се поддържа',
-      schemeColor: 'Цвят на схемата'
+      schemeColor: 'Цвят на схемата',
+      hue: 'Оттенък',
+      shade: 'Наситеност и яркост',
+      eyedropper: 'Вземи цвят от екрана',
+      hex: 'Шестнадесетичен цвят'
     },
     ca: {
       customize: 'Personalitzar',
@@ -229,7 +245,11 @@
       scene: 'Escena: només funciona al Wallpaper Engine',
       app: 'Aplicació: no compatible',
       unsupported: 'No compatible',
-      schemeColor: 'Color de l’esquema'
+      schemeColor: 'Color de l’esquema',
+      hue: 'To',
+      shade: 'Saturació i brillantor',
+      eyedropper: 'Agafa un color de la pantalla',
+      hex: 'Color hexadecimal'
     },
     cs: {
       customize: 'Přizpůsobit',
@@ -248,7 +268,11 @@
       scene: 'Scéna: funguje jen ve Wallpaper Engine',
       app: 'Aplikace: není podporována',
       unsupported: 'Nepodporováno',
-      schemeColor: 'Barva schématu'
+      schemeColor: 'Barva schématu',
+      hue: 'Odstín',
+      shade: 'Sytost a jas',
+      eyedropper: 'Vybrat barvu z obrazovky',
+      hex: 'Barva v šestnáctkovém zápisu'
     },
     de: {
       customize: 'Anpassen',
@@ -267,7 +291,11 @@
       scene: 'Szene: läuft nur in Wallpaper Engine',
       app: 'Anwendung: nicht unterstützt',
       unsupported: 'Nicht unterstützt',
-      schemeColor: 'Schemafarbe'
+      schemeColor: 'Schemafarbe',
+      hue: 'Farbton',
+      shade: 'Sättigung und Helligkeit',
+      eyedropper: 'Farbe vom Bildschirm aufnehmen',
+      hex: 'Hex-Farbe'
     },
     el: {
       customize: 'Προσαρμογή',
@@ -286,7 +314,11 @@
       scene: 'Σκηνή: λειτουργεί μόνο στο Wallpaper Engine',
       app: 'Εφαρμογή: δεν υποστηρίζεται',
       unsupported: 'Δεν υποστηρίζεται',
-      schemeColor: 'Χρώμα σχήματος'
+      schemeColor: 'Χρώμα σχήματος',
+      hue: 'Απόχρωση',
+      shade: 'Κορεσμός και φωτεινότητα',
+      eyedropper: 'Επιλογή χρώματος από την οθόνη',
+      hex: 'Δεκαεξαδικό χρώμα'
     },
     es: {
       customize: 'Personalizar',
@@ -305,7 +337,11 @@
       scene: 'Escena: solo funciona en Wallpaper Engine',
       app: 'Aplicación: no compatible',
       unsupported: 'No compatible',
-      schemeColor: 'Color del esquema'
+      schemeColor: 'Color del esquema',
+      hue: 'Tono',
+      shade: 'Saturación y brillo',
+      eyedropper: 'Tomar un color de la pantalla',
+      hex: 'Color hexadecimal'
     },
     fr: {
       customize: 'Personnaliser',
@@ -324,7 +360,11 @@
       scene: 'Scène : ne fonctionne que dans Wallpaper Engine',
       app: 'Application : non prise en charge',
       unsupported: 'Non pris en charge',
-      schemeColor: 'Couleur du thème'
+      schemeColor: 'Couleur du thème',
+      hue: 'Teinte',
+      shade: 'Saturation et luminosité',
+      eyedropper: 'Prélever une couleur à l’écran',
+      hex: 'Couleur hexadécimale'
     },
     hr: {
       customize: 'Prilagodi',
@@ -343,7 +383,11 @@
       scene: 'Scena: radi samo u Wallpaper Engineu',
       app: 'Aplikacija: nije podržana',
       unsupported: 'Nije podržano',
-      schemeColor: 'Boja sheme'
+      schemeColor: 'Boja sheme',
+      hue: 'Nijansa',
+      shade: 'Zasićenost i svjetlina',
+      eyedropper: 'Uzmi boju sa zaslona',
+      hex: 'Heksadecimalna boja'
     },
     hu: {
       customize: 'Testreszabás',
@@ -362,7 +406,11 @@
       scene: 'Jelenet: csak a Wallpaper Engine-ben fut',
       app: 'Alkalmazás: nem támogatott',
       unsupported: 'Nem támogatott',
-      schemeColor: 'Sémaszín'
+      schemeColor: 'Sémaszín',
+      hue: 'Színárnyalat',
+      shade: 'Telítettség és fényerő',
+      eyedropper: 'Szín felvétele a képernyőről',
+      hex: 'Hexadecimális szín'
     },
     id: {
       customize: 'Sesuaikan',
@@ -381,7 +429,11 @@
       scene: 'Scene: hanya berjalan di Wallpaper Engine',
       app: 'Aplikasi: tidak didukung',
       unsupported: 'Tidak didukung',
-      schemeColor: 'Warna skema'
+      schemeColor: 'Warna skema',
+      hue: 'Rona',
+      shade: 'Saturasi dan kecerahan',
+      eyedropper: 'Ambil warna dari layar',
+      hex: 'Warna heksadesimal'
     },
     it: {
       customize: 'Personalizza',
@@ -400,7 +452,11 @@
       scene: 'Scena: funziona solo in Wallpaper Engine',
       app: 'Applicazione: non supportata',
       unsupported: 'Non supportato',
-      schemeColor: 'Colore dello schema'
+      schemeColor: 'Colore dello schema',
+      hue: 'Tonalità',
+      shade: 'Saturazione e luminosità',
+      eyedropper: 'Preleva un colore dallo schermo',
+      hex: 'Colore esadecimale'
     },
     ja: {
       customize: 'カスタマイズ',
@@ -419,7 +475,11 @@
       scene: 'シーン：Wallpaper Engine でのみ動作',
       app: 'アプリケーション：非対応',
       unsupported: '非対応',
-      schemeColor: 'スキームカラー'
+      schemeColor: 'スキームカラー',
+      hue: '色相',
+      shade: '彩度と明度',
+      eyedropper: '画面から色を取得',
+      hex: '16 進数カラー'
     },
     ko: {
       customize: '사용자 지정',
@@ -438,7 +498,11 @@
       scene: '씬: Wallpaper Engine에서만 실행',
       app: '애플리케이션: 지원되지 않음',
       unsupported: '지원되지 않음',
-      schemeColor: '구성표 색상'
+      schemeColor: '구성표 색상',
+      hue: '색조',
+      shade: '채도 및 밝기',
+      eyedropper: '화면에서 색 가져오기',
+      hex: '16진수 색상'
     },
     nl: {
       customize: 'Aanpassen',
@@ -457,7 +521,11 @@
       scene: 'Scène: werkt alleen in Wallpaper Engine',
       app: 'Toepassing: niet ondersteund',
       unsupported: 'Niet ondersteund',
-      schemeColor: 'Schemakleur'
+      schemeColor: 'Schemakleur',
+      hue: 'Tint',
+      shade: 'Verzadiging en helderheid',
+      eyedropper: 'Kleur van het scherm kiezen',
+      hex: 'Hexkleur'
     },
     no: {
       customize: 'Tilpass',
@@ -476,7 +544,11 @@
       scene: 'Scene: kjører bare i Wallpaper Engine',
       app: 'Program: støttes ikke',
       unsupported: 'Støttes ikke',
-      schemeColor: 'Skjemafarge'
+      schemeColor: 'Skjemafarge',
+      hue: 'Fargetone',
+      shade: 'Metning og lysstyrke',
+      eyedropper: 'Hent en farge fra skjermen',
+      hex: 'Heksadesimal farge'
     },
     pl: {
       customize: 'Dostosuj',
@@ -495,7 +567,11 @@
       scene: 'Scena: działa tylko w Wallpaper Engine',
       app: 'Aplikacja: nieobsługiwana',
       unsupported: 'Nieobsługiwane',
-      schemeColor: 'Kolor schematu'
+      schemeColor: 'Kolor schematu',
+      hue: 'Odcień',
+      shade: 'Nasycenie i jasność',
+      eyedropper: 'Pobierz kolor z ekranu',
+      hex: 'Kolor szesnastkowy'
     },
     pt: {
       customize: 'Personalizar',
@@ -514,7 +590,11 @@
       scene: 'Scene: só funciona no Wallpaper Engine',
       app: 'Aplicativo: não suportado',
       unsupported: 'Não suportado',
-      schemeColor: 'Cor do esquema'
+      schemeColor: 'Cor do esquema',
+      hue: 'Matiz',
+      shade: 'Saturação e brilho',
+      eyedropper: 'Pegar uma cor da tela',
+      hex: 'Cor hexadecimal'
     },
     'pt-pt': {
       settings: 'Definições',
@@ -525,7 +605,8 @@
       noSettings: 'Esta imagem de fundo não tem definições.',
       scene: 'Cena: só funciona no Wallpaper Engine',
       app: 'Aplicação: não suportada',
-      search: 'Pesquisar nas definições'
+      search: 'Pesquisar nas definições',
+      eyedropper: 'Escolher uma cor do ecrã'
     },
     ro: {
       customize: 'Personalizează',
@@ -544,7 +625,11 @@
       scene: 'Scenă: rulează doar în Wallpaper Engine',
       app: 'Aplicație: neacceptată',
       unsupported: 'Neacceptat',
-      schemeColor: 'Culoarea schemei'
+      schemeColor: 'Culoarea schemei',
+      hue: 'Nuanță',
+      shade: 'Saturație și luminozitate',
+      eyedropper: 'Preia o culoare de pe ecran',
+      hex: 'Culoare hexazecimală'
     },
     ru: {
       customize: 'Настроить',
@@ -563,7 +648,11 @@
       scene: 'Сцена: работает только в Wallpaper Engine',
       app: 'Приложение: не поддерживается',
       unsupported: 'Не поддерживается',
-      schemeColor: 'Цвет схемы'
+      schemeColor: 'Цвет схемы',
+      hue: 'Оттенок',
+      shade: 'Насыщенность и яркость',
+      eyedropper: 'Взять цвет с экрана',
+      hex: 'Шестнадцатеричный цвет'
     },
     sk: {
       customize: 'Prispôsobiť',
@@ -582,7 +671,11 @@
       scene: 'Scéna: funguje len vo Wallpaper Engine',
       app: 'Aplikácia: nepodporovaná',
       unsupported: 'Nepodporované',
-      schemeColor: 'Farba schémy'
+      schemeColor: 'Farba schémy',
+      hue: 'Odtieň',
+      shade: 'Sýtosť a jas',
+      eyedropper: 'Vybrať farbu z obrazovky',
+      hex: 'Farba v šestnástkovom zápise'
     },
     sl: {
       customize: 'Prilagodi',
@@ -601,7 +694,11 @@
       scene: 'Prizor: deluje samo v Wallpaper Engine',
       app: 'Aplikacija: ni podprta',
       unsupported: 'Ni podprto',
-      schemeColor: 'Barva sheme'
+      schemeColor: 'Barva sheme',
+      hue: 'Odtenek',
+      shade: 'Nasičenost in svetlost',
+      eyedropper: 'Izberi barvo z zaslona',
+      hex: 'Šestnajstiška barva'
     },
     sv: {
       customize: 'Anpassa',
@@ -620,7 +717,11 @@
       scene: 'Scen: körs bara i Wallpaper Engine',
       app: 'Program: stöds inte',
       unsupported: 'Stöds inte',
-      schemeColor: 'Schemafärg'
+      schemeColor: 'Schemafärg',
+      hue: 'Nyans',
+      shade: 'Mättnad och ljusstyrka',
+      eyedropper: 'Hämta en färg från skärmen',
+      hex: 'Hexfärg'
     },
     tr: {
       customize: 'Özelleştir',
@@ -639,7 +740,11 @@
       scene: 'Sahne: yalnızca Wallpaper Engine\'de çalışır',
       app: 'Uygulama: desteklenmiyor',
       unsupported: 'Desteklenmiyor',
-      schemeColor: 'Şema rengi'
+      schemeColor: 'Şema rengi',
+      hue: 'Ton',
+      shade: 'Doygunluk ve parlaklık',
+      eyedropper: 'Ekrandan renk al',
+      hex: 'Onaltılık renk'
     },
     uk: {
       customize: 'Налаштувати',
@@ -658,7 +763,11 @@
       scene: 'Сцена: працює лише у Wallpaper Engine',
       app: 'Застосунок: не підтримується',
       unsupported: 'Не підтримується',
-      schemeColor: 'Колір схеми'
+      schemeColor: 'Колір схеми',
+      hue: 'Відтінок',
+      shade: 'Насиченість і яскравість',
+      eyedropper: 'Взяти колір з екрана',
+      hex: 'Шістнадцятковий колір'
     },
     vi: {
       customize: 'Tùy chỉnh',
@@ -677,7 +786,11 @@
       scene: 'Scene: chỉ chạy trong Wallpaper Engine',
       app: 'Ứng dụng: không được hỗ trợ',
       unsupported: 'Không được hỗ trợ',
-      schemeColor: 'Màu lược đồ'
+      schemeColor: 'Màu lược đồ',
+      hue: 'Sắc độ',
+      shade: 'Độ bão hòa và độ sáng',
+      eyedropper: 'Lấy màu từ màn hình',
+      hex: 'Màu hex'
     },
     'zh-cn': {
       customize: '自定义',
@@ -696,7 +809,11 @@
       scene: '场景：只能在 Wallpaper Engine 中运行',
       app: '应用程序：不支持',
       unsupported: '不支持',
-      schemeColor: '方案颜色'
+      schemeColor: '方案颜色',
+      hue: '色相',
+      shade: '饱和度和亮度',
+      eyedropper: '从屏幕取色',
+      hex: '十六进制颜色'
     },
     'zh-tw': {
       customize: '自訂',
@@ -715,7 +832,11 @@
       scene: '場景：只能在 Wallpaper Engine 中執行',
       app: '應用程式：不支援',
       unsupported: '不支援',
-      schemeColor: '配色顏色'
+      schemeColor: '配色顏色',
+      hue: '色相',
+      shade: '飽和度與亮度',
+      eyedropper: '從螢幕取色',
+      hex: '十六進位色彩'
     }
   };
 
@@ -1445,6 +1566,202 @@
     return [1, 3, 5].map(function (i) { return (parseInt(hex.substr(i, 2), 16) / 255).toFixed(3); }).join(' ');
   }
 
+  // ---------------------------------------------------------------------------
+  // Color picker, opened inside the panel under its row (the browser's own popup
+  // can't be styled and leaves the screen at the panel's edge). Drawn only with
+  // the panel's theme variables, so it follows the CasaOS theme too.
+  // ---------------------------------------------------------------------------
+  var openPicker = null;
+
+  function clamp01(x) { return Math.min(1, Math.max(0, x)); }
+
+  function hexToRgb(hex) {
+    var m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(String(hex).trim());
+    if (!m) return null;
+    var d = m[1].length === 3 ? m[1].replace(/./g, '$&$&') : m[1];
+    return [0, 2, 4].map(function (i) { return parseInt(d.substr(i, 2), 16) / 255; });
+  }
+
+  function rgbToHex(c) {
+    return '#' + c.map(function (x) {
+      var v = Math.round(clamp01(x) * 255);
+      return (v < 16 ? '0' : '') + v.toString(16);
+    }).join('');
+  }
+
+  function rgbToHsv(c) {
+    var max = Math.max(c[0], c[1], c[2]), d = max - Math.min(c[0], c[1], c[2]), hue = 0;
+    if (d) {
+      if (max === c[0]) hue = ((c[1] - c[2]) / d + 6) % 6;
+      else if (max === c[1]) hue = (c[2] - c[0]) / d + 2;
+      else hue = (c[0] - c[1]) / d + 4;
+    }
+    return { h: hue * 60, s: max ? d / max : 0, v: max };
+  }
+
+  function hsvToRgb(x) {
+    var f = function (n) {
+      var k = (n + x.h / 60) % 6;
+      return x.v - x.v * x.s * Math.max(0, Math.min(k, 4 - k, 1));
+    };
+    return [f(5), f(3), f(1)];
+  }
+
+  function closePicker() {
+    if (!openPicker) return;
+    openPicker.box.hidden = true;
+    openPicker.swatch.setAttribute('aria-expanded', 'false');
+    openPicker = null;
+  }
+
+  function colorPicker(text, hex, onChange) {
+    var hsv = rgbToHsv(hexToRgb(hex) || [0, 0, 0]);
+    var swatch = h('button', 'lw-swatch');
+    swatch.type = 'button';
+    swatch.setAttribute('aria-expanded', 'false');
+    var r = row(text, swatch);
+
+    var box = h('div', 'lw-picker');
+    box.hidden = true;
+    box.dir = 'ltr';   // a color square reads left to right in every language
+    swatch.setAttribute('aria-controls', box.id = 'lw-picker-' + Math.random().toString(36).slice(2, 9));
+    var sv = h('div', 'lw-sv'), svDot = h('span', 'lw-dot');
+    var hue = h('div', 'lw-hue'), hueDot = h('span', 'lw-dot');
+    [[sv, 'shade'], [hue, 'hue']].forEach(function (a) {
+      a[0].tabIndex = 0;
+      a[0].setAttribute('role', 'slider');
+      a[0].setAttribute('aria-label', t(a[1]));
+    });
+    hue.setAttribute('aria-valuemin', '0');
+    hue.setAttribute('aria-valuemax', '360');
+    sv.appendChild(svDot);
+    hue.appendChild(hueDot);
+    var foot = h('div', 'lw-picker-foot');
+    var field = h('input');
+    field.type = 'text';
+    field.maxLength = 7;
+    field.spellcheck = false;
+    field.setAttribute('aria-label', t('hex'));
+    foot.appendChild(field);
+    if (window.EyeDropper) {
+      var drop = h('button', 'lw-icon lw-drop');
+      drop.type = 'button';
+      drop.title = t('eyedropper');
+      drop.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+        'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 5.5l4 4"/>' +
+        '<path d="M17.5 3.5a2.1 2.1 0 013 3l-2 2-3-3z"/><path d="M15.5 8.5L7 17l-3 1 1-3 8.5-8.5"/></svg>';
+      drop.addEventListener('click', function () {
+        new window.EyeDropper().open().then(function (res) {
+          var c = hexToRgb(res.sRGBHex);
+          if (!c) return;
+          hsv = rgbToHsv(c);
+          paint();
+          send(true);
+        }, function () { /* cancelled */ });
+      });
+      foot.appendChild(drop);
+    }
+    box.appendChild(sv);
+    box.appendChild(hue);
+    box.appendChild(foot);
+    r.appendChild(box);
+
+    function current() { return rgbToHex(hsvToRgb(hsv)); }
+
+    function paint() {
+      var c = current();
+      box.style.setProperty('--lw-pick-hue', 'hsl(' + hsv.h + ', 100%, 50%)');
+      svDot.style.left = hsv.s * 100 + '%';
+      svDot.style.top = (1 - hsv.v) * 100 + '%';
+      svDot.style.background = c;
+      hueDot.style.left = hsv.h / 360 * 100 + '%';
+      sv.setAttribute('aria-valuetext', Math.round(hsv.s * 100) + '%, ' + Math.round(hsv.v * 100) + '%');
+      hue.setAttribute('aria-valuenow', String(Math.round(hsv.h)));
+      swatch.style.background = c;
+      swatch.title = c;
+      if (document.activeElement !== field) field.value = c;
+    }
+
+    // One update per frame while dragging; nothing runs otherwise
+    var frame = 0, sent = hex;
+    function send(now) {
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+      var go = function () {
+        frame = 0;
+        var c = current();
+        if (c !== sent) onChange(sent = c);
+      };
+      if (now) go(); else frame = requestAnimationFrame(go);
+    }
+
+    function drag(el, move) {
+      el.addEventListener('pointerdown', function (e) {
+        if (e.button) return;
+        e.preventDefault();
+        el.focus({ preventScroll: true });
+        try { el.setPointerCapture(e.pointerId); } catch (err) { /* not a live pointer */ }
+        var at = function (ev) {
+          var b = el.getBoundingClientRect();
+          move(clamp01((ev.clientX - b.left) / b.width), clamp01((ev.clientY - b.top) / b.height));
+          paint();
+          send();
+        };
+        var up = function () {
+          el.removeEventListener('pointermove', at);
+          el.removeEventListener('pointerup', up);
+          el.removeEventListener('pointercancel', up);
+          send(true);
+        };
+        el.addEventListener('pointermove', at);
+        el.addEventListener('pointerup', up);
+        el.addEventListener('pointercancel', up);
+        at(e);
+      });
+    }
+    drag(sv, function (x, y) { hsv.s = x; hsv.v = 1 - y; });
+    drag(hue, function (x) { hsv.h = x * 360; });
+
+    function keys(el, step) {
+      el.addEventListener('keydown', function (e) {
+        var d = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, 1], ArrowDown: [0, -1] }[e.key];
+        if (!d) return;
+        e.preventDefault();
+        step(d[0] * (e.shiftKey ? 5 : 1), d[1] * (e.shiftKey ? 5 : 1));
+        paint();
+        send();
+      });
+    }
+    keys(sv, function (dx, dy) { hsv.s = clamp01(hsv.s + dx * 0.02); hsv.v = clamp01(hsv.v + dy * 0.02); });
+    keys(hue, function (dx, dy) { hsv.h = Math.min(360, Math.max(0, hsv.h + (dx || dy) * 2)); });
+
+    field.addEventListener('change', function () {
+      var c = hexToRgb(field.value);
+      if (c) {
+        hsv = rgbToHsv(c);
+        send(true);
+      }
+      field.value = '';   // shows the current color again (also when it was invalid)
+      field.blur();
+      paint();
+    });
+    field.addEventListener('keydown', function (e) { if (e.key === 'Enter') field.blur(); });
+
+    swatch.addEventListener('click', function () {
+      var mine = openPicker && openPicker.box === box;
+      closePicker();
+      if (mine) return;
+      box.hidden = false;
+      swatch.setAttribute('aria-expanded', 'true');
+      openPicker = { box: box, swatch: swatch };
+      paint();
+      box.scrollIntoView({ block: 'nearest' });
+    });
+
+    paint();
+    return r;
+  }
+
   function control(p) {
     var v = valueOf(p);
     var text = label(p.text);
@@ -1472,13 +1789,8 @@
         });
         return row(text, sel);
       }
-      case 'color': {
-        var c = h('input');
-        c.type = 'color';
-        c.value = toHex(v);
-        c.addEventListener('input', function () { setProp(p.key, fromHex(c.value)); });
-        return row(text, c);
-      }
+      case 'color':
+        return colorPicker(text, toHex(v), function (hex) { setProp(p.key, fromHex(hex)); });
       case 'textinput': {
         var ti = h('input');
         ti.type = 'text';
@@ -1555,6 +1867,31 @@
   function remount() {
     var id = current.id;
     switchTo(id).then(openPanel);
+  }
+
+  // The panel takes its look from CasaOS itself each time it opens: the glass of
+  // a dashboard widget, its text color and the CasaOS primary color. So a mod
+  // that restyles CasaOS (a theme) restyles the panel and the color picker too.
+  // What can't be read keeps the defaults of mod.css.
+  function visibleColor(c) { return c && !/^(transparent|rgba\(0, 0, 0, 0\))$/.test(c) ? c : ''; }
+
+  function applyTheme() {
+    var set = function (name, value) { if (value) panel.style.setProperty(name, value); };
+    var glass = document.querySelector('.widget .blur-background') || document.querySelector('.dropdown-content');
+    if (glass) {
+      var g = getComputedStyle(glass);
+      set('--lw-glass', g.backgroundColor);
+      set('--lw-filter', g.backdropFilter || g.webkitBackdropFilter);
+      set('--lw-radius', g.borderRadius);
+      set('--lw-shadow', g.boxShadow);
+      var text = getComputedStyle(glass.closest('.widget') || glass).color;
+      set('--lw-text', text);
+      // a dark text means a light theme: native bits (scrollbars, options) follow
+      var c = (text.match(/[\d.]+/g) || []).map(Number);
+      if (c.length >= 3) panel.style.colorScheme = 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2] < 128 ? 'light' : 'dark';
+    }
+    var primary = document.querySelector('.button.is-primary:not(.is-light):not(.is-outlined), .switch input:checked + .check, .has-background-primary');
+    if (primary) set('--lw-accent', visibleColor(getComputedStyle(primary).backgroundColor));
   }
 
   function buildPanel() {
@@ -1683,6 +2020,7 @@
       panel.appendChild(bar);
     }
     panel.appendChild(scroll);
+    applyTheme();   // before it shows, so nothing transitions from the defaults
     document.body.appendChild(panel);
     refreshPanel();
   }
@@ -1697,10 +2035,14 @@
     if (panel) panel.remove();
     panel = null;
     groups = [];
+    openPicker = null;
   }
 
+  // Esc closes an open color picker first, then the panel
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && panel) closePanel();
+    if (e.key !== 'Escape' || !panel) return;
+    if (openPicker) closePicker();
+    else closePanel();
   });
 
   // ---------------------------------------------------------------------------

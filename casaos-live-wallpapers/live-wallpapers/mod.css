@@ -67,15 +67,19 @@ html.lw-on #background { visibility: hidden !important; }
 /* ---------- Settings panel, in the CasaOS widget look ----------
  * The glass of the dashboard widgets (CasaOS-UI .blur-background: $backDropColor,
  * $backDropBlur, $backDropBorderRadius, $backDropShadow), white text, the CasaOS
- * font, its primary blue, pill buttons and switches.
+ * font, its primary blue, pill buttons and switches. These are only defaults:
+ * mod.js (applyTheme) sets --lw-glass, --lw-filter, --lw-radius, --lw-shadow,
+ * --lw-text and --lw-accent from the CasaOS widgets when the panel opens, so a
+ * mod that restyles CasaOS restyles the panel; the other colors derive from them.
  */
 #lw-panel {
   --lw-text: #fff;
-  --lw-muted: hsla(208, 16%, 85%, 0.75);
-  --lw-line: rgba(255, 255, 255, 0.1);
-  --lw-raised: rgba(255, 255, 255, 0.1);
-  --lw-border: rgba(255, 255, 255, 0.16);
   --lw-accent: hsl(216, 90%, 54%);
+  --lw-muted: color-mix(in srgb, var(--lw-text) 75%, transparent);
+  --lw-line: color-mix(in srgb, var(--lw-text) 10%, transparent);
+  --lw-raised: color-mix(in srgb, var(--lw-text) 10%, transparent);
+  --lw-hover: color-mix(in srgb, var(--lw-text) 8%, transparent);
+  --lw-border: color-mix(in srgb, var(--lw-text) 16%, transparent);
   position: fixed;
   top: 64px;
   right: 16px;
@@ -86,11 +90,11 @@ html.lw-on #background { visibility: hidden !important; }
   width: min(340px, calc(100vw - 32px));
   max-height: calc(100vh - 80px);
   overflow: hidden;
-  border-radius: 10px;
-  background: rgba(53, 54, 58, 0.4);
-  backdrop-filter: blur(5px) saturate(180%);
-  -webkit-backdrop-filter: blur(5px) saturate(180%);
-  box-shadow: rgb(255 255 255 / 12.5%) 0.5px 1px 1px 0 inset, 0 0 17px rgba(0, 0, 0, 0.2);
+  border-radius: var(--lw-radius, 10px);
+  background: var(--lw-glass, rgba(53, 54, 58, 0.4));
+  backdrop-filter: var(--lw-filter, blur(5px) saturate(180%));
+  -webkit-backdrop-filter: var(--lw-filter, blur(5px) saturate(180%));
+  box-shadow: var(--lw-shadow, rgb(255 255 255 / 12.5%) 0.5px 1px 1px 0 inset, 0 0 17px rgba(0, 0, 0, 0.2));
   color: var(--lw-text);
   color-scheme: dark;
   font: 0.875rem/1.4 BrittiSans, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Noto Sans", sans-serif;
@@ -109,7 +113,7 @@ html.lw-on #background { visibility: hidden !important; }
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: hsl(208, 16%, 96%);
+  color: var(--lw-text);
   font-size: 1.125rem;
   font-weight: 500;
 }
@@ -136,11 +140,11 @@ html.lw-on #background { visibility: hidden !important; }
   padding: 9px 6px;
   border-radius: 6px;
   background: transparent;
-  color: hsl(208, 16%, 96%);
+  color: var(--lw-text);
   font-weight: 500;
   text-align: start;
 }
-#lw-panel button.lw-group-head:hover { background: rgba(255, 255, 255, 0.08); }
+#lw-panel button.lw-group-head:hover { background: var(--lw-hover); }
 #lw-panel .lw-chev {
   flex: none;
   width: 6px;
@@ -169,15 +173,63 @@ html.lw-on #background { visibility: hidden !important; }
 #lw-panel .lw-text { margin: 6px 0; color: var(--lw-muted); font-size: 0.8125rem; }
 #lw-panel .lw-note { margin: 2px 0 6px; color: var(--lw-muted); font-size: 0.75rem; }
 #lw-panel input[type="range"] { margin: 2px 0 0; accent-color: var(--lw-accent); cursor: pointer; }
-#lw-panel input[type="color"] {
+/* Color: a swatch that opens the picker under its row */
+#lw-panel button.lw-swatch {
   width: 40px;
   height: 24px;
   padding: 0;
   border: 1px solid var(--lw-border);
   border-radius: 6px;
-  background: none;
-  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
 }
+#lw-panel button.lw-swatch:hover { border-color: color-mix(in srgb, var(--lw-text) 45%, transparent); }
+#lw-panel button.lw-swatch[aria-expanded="true"] { border-color: var(--lw-accent); }
+#lw-panel .lw-picker {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 10px;
+  margin-top: 4px;
+  padding: 10px;
+  border: 1px solid var(--lw-line);
+  border-radius: calc(var(--lw-radius, 10px) * 0.8);
+  background: var(--lw-raised);
+}
+#lw-panel .lw-picker[hidden] { display: none; }
+#lw-panel .lw-sv, #lw-panel .lw-hue { position: relative; cursor: crosshair; touch-action: none; }
+#lw-panel .lw-sv {
+  height: 120px;
+  border-radius: 6px;
+  background: linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, var(--lw-pick-hue, red));
+}
+#lw-panel .lw-hue {
+  height: 12px;
+  border-radius: 9999px;
+  background: linear-gradient(to right, #f00 0%, #ff0 16.67%, #0f0 33.33%, #0ff 50%, #00f 66.67%, #f0f 83.33%, #f00 100%);
+}
+#lw-panel .lw-dot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  box-sizing: border-box;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.4);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+#lw-panel .lw-hue .lw-dot { top: 50%; background: var(--lw-pick-hue, red); }
+#lw-panel .lw-sv:focus-visible, #lw-panel .lw-hue:focus-visible { outline-offset: 3px; }
+#lw-panel .lw-picker-foot { display: flex; align-items: center; gap: 8px; }
+#lw-panel .lw-picker-foot input[type="text"] {
+  flex: 1;
+  max-width: none;
+  min-width: 0;
+  border-radius: 9999px;
+  padding: 4px 10px;
+  font-variant-numeric: tabular-nums;
+  text-transform: lowercase;
+}
+#lw-panel button.lw-drop { display: inline-flex; align-items: center; justify-content: center; flex: none; }
 #lw-panel select,
 #lw-panel input[type="text"],
 #lw-panel input[type="search"] {
@@ -195,12 +247,12 @@ html.lw-on #background { visibility: hidden !important; }
   padding: 0.3rem 0.9rem;
   border: 0;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.12);
+  background: color-mix(in srgb, var(--lw-text) 12%, transparent);
   color: var(--lw-text);
   font: inherit;
   cursor: pointer;
 }
-#lw-panel button:hover { background: rgba(255, 255, 255, 0.2); }
+#lw-panel button:hover { background: color-mix(in srgb, var(--lw-text) 20%, transparent); }
 #lw-panel button.lw-icon { width: 2rem; height: 2rem; padding: 0; background: rgba(123, 123, 123, 0.16); }
 /* Checkboxes as the CasaOS (Buefy) switches */
 #lw-panel input[type="checkbox"] {
@@ -211,7 +263,7 @@ html.lw-on #background { visibility: hidden !important; }
   width: 32px;
   height: 20px;
   margin: 0;
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  border: 1px solid color-mix(in srgb, var(--lw-text) 85%, transparent);
   border-radius: 9999px;
   background: transparent;
   cursor: pointer;
@@ -225,11 +277,11 @@ html.lw-on #background { visibility: hidden !important; }
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--lw-text);
   transition: transform 0.15s;
 }
 #lw-panel input[type="checkbox"]:checked { background: var(--lw-accent); border-color: var(--lw-accent); }
-#lw-panel input[type="checkbox"]:checked::before { transform: translateX(12px); }
+#lw-panel input[type="checkbox"]:checked::before { transform: translateX(12px); background: #fff; }
 #lw-panel[dir="rtl"] input[type="checkbox"]:checked::before { transform: translateX(-12px); }
 #lw-panel[dir="rtl"] input[type="checkbox"]::before { left: auto; right: 2px; }
 /* Bulma restyles bare elements */

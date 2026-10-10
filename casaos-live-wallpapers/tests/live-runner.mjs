@@ -56,7 +56,8 @@ async function openPanel() {
   await openDropdown();
   await waitFor(`(() => { const b = document.getElementById('lw-customize'); return b && !b.hidden; })()`, 3000);
   await clickSel('#lw-customize button');
-  return waitFor(`document.getElementById('lw-panel')`, 2000);
+  // the panel, and the dropdown closed behind it (Buefy closes it a moment later)
+  return waitFor(`document.getElementById('lw-panel') && !document.getElementById('settings-dropdown').classList.contains('is-active')`, 2000);
 }
 
 const ROWS = `[...document.querySelectorAll('#lw-panel .lw-row, #lw-panel .lw-text, #lw-panel .lw-group-head')].map(r => ({
@@ -215,8 +216,87 @@ try {
     && (await ev(ROWS)).some((r) => r.text === 'Wild level' && !r.hidden), await ev('window.__probe.props'));
   await ev(`(() => { const s = ${toggleOf('Speed')}; s.value = '7'; s.dispatchEvent(new Event('input')); })()`);
   check('sliders reach the wallpaper', await waitFor(`window.__probe.props.speed === 7`, 2000), await ev('window.__probe.props.speed'));
+
+  // ---------------------------------------------------------------- color picker
+  const swatchOf = (text) => `[...document.querySelectorAll('#lw-panel .lw-row')].find(r => r.querySelector('label').textContent === ${JSON.stringify(text)}).querySelector('.lw-swatch')`;
+  const PICK = (text) => `(() => { const s = ${swatchOf(text)}, box = s.closest('.lw-row').querySelector('.lw-picker'), b = box.getBoundingClientRect(),
+    p = document.getElementById('lw-panel').getBoundingClientRect();
+    return { open: !box.hidden && !!box.offsetParent, expanded: s.getAttribute('aria-expanded'), swatch: s.title, field: box.querySelector('input').value,
+      inView: b.left >= 0 && b.right <= innerWidth && b.top >= 0 && b.bottom <= innerHeight, inPanel: b.left >= p.left && b.right <= p.right,
+      bg: getComputedStyle(box).backgroundColor, dir: box.dir }; })()`;
+  const rgbOf = (hex) => [1, 3, 5].map((i) => (parseInt(hex.substr(i, 2), 16) / 255).toFixed(3)).join(' ');
+  check('a color option shows a swatch of its value, not the browser\'s color input',
+    await ev(`(() => { const s = ${swatchOf('Scheme color')}; return s.title === '#3366e6' && !document.querySelector('#lw-panel input[type="color"]'); })()`),
+    await ev(PICK('Scheme color')));
+  await ev(`${swatchOf('Scheme color')}.scrollIntoView({ block: 'nearest' })`);
+  let c = await ev(`(() => { const b = ${swatchOf('Scheme color')}.getBoundingClientRect(); return [b.x + b.width / 2, b.y + b.height / 2]; })()`);
+  await click(c[0], c[1]);
+  let pk = await ev(PICK('Scheme color'));
+  check('clicking it opens the picker inside the panel, under its row, on screen', pk.open && pk.expanded === 'true' && pk.inView && pk.inPanel && pk.dir === 'ltr', pk);
+  await shot('live_color_picker', await ev(`(() => { const b = document.getElementById('lw-panel').getBoundingClientRect(); return { x: b.x - 10, y: b.y - 10, width: b.width + 20, height: b.height + 20 }; })()`));
+  // drag across the square, to its top right corner (full saturation and brightness)
+  const sq = await ev(`(() => { const b = ${swatchOf('Scheme color')}.closest('.lw-row').querySelector('.lw-sv').getBoundingClientRect(); return [b.x, b.y, b.width, b.height]; })()`);
+  await mouse('mouseMoved', sq[0] + sq[2] / 2, sq[1] + sq[3] / 2);
+  await mouse('mousePressed', sq[0] + sq[2] / 2, sq[1] + sq[3] / 2);
+  // moves with the button held, as a real drag
+  for (let i = 1; i <= 5; i++) await T.send('Input.dispatchMouseEvent', { type: 'mouseMoved', button: 'left', buttons: 1, x: sq[0] + sq[2] / 2 + (sq[2] / 2 + 20) * i / 5, y: sq[1] + sq[3] / 2 - (sq[3] / 2 + 20) * i / 5 });
+  await mouse('mouseReleased', sq[0] + sq[2] + 20, sq[1] - 20);
+  pk = await ev(PICK('Scheme color'));
+  check('dragging on the square (past its edge) picks the color: swatch, hex field and wallpaper follow',
+    pk.swatch === '#0049ff' && pk.field === '#0049ff' && await waitFor(`window.__probe.props.schemecolor === ${JSON.stringify(rgbOf('#0049ff'))}`, 2000),
+    { pk, sent: await ev('window.__probe.props.schemecolor') });
+  const field = `${swatchOf('Scheme color')}.closest('.lw-row').querySelector('.lw-picker input')`;
+  const typeHex = async (text) => {
+    await ev(`(() => { const f = ${field}; f.focus(); f.select(); })()`);
+    await T.send('Input.insertText', { text });
+    await key('Enter', 'Enter', 13);
+  };
+  await typeHex('#FF8000');
+  check('typing a hex value applies it on Enter', await waitFor(`window.__probe.props.schemecolor === ${JSON.stringify(rgbOf('#ff8000'))}`, 2000)
+    && (await ev(PICK('Scheme color'))).swatch === '#ff8000', await ev(PICK('Scheme color')));
+  await typeHex('f0a');
+  check('…short hex too (#f0a)', await waitFor(`window.__probe.props.schemecolor === ${JSON.stringify(rgbOf('#ff00aa'))}`, 2000), await ev('window.__probe.props.schemecolor'));
+  await typeHex('nope');
+  pk = await ev(PICK('Scheme color'));
+  check('…an invalid one is undone', pk.field === '#ff00aa' && (await ev('window.__probe.props.schemecolor')) === rgbOf('#ff00aa'), pk);
+  await key('Escape', 'Escape', 27);
+  pk = await ev(PICK('Scheme color'));
+  check('Esc closes the picker first, the panel stays', !pk.open && pk.expanded === 'false' && await ev(`!!document.getElementById('lw-panel')`), pk);
+  await ev(`${swatchOf('Glow color')}.click()`);
+  check('one picker at a time: "Glow color" opens its own', (await ev(PICK('Glow color'))).open, await ev(PICK('Glow color')));
+  await ev(`(() => { const c = ${toggleOf('Glow')}; c.click(); })()`);
+  check('…and a condition that hides the option hides its picker', !(await ev(PICK('Glow color'))).open, await ev(PICK('Glow color')));
+  await ev(`(() => { const c = ${toggleOf('Glow')}; c.click(); })()`);
+  await ev(`${swatchOf('Glow color')}.click()`);
+  check('clicking the swatch again closes it', !(await ev(PICK('Glow color'))).open && await waitFor(`window.__probe.props.glow === true`, 2000), await ev(PICK('Glow color')));
   await key('Escape', 'Escape', 27);
   check('Esc closes the panel', await waitFor(`!document.getElementById('lw-panel')`, 1000), null);
+
+  // ---------------------------------------------------------------- the CasaOS theme
+  // A theme mod restyles the widgets (and has a primary button somewhere): the panel follows it
+  await ev(`(() => { const s = document.createElement('style'); s.id = 'test-theme';
+    s.textContent = '.widget .blur-background { background-color: rgba(240, 240, 245, 0.7) !important; border-radius: 18px !important; backdrop-filter: blur(12px) !important; }'
+      + '.widget { color: rgb(20, 20, 30) !important; } .button.is-primary { background-color: rgb(230, 80, 20) !important; }';
+    document.head.appendChild(s); const b = document.createElement('button'); b.id = 'test-primary'; b.className = 'button is-primary'; b.hidden = true;
+    document.body.appendChild(b); })()`);
+  await openPanel();
+  const THEME = `(() => { const p = document.getElementById('lw-panel'), cs = getComputedStyle(p), on = [...p.querySelectorAll('input[type="checkbox"]')].find(x => x.checked);
+    return { bg: cs.backgroundColor, radius: cs.borderRadius, blur: cs.backdropFilter, text: getComputedStyle(p.querySelector('header strong')).color,
+      scheme: cs.colorScheme, accent: on ? getComputedStyle(on).backgroundColor : null }; })()`;
+  let th = await ev(THEME);
+  check('the panel takes the CasaOS theme from its widgets: glass, radius, blur, text, primary color',
+    th.bg === 'rgba(240, 240, 245, 0.7)' && th.radius === '18px' && /blur\(12px\)/.test(th.blur) && th.text === 'rgb(20, 20, 30)'
+    && th.scheme === 'light' && th.accent === 'rgb(230, 80, 20)', th);
+  await ev(`${swatchOf('Scheme color')}.click()`);
+  check('…the color picker too', (await ev(PICK('Scheme color'))).bg !== 'rgba(0, 0, 0, 0)' && (await ev(PICK('Scheme color'))).open, await ev(PICK('Scheme color')));
+  await shot('live_color_picker_themed', await ev(`(() => { const b = document.getElementById('lw-panel').getBoundingClientRect(); return { x: b.x - 10, y: b.y - 10, width: b.width + 20, height: b.height + 20 }; })()`));
+  await key('Escape', 'Escape', 27);
+  await key('Escape', 'Escape', 27);
+  await ev(`document.getElementById('test-theme').remove(); document.getElementById('test-primary').remove()`);
+  await openPanel();
+  th = await ev(THEME);
+  check('…and goes back with it', th.bg === 'rgba(53, 54, 58, 0.4)' && th.radius === '10px' && th.scheme === 'dark', th);
+  await key('Escape', 'Escape', 27);
 
   // ---------------------------------------------------------------- sections remembered, search
   await openPanel();
@@ -251,6 +331,7 @@ try {
   check('the choice and its settings survive a reload (no flash)', await ev(`(() => { const s = ${LAYER}; return s.on && s.bg === 'hidden'; })()`)
     && await waitFor(`(() => { const s = ${LAYER}; return s.frame && s.sandbox === null; })()`, 6000)
     && await waitFor(`window.__probe && window.__probe.props.speed === 7`, 6000), await ev(LAYER));
+  check('…the color picked too', await waitFor(`window.__probe.props.schemecolor === ${JSON.stringify(rgbOf('#ff00aa'))}`, 2000), await ev('window.__probe.props.schemecolor'));
   await ev('Mock.hideBackground()');
   check('pages without the CasaOS background hide it and pause it', await waitFor(`!document.documentElement.classList.contains('lw-on')
     && window.__probe && window.__probe.paused === true`, 3000), await ev('window.__probe && window.__probe.paused'));
