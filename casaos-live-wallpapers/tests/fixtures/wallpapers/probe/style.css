@@ -1,0 +1,2 @@
+html, body { margin: 0; height: 100%; }
+#label { position: absolute; right: 24px; bottom: 24px; color: #fff; font: 32px sans-serif; opacity: 0.6; }

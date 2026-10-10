@@ -1,0 +1,9 @@
+# Made by the tests
+*/tests/music/
+*/tests/shots/
+*.tmp.*
+
+node_modules/
+__pycache__/
+.DS_Store
+Thumbs.db

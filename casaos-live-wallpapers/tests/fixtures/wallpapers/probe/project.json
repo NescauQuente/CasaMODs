@@ -1,0 +1,28 @@
+{
+	"title": "Probe",
+	"type": "web",
+	"file": "index.html",
+	"preview": "preview.png",
+	"general": {
+		"properties": {
+			"hdr": { "order": 0, "text": "<b>ui_hdr</b>", "type": "text" },
+			"schemecolor": { "order": 1, "text": "ui_browse_properties_scheme_color", "type": "color", "value": "0.2 0.4 0.9" },
+			"speed": { "order": 2, "text": "ui_speed", "type": "slider", "min": 0, "max": 10, "value": 3 },
+			"glow": { "order": 3, "text": "ui_glow", "type": "bool", "value": true },
+			"glowcolor": { "order": 4, "text": "ui_glowcolor", "type": "color", "value": "1 0.5 0", "condition": "glow.value == true" },
+			"mode": { "order": 5, "text": "ui_mode", "type": "combo", "value": 1, "options": [
+				{ "label": "ui_mode_calm", "value": 1 },
+				{ "label": "ui_mode_wild", "value": 2 }
+			] },
+			"wildlevel": { "order": 6, "text": "Wild level", "type": "slider", "min": 0, "max": 1, "fraction": true, "precision": 2, "value": 0.5, "condition": "mode.value == 2 && glow.value" },
+			"folder": { "order": 7, "text": "Pictures", "type": "directory", "value": "" },
+			"hdr2": { "order": 8, "text": "<b>— Extra —</b>", "type": "text" },
+			"note": { "order": 9, "text": "<i>This note is a sentence, not a header.</i>", "type": "text" },
+			"sparkles": { "order": 10, "text": "Sparkles", "type": "bool", "value": false }
+		},
+		"localization": {
+			"en-us": { "ui_hdr": "Probe settings", "ui_speed": "Speed", "ui_glow": "Glow", "ui_glowcolor": "Glow color", "ui_mode": "Mode", "ui_mode_calm": "Calm", "ui_mode_wild": "Wild" },
+			"pt-br": { "ui_hdr": "Ajustes da sonda", "ui_speed": "Velocidade", "ui_glow": "Brilho", "ui_glowcolor": "Cor do brilho", "ui_mode": "Modo", "ui_mode_calm": "Calmo", "ui_mode_wild": "Agitado" }
+		}
+	}
+}

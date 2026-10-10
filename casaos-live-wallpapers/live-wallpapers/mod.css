@@ -1,0 +1,236 @@
+/*
+ * Live Wallpapers — styles. Every id and class is prefixed "lw-".
+ *
+ * The wallpaper layer sits where CasaOS draws its own background image
+ * (#background, a fixed layer at z-index 0), first in <body>, so the whole UI —
+ * frosted glass included — stays on top of it.
+ */
+#lw-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: none;
+  background: #000;
+  pointer-events: none;
+}
+html.lw-on #lw-layer { display: block; }
+html.lw-on #background { visibility: hidden !important; }
+#lw-layer iframe,
+#lw-layer video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+#lw-layer video { object-fit: cover; }
+
+/* ---------- Wallpaper menu: four tiles a row once there are more ---------- */
+.columns.lw-grid { flex-wrap: wrap; }
+.columns.lw-grid > .column { flex: none; width: 25%; }
+.lw-tile .image-list-item { position: relative; }
+.lw-tile img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.lw-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 6px 4px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  color: #fff;
+  font-size: 11px;
+  line-height: 1.2;
+  pointer-events: none;
+}
+.lw-kind { display: flex; flex: none; }
+.lw-kind svg { display: block; width: 12px; height: 12px; }
+.lw-names { display: flex; flex-direction: column; min-width: 0; }
+.lw-name,
+.lw-why { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lw-why { font-size: 10px; opacity: 0.8; }
+.lw-tile.lw-disabled .image-list-item { cursor: not-allowed; }
+.lw-tile.lw-disabled .image-list-item:hover { border-color: transparent; }
+.lw-tile.lw-disabled img { filter: grayscale(1) brightness(0.6); }
+
+/* ---------- "Customize" next to CasaOS's "Change" ---------- */
+#lw-customize .button { white-space: nowrap; padding-left: 0.85em; padding-right: 0.85em; }
+#lw-customize .lw-btn-icon { display: none; }
+#lw-customize .lw-btn-icon svg { display: block; width: 14px; height: 14px; }
+#lw-customize.lw-compact .lw-btn-text { display: none; }
+#lw-customize.lw-compact .lw-btn-icon { display: inline-flex; }
+#lw-customize.lw-compact .button { padding-left: 0.6em; padding-right: 0.6em; }
+
+/* ---------- Settings panel, in the CasaOS widget look ----------
+ * The glass of the dashboard widgets (CasaOS-UI .blur-background: $backDropColor,
+ * $backDropBlur, $backDropBorderRadius, $backDropShadow), white text, the CasaOS
+ * font, its primary blue, pill buttons and switches.
+ */
+#lw-panel {
+  --lw-text: #fff;
+  --lw-muted: hsla(208, 16%, 85%, 0.75);
+  --lw-line: rgba(255, 255, 255, 0.1);
+  --lw-raised: rgba(255, 255, 255, 0.1);
+  --lw-border: rgba(255, 255, 255, 0.16);
+  --lw-accent: hsl(216, 90%, 54%);
+  position: fixed;
+  top: 64px;
+  right: 16px;
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: min(340px, calc(100vw - 32px));
+  max-height: calc(100vh - 80px);
+  overflow: hidden;
+  border-radius: 10px;
+  background: rgba(53, 54, 58, 0.4);
+  backdrop-filter: blur(5px) saturate(180%);
+  -webkit-backdrop-filter: blur(5px) saturate(180%);
+  box-shadow: rgb(255 255 255 / 12.5%) 0.5px 1px 1px 0 inset, 0 0 17px rgba(0, 0, 0, 0.2);
+  color: var(--lw-text);
+  color-scheme: dark;
+  font: 0.875rem/1.4 BrittiSans, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Noto Sans", sans-serif;
+}
+#lw-panel[hidden] { display: none; }
+#lw-panel :focus-visible { outline: 2px solid var(--lw-accent); outline-offset: 2px; }
+#lw-panel header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--lw-line);
+}
+#lw-panel .lw-title { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+#lw-panel .lw-title strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: hsl(208, 16%, 96%);
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+#lw-panel .lw-title span { color: var(--lw-muted); font-size: 0.75rem; }
+#lw-panel .lw-scroll { flex: 1; overflow-y: auto; padding: 0 16px 12px; scrollbar-width: thin; }
+/* Search, above the sections */
+#lw-panel .lw-search { padding: 10px 16px 4px; }
+#lw-panel .lw-search input[type="search"] { width: 100%; max-width: none; box-sizing: border-box; padding: 6px 10px; }
+#lw-panel .lw-search input::placeholder { color: var(--lw-muted); }
+/* Sections: a header that opens and closes them */
+#lw-panel .lw-group { border-bottom: 1px solid var(--lw-line); }
+#lw-panel .lw-group:last-child { border-bottom: 0; }
+#lw-panel .lw-group[hidden],
+#lw-panel .lw-group-head[hidden],
+#lw-panel .lw-group-body[hidden] { display: none; }
+#lw-panel .lw-loose { padding-top: 6px; }
+#lw-panel .lw-group-body { padding-bottom: 8px; }
+#lw-panel button.lw-group-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin: 2px 0;
+  padding: 9px 6px;
+  border-radius: 6px;
+  background: transparent;
+  color: hsl(208, 16%, 96%);
+  font-weight: 500;
+  text-align: start;
+}
+#lw-panel button.lw-group-head:hover { background: rgba(255, 255, 255, 0.08); }
+#lw-panel .lw-chev {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin-inline-start: 2px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  opacity: 0.8;
+  transform: rotate(-45deg);
+  transition: transform 0.15s;
+}
+#lw-panel[dir="rtl"] .lw-chev { transform: rotate(135deg); }
+#lw-panel .lw-open > .lw-group-head .lw-chev { transform: rotate(45deg); }
+#lw-panel .lw-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 4px 10px;
+  padding: 6px 0;
+}
+#lw-panel .lw-row[hidden], #lw-panel .lw-text[hidden] { display: none; }
+#lw-panel .lw-row label { cursor: pointer; }
+#lw-panel .lw-row.lw-wide input[type="range"],
+#lw-panel .lw-row.lw-wide input[type="text"] { grid-column: 1 / -1; width: 100%; box-sizing: border-box; }
+#lw-panel .lw-val { color: var(--lw-muted); font-size: 0.8125rem; font-variant-numeric: tabular-nums; }
+#lw-panel .lw-text { margin: 6px 0; color: var(--lw-muted); font-size: 0.8125rem; }
+#lw-panel .lw-note { margin: 2px 0 6px; color: var(--lw-muted); font-size: 0.75rem; }
+#lw-panel input[type="range"] { margin: 2px 0 0; accent-color: var(--lw-accent); cursor: pointer; }
+#lw-panel input[type="color"] {
+  width: 40px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid var(--lw-border);
+  border-radius: 6px;
+  background: none;
+  cursor: pointer;
+}
+#lw-panel select,
+#lw-panel input[type="text"],
+#lw-panel input[type="search"] {
+  max-width: 180px;
+  padding: 4px 6px;
+  border: 1px solid var(--lw-border);
+  border-radius: 0.5rem;
+  background: var(--lw-raised);
+  color: var(--lw-text);
+  font: inherit;
+}
+#lw-panel select { cursor: pointer; }
+#lw-panel select option { background: hsl(228, 4%, 22%); color: var(--lw-text); }
+#lw-panel button {
+  padding: 0.3rem 0.9rem;
+  border: 0;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--lw-text);
+  font: inherit;
+  cursor: pointer;
+}
+#lw-panel button:hover { background: rgba(255, 255, 255, 0.2); }
+#lw-panel button.lw-icon { width: 2rem; height: 2rem; padding: 0; background: rgba(123, 123, 123, 0.16); }
+/* Checkboxes as the CasaOS (Buefy) switches */
+#lw-panel input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  box-sizing: border-box;
+  width: 32px;
+  height: 20px;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 9999px;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+#lw-panel input[type="checkbox"]::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s;
+}
+#lw-panel input[type="checkbox"]:checked { background: var(--lw-accent); border-color: var(--lw-accent); }
+#lw-panel input[type="checkbox"]:checked::before { transform: translateX(12px); }
+#lw-panel[dir="rtl"] input[type="checkbox"]:checked::before { transform: translateX(-12px); }
+#lw-panel[dir="rtl"] input[type="checkbox"]::before { left: auto; right: 2px; }
+/* Bulma restyles bare elements */
+#lw-panel strong { color: inherit; }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Probe</title>
+<link rel="stylesheet" href="style.css">
+<script>
+  // A Wallpaper Engine web wallpaper that reports everything it gets to the
+  // page around it (the CasaOS tests read it), and draws its glow color.
+  var state = { props: {}, general: {}, audioCalls: 0, audioMax: 0, audioLength: 0, mouse: [], paused: null,
+                registered: typeof window.wallpaperRegisterAudioListener === 'function' };
+  try { state.sameOrigin = !!parent.document; } catch (e) { state.sameOrigin = false; }
+  try { localStorage.setItem('probe', '1'); state.storage = true; } catch (e) { state.storage = false; }
+  if (window.wallpaperRegisterAudioListener) {
+    window.wallpaperRegisterAudioListener(function (a) {
+      state.audioCalls++;
+      state.audioLength = a.length;
+      for (var i = 0; i < a.length; i++) if (a[i] > state.audioMax) state.audioMax = a[i];
+    });
+  }
+  window.wallpaperPropertyListener = {
+    applyUserProperties: function (p) {
+      Object.keys(p).forEach(function (k) { state.props[k] = p[k].value; });
+      paint();
+    },
+    applyGeneralProperties: function (g) { Object.assign(state.general, g); },
+    setPaused: function (v) { state.paused = v; }
+  };
+  ['pointermove', 'mousemove', 'pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click'].forEach(function (type) {
+    document.addEventListener(type, function (e) {
+      state.mouse.push(type + '@' + Math.round(e.clientX) + ',' + Math.round(e.clientY));
+      if (state.mouse.length > 40) state.mouse.shift();
+    });
+  });
+  function paint() {
+    var c = String(state.props.glowcolor || '0 0 0').split(' ').map(function (v) { return Math.round(v * 255); });
+    document.documentElement.style.background = state.props.glow ? 'rgb(' + c.join(',') + ')' : '#123';
+  }
+  setInterval(function () { parent.postMessage({ probe: JSON.parse(JSON.stringify(state)) }, '*'); }, 200);
+</script>
+</head>
+<body><div id="label">probe</div></body>
+</html>

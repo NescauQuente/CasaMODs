@@ -1,0 +1,68 @@
+# Live Wallpapers for CasaOS
+
+A [CasaMOD](https://github.com/Cp0204/CasaMOD) mod that turns every wallpaper in a folder of your CasaOS server — Wallpaper Engine web and video wallpapers, HTML pages, videos — into a CasaOS wallpaper, animated behind the dashboard and reacting to the audio playing in the tab.
+
+## Install
+
+1. Install **CasaMOD** from the CasaOS app store (or from its repository).
+2. Copy the `live-wallpapers` folder into `/DATA/AppData/casamod/mod/` on the CasaOS machine.
+3. Create `/DATA/AppData/casamod/mod/wallpapers/` and put wallpapers in it (see below).
+4. Restart CasaMOD and reload the CasaOS page.
+
+To remove it, move `live-wallpapers` out of `/DATA/AppData/casamod/mod/` and restart CasaMOD (pick another wallpaper first).
+
+## Using it
+
+- **Choosing a wallpaper:** CasaOS settings (top bar) → **Wallpaper** → **Change**, pick a tile and **Apply**, like any CasaOS wallpaper. Pick a built-in or uploaded image to go back; the animation then stops and unloads. CasaOS saves the choice on the server, so it follows your user to every device. The dashboard's right-click "Change wallpaper" opens the same menu.
+- **Wallpaper settings:** while a live wallpaper is the chosen one, a **Customize** button sits next to **Change**: its own options (from its `project.json`, as Wallpaper Engine would show them) plus a frame rate limit, or sound and volume for videos. The short text lines wallpapers use as headers ("— Mouse —") become sections that open and close, all closed at first; the panel remembers which ones you opened. With many options, a search box filters them (a section's title shows the whole section). Esc clears the search, then closes the panel. These settings are saved in the browser.
+- **Mouse:** moves anywhere and presses on the empty dashboard background go to the wallpaper. Icons and widgets keep working as usual, and dragging on the wallpaper doesn't select the dashboard's text.
+- **Audio:** every same-origin `<audio>`/`<video>` that plays in the CasaOS tab (a music player widget, a video, anything) is routed through an analyser — the sound still reaches your speakers — and reaches web wallpapers as Wallpaper Engine audio.
+
+## The wallpapers folder
+
+Put wallpapers in **`/DATA/AppData/casamod/mod/wallpapers/`**, one folder each (or a loose video file). They show up the next time the wallpaper menu opens; no restart needed. The folder must be inside `mod/`: that is what CasaMOD publishes to the browser (at `/mod/wallpapers/`). It sits next to the `live-wallpapers` mod, not inside it, so updating the mod never touches your wallpapers.
+
+| What | Runs? | How |
+|---|---|---|
+| Wallpaper Engine **web** wallpaper | ✅ | Its page runs with the Wallpaper Engine web API: its properties (with the settings panel built from `project.json`, translated by its own localization), general properties (language, frame rate), the tab's audio (128 bands), the mouse, pause. |
+| Wallpaper Engine **video** wallpaper, or a loose `.mp4`/`.webm` | ✅ | Looped, muted by default. Up to 100 MB it is downloaded once and played from memory; bigger files stream. |
+| Folder with an `index.html` (no `project.json`) | ✅ | As a web wallpaper. |
+| Wallpaper Engine **scene** | ❌ | Wallpaper Engine's own compiled format; listed greyed out with the reason. |
+| Wallpaper Engine **application** | ❌ | A Windows program; listed greyed out. |
+
+A Wallpaper Engine wallpaper is copied as is: a folder of `Steam\steamapps\workshop\content\431960\` (Workshop) or one of your own projects. The tile shows its `preview`; a video without one gets a frame of itself.
+
+**Isolation.** A web wallpaper is someone else's code. It runs in a sandboxed iframe with no access to CasaOS, your account, its storage or your session. Some wallpapers need more (loading files with `fetch`, ES modules, WebGL textures from images, `localStorage`) and look broken that way: **Customize → Trust this wallpaper** reloads it with full compatibility, which also gives it full access to the CasaOS page — only for wallpapers you trust.
+
+## How it fits into CasaOS
+
+- CasaMOD injects the mod's `mod.js` and `mod.css` into the CasaOS page and serves the `mod` folder at `/mod/`.
+- CasaOS draws its background image (`#background`) on a fixed layer at `z-index: 0`, with the UI above it. The wallpaper goes on that same layer, first in `<body>`, and the CasaOS image is hidden — so widgets keep their frosted glass over the animation and everything stays clickable. On pages without the CasaOS background it hides and pauses.
+- The wallpaper menu (CasaOS-UI `WallpaperModal.vue`) gets copies of a built-in tile (so they keep CasaOS's scoped styles). Choosing one sets the menu's own state (`path`, `from: 'Live Wallpaper'`), and CasaOS's **Apply** saves it through its user storage: the path is the wallpaper's preview (or its file) under `/mod/wallpapers/<folder>/`, so it stays usable as a still. The mod follows the choice from `localStorage.wallpaper` at load (no flash) and from the store (`wallpaperObject`), including a choice CasaOS loads from the server (another device's).
+- The folder is listed with `GET /v1/folder?path=…` when the menu opens, reading each `project.json` (retried once on a network error; a BOM is fine). On load only the chosen wallpaper is read. Web wallpapers load through `srcdoc` with a `<base>` pointing at their folder and, first in `<head>`, a small script that provides the Wallpaper Engine API and talks to the page with `postMessage`, so it works sandboxed too. Property conditions (`"condition": "a.value == true"`) are read by a small parser, never run as code.
+- **Customize** uses the markup of the CasaOS buttons and goes inside the "Wallpaper" row (`.casa-wallpaper-outline` among the settings rows; the right-click menu has the same icon), before **Change**; it turns into just the sparkle when the row is too narrow for the language.
+- The tab audio tap lives on `window.__casaAudioTap`, so another mod could share it (a media element can feed Web Audio only once).
+- It follows the CasaOS language (`localStorage.lang`) in all 31 CasaOS languages, English otherwise.
+
+## Tests
+
+```bash
+node tests/text-check.js     # languages, a second
+node tests/live-runner.mjs   # end to end, a few minutes
+```
+
+`live-runner.mjs` drives a headless Chrome (found where it usually is on Windows, Linux or macOS, or set `CHROME`) through the DevTools protocol against a mock CasaOS (`tests/mock.html` served by `tests/server.py`, Python 3): the layering, the settings dropdown, the wallpaper menu (a Vue-like instance on its `.modal-card`, scoped styles via `data-v`), the dashboard's right-click menu and a Vuex-like store, after CasaOS-UI; it injects the mod the way CasaMOD's `run.sh` does and fakes `/v1/folder` and `/v1/file` (with Range). The wallpapers are `tests/fixtures/wallpapers`:
+
+- `probe/` — a Wallpaper Engine web wallpaper that posts everything it receives (properties, general properties, audio, mouse, pause, whether it can reach the page and its storage) to the page around it;
+- `plain/` — a folder with just an `index.html`;
+- `clip.webm` — a loose video;
+- `scene-sample/`, `exe-sample/` — types that can't run outside Wallpaper Engine.
+
+A test track (`tests/make_music.py`, generated into `tests/music/` on first run) plays in the tab for the audio. It checks the menu (tiles, previews, video frames, unsupported types, grid), the layering, **Customize** (where it sits, narrow rows, Vue re-renders), the panel (CasaOS look, labels, conditions, types, sections, search), the isolated and trusted runtime, properties, audio, mouse (clicks, moves, drags, no text selection), persistence (and another device's choice), pause, languages and videos (memory, loop, sound), and fails on any console error. Screenshots go to `tests/shots/`.
+
+## Notes
+
+- Built and tested against the mock and used on a real CasaOS 0.4.15. CasaOS updates that rename its classes (`.dropdown-content`, `.casa-wallpaper-outline`, `#upload-wallpaper`, `#background`) may need small adjustments.
+- Audio from other origins (an app opened in another tab, a cross-origin iframe) cannot be analysed by the browser; it simply plays without the wallpaper reacting.
+- The frosted glass of the CasaOS widgets is redrawn over the animation every frame; on slow machines, set a frame rate limit (30 FPS) in **Customize**.
+- Removing a wallpaper's folder while it is the chosen one leaves CasaOS pointing at a file that is gone: the background turns plain dark until another wallpaper is picked.

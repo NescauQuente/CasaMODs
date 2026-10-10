@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CasaOS</title>
+<style>
+  /* A few Bulma globals CasaOS ships, to prove the mods survive them */
+  *, *::before, *::after { box-sizing: inherit; }
+  html { box-sizing: border-box; font-size: 16px; }
+  html, body { margin: 0; height: 100%; background: #000; font-family: "Segoe UI", system-ui, sans-serif; }
+  strong { color: #363636; font-weight: 700; }
+  .title { font-size: 2rem; font-weight: 600; line-height: 1.125; color: #363636; }
+  .title:not(:last-child) { margin-bottom: 1.5rem; }
+  .icon { align-items: center; display: inline-flex; justify-content: center; height: 1.5rem; width: 1.5rem; }
+  button { font-family: inherit; }
+
+  /* CasaOS layout (App.vue, Home.vue, CasaWallpaper.vue, _widgets.scss, TopBar.vue) */
+  #app { width: 100vw; height: 100vh; display: flex; flex-direction: column; color: #2c3e50; overflow-y: hidden; font-size: 0.875rem; }
+  #app.is-dark-bg { background-color: #000; }
+  #background { position: fixed; z-index: 0; inset: 0; background-size: cover; background-position: center;
+    background-image: radial-gradient(circle at 30% 30%, #f6a04d, #c0392b 40%, #2c1338 80%); }
+  .out-container { position: relative; height: 100%; }
+  .top-bar { position: relative; z-index: 20; height: 55px; display: flex; align-items: center; gap: 12px; padding: 0 24px; color: #fff; }
+  .top-bar button.nav-btn { background: rgba(255,255,255,.14); border: 0; color: #fff; border-radius: 10px; padding: 8px 12px; cursor: pointer; }
+  .dropdown { position: relative; }
+  .dropdown-menu { display: none; position: absolute; left: 0; top: 44px; z-index: 20; }
+  .dropdown.is-active .dropdown-menu { display: block; }
+  .dropdown-content { width: 22.5rem; padding: 10px 0; border-radius: 12px; background: rgba(255,255,255,.96); color: #363636; box-shadow: 0 12px 32px rgba(0,0,0,.3); }
+  .is-flex { display: flex !important; } .is-align-items-center { align-items: center; } .is-flex-grow-1 { flex-grow: 1; }
+  .mb-1 { margin-bottom: .25rem; } .mr-4 { margin-right: 1rem; } .ml-4 { margin-left: 1rem; } .pr-2 { padding-right: .5rem; } .mr-1 { margin-right: .25rem; } .ml-2 { margin-left: .5rem; }
+  ._box { padding: 8px 6px; border-radius: 8px; font-size: 14px; } .hover-effect:hover { background: rgba(0,0,0,.06); }
+  .is-20 { width: 20px; height: 20px; }
+  .dropdown-item { padding: 0; } ._title { margin: 0 1.5rem 1rem; font-size: 1rem; }
+  .button { border: 0; cursor: pointer; font: inherit; } .button.is-small { font-size: .75rem; padding: 4px 12px; }
+  .button.is-rounded { border-radius: 999px; } .button.is-dark { background: #363636; color: #fff; }
+  ._footer { margin-top: 1rem; padding: .5rem .75rem; border-top: 1px solid #eee; gap: 8px; } ._footer > div { flex: 1; padding: 8px; text-align: center; cursor: pointer; }
+  .casa { font-style: normal; display: inline-block; width: 18px; height: 18px; border-radius: 4px; background: #9aa3ad; }
+  .contents { height: calc(100% - 7rem); overflow-y: auto; overflow-x: hidden; }
+  .container { position: relative; max-width: 1240px; margin: 0 auto; }
+  .columns { display: flex; gap: 1.5rem; padding: 1.5rem; }
+  .slider-content { width: 18rem; flex: none; position: relative; }
+  .main-content { flex: 1; }
+  .widget { position: relative; border-radius: 12px; margin-bottom: 1rem; }
+  .widget .blur-background { position: absolute; inset: 0; z-index: 0; border-radius: 12px; overflow: hidden;
+    background: rgba(255,255,255,.12); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 0 0 1px rgba(255,255,255,.12) inset; }
+  .widget .widget-content { position: relative; z-index: 10; padding: 1rem 1.25rem; }
+  .has-text-white { color: #fff; } .is-relative { position: relative; }
+  .cards-content { position: relative; z-index: 10; display: grid; grid-template-columns: repeat(auto-fill, 112px); gap: 16px; }
+  .app-card { width: 112px; height: 112px; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+    color: #fff; background: rgba(255,255,255,.12); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); font-size: 13px; cursor: pointer; }
+  .app-card .logo { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #5b8cff, #a06bff); }
+  .clock-widget { font-size: 2.2rem; font-weight: 300; }
+  /* Wallpaper menu (WallpaperModal.vue); its styles are scoped, like the real ones */
+  .modal { position: fixed; inset: 0; z-index: 40; display: flex; align-items: center; justify-content: center; }
+  .modal-background { position: absolute; inset: 0; background: rgba(10, 10, 10, .6); }
+  .modal-content { position: relative; width: 640px; }
+  .modal-card { background: #fff; border-radius: 12px; color: #363636; overflow: hidden; max-height: calc(100vh - 40px); display: flex; flex-direction: column; }
+  .modal-card-body { overflow: auto; }
+  .modal-card-head, .modal-card-foot { padding: 16px 24px; display: flex; align-items: center; gap: 8px; }
+  .modal-card-head h3 { margin: 0; font-size: 1.25rem; }
+  .modal-card-foot { justify-content: flex-end; }
+  .modal-card-foot button { border: 0; border-radius: 999px; padding: 6px 16px; cursor: pointer; }
+  .modal-card-foot #mock-apply { background: hsl(216, 90%, 54%); color: #fff; }
+  .modal-card-body { padding: 0 24px; }
+  .preview-card[data-v-mock] { margin: 1.5rem 2.6rem; border-radius: 16px; overflow: hidden; box-shadow: 0 16px 24px rgba(115, 120, 128, .4); }
+  .preview-image[data-v-mock] { aspect-ratio: 16 / 9; background-size: cover; background-position: center; }
+  /* Bulma columns: spacing is the columns' padding (.is-variable.is-2), not a gap */
+  .modal-card-body .columns { padding: 0; margin: 1.25rem -0.25rem; gap: 0; }
+  .modal-card-body .column { flex: 1; min-width: 0; padding: 0.25rem; }
+  .modal-card-body .column.is-one-quarter { flex: none; width: 25%; }
+  .image-list-item[data-v-mock], .upload-button-container[data-v-mock] { width: 100%; height: 100%; overflow: hidden; border-radius: 5px;
+    border: 2px solid transparent; transition: border-color .3s; cursor: pointer; }
+  .image-list-item[data-v-mock].active, .image-list-item[data-v-mock]:hover { border-color: hsl(216, 90%, 54%); }
+  .image-list-item .image[data-v-mock] { margin: 0; border-radius: 4px; border: 1px solid #fff; overflow: hidden; }
+  .image-list-item img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  .upload-button[data-v-mock] { height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 4px;
+    background: rgb(240, 242, 245); font-size: 1.5rem; }
+</style>
+</head>
+<body>
+<div id="app" class="is-flex is-flex-direction-column is-dark-bg">
+  <div class="wallpaper-root"><div id="background"></div></div>
+  <!-- The dashboard's right-click menu (ContextMenu.vue): also a .dropdown-content, with the same wallpaper icon -->
+  <div class="home-context-menu"><div class="dropdown"><div class="dropdown-menu"><div class="dropdown-content">
+    <a class="dropdown-item is-flex is-align-items-center"><span class="icon mr-1"><i class="casa casa-wallpaper-outline"></i></span>Change wallpaper</a>
+  </div></div></div></div>
+  <div class="out-container">
+    <nav class="top-bar">
+      <div class="dropdown" id="settings-dropdown">
+        <button class="nav-btn" id="settings-btn" type="button">⚙ Settings</button>
+        <div class="dropdown-menu">
+          <div class="dropdown-content">
+            <div class="dropdown-item p-0" aria-role="menu-item"></div>
+          </div>
+        </div>
+      </div>
+      <button class="nav-btn" id="files-btn" type="button">Files</button>
+    </nav>
+    <div class="contents contextmenu-canvas">
+      <div class="container">
+        <div class="columns">
+          <div class="column slider-content" id="sidebar">
+            <div class="ps-container">
+              <div class="widget has-text-white is-relative"><div class="blur-background"></div><div class="widget-content clock-widget">14:32</div></div>
+              <div class="widget has-text-white is-relative"><div class="blur-background"></div><div class="widget-content">System status<br>CPU 12% · RAM 41%</div></div>
+            </div>
+          </div>
+          <div class="column main-content">
+            <div class="cards-content">
+              <div class="app-card"><div class="logo"></div>Jellyfin</div>
+              <div class="app-card"><div class="logo"></div>Files</div>
+              <div class="app-card"><div class="logo"></div>Immich</div>
+              <div class="app-card"><div class="logo"></div>Syncthing</div>
+              <div class="app-card"><div class="logo"></div>Home Assistant</div>
+              <div class="app-card"><div class="logo"></div>AdGuard</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // Session as CasaOS keeps it
+  localStorage.setItem('access_token', 'test-token');
+  if (!localStorage.getItem('lang')) localStorage.setItem('lang', 'en_us');
+
+  var ROW = 'is-flex is-align-items-center mb-1 _is-large _box hover-effect _is-radius pr-2 mr-4 ml-4';
+  function row(icon, text, right) {
+    return '<div class="' + ROW + '"><div class="is-flex is-align-items-center is-flex-grow-1 _is-normal">' +
+      '<span class="icon mr-1 ml-2 is-20"><i class="casa casa-' + icon + '"></i></span>' + text + '</div>' + (right || '') + '</div>';
+  }
+  function renderSettings() {
+    document.querySelector('#settings-dropdown .dropdown-item').innerHTML =
+      '<h2 class="_title mb-4 has-text-weight-bold">Settings</h2>' +
+      row('show-search-outline', 'Show Search Bar') + row('search-outline', 'Search Engine') +
+      row('language-outline', 'Language') + row('port-outline', 'WebUI Port') +
+      row('wallpaper-outline', window.mockWallpaperLabel || (/^pt/.test(localStorage.getItem('lang') || '') ? 'Imagem de Fundo' : 'Wallpaper'), '<div class="ml-2"><button type="button" id="mock-change-wallpaper" class="button is-dark is-small is-rounded"><span>Change</span></button></div>') +
+      row('news-outline', 'Show news') + row('display-applications-outline', 'Recommended modules') +
+      row('usb-outline', 'Automount USB Drive') +
+      '<div class="_is-large hover-effect _is-radius pr-2 mr-4 ml-4" id="mock-update">Update v0.4.15</div>' +
+      '<div class="is-flex _footer mt-4 pl-3 pr-3 pt-2 pb-2" id="mock-power"><div>Restart</div><div>Shutdown</div></div>';
+  }
+  renderSettings();
+
+  // Buefy-like dropdown: opens on the button, closes on any click outside
+  var dd = document.getElementById('settings-dropdown');
+  document.getElementById('settings-btn').addEventListener('click', function (e) {
+    e.stopPropagation();
+    dd.classList.toggle('is-active');
+  });
+  document.addEventListener('click', function (e) {
+    if (!dd.contains(e.target)) dd.classList.remove('is-active');
+  });
+
+  // ---------------------------------------------------------------- wallpaper
+  // Vuex-like store (state.wallpaperObject, SET_WALLPAPER mirrors the path in
+  // localStorage.wallpaper), the "server" copy of the choice, and the
+  // background element, as in CasaOS-UI (store/, Home.vue, CasaWallpaper.vue)
+  function svgWall(a, b) {
+    return 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="160" height="90">' +
+      '<defs><linearGradient id="g" x2="1" y2="1"><stop offset="0" stop-color="' + a + '"/><stop offset="1" stop-color="' + b + '"/></linearGradient></defs>' +
+      '<rect width="160" height="90" fill="url(#g)"/></svg>');
+  }
+  var BUILT_IN = [svgWall('#f6a04d', '#2c1338'), svgWall('#3aa0ff', '#0b2a4a')];
+  var SERVER_KEY = 'mock-server-wallpaper';
+
+  function paintBackground(path) {
+    var bg = document.getElementById('background');
+    if (bg) bg.style.backgroundImage = 'url("' + path + '")';
+  }
+
+  var store = {
+    state: { wallpaperObject: { path: BUILT_IN[0], from: 'Built-in' } },
+    watchers: [],
+    watch: function (getter, cb) {
+      this.watchers.push({ getter: getter, cb: cb, last: getter(this.state) });
+    },
+    commit: function (type, payload) {
+      if (type !== 'SET_WALLPAPER') return;
+      localStorage.setItem('wallpaper', payload.path);
+      this.state.wallpaperObject = payload;
+      paintBackground(payload.path);
+      var state = this.state;
+      this.watchers.forEach(function (w) {
+        var v = w.getter(state);
+        if (v !== w.last) { w.last = v; w.cb(v); }
+      });
+    }
+  };
+  document.getElementById('app').__vue__ = { $store: store };
+  paintBackground(localStorage.getItem('wallpaper') || BUILT_IN[0]);
+  // Home.vue loads the saved choice from the server after the page is up
+  setTimeout(function () {
+    var saved = JSON.parse(localStorage.getItem(SERVER_KEY) || 'null');
+    if (saved) store.commit('SET_WALLPAPER', saved);
+  }, 300);
+
+  // The wallpaper menu, opened by "Change"
+  function openWallpaperMenu() {
+    var modal = document.createElement('div');
+    modal.className = 'modal is-active';
+    modal.innerHTML =
+      '<div class="modal-background"></div><div class="modal-content"><div class="animation-content">' +
+      '<div class="modal-card" data-v-mock><header class="modal-card-head"><h3>Change wallpaper</h3></header>' +
+      '<section class="modal-card-body"><div class="preview-card" data-v-mock><div class="preview-image" data-v-mock></div></div>' +
+      '<div class="columns mt-5 mb-5 is-variable is-2">' +
+      BUILT_IN.map(function (p, i) {
+        return '<div class="column" data-v-mock><div class="image-list-item is-clickable" data-v-mock data-i="' + i + '">' +
+          '<figure class="b-image-wrapper image" data-v-mock><img src="' + p + '" alt=""></figure></div></div>';
+      }).join('') +
+      '<div class="column is-relative is-one-quarter" data-v-mock><div class="upload-button-container is-clickable" data-v-mock>' +
+      '<div id="upload-wallpaper" class="upload-button" data-v-mock>⇪</div></div></div></div></section>' +
+      '<footer class="modal-card-foot"><button type="button" id="mock-cancel">Cancel</button>' +
+      '<button type="button" id="mock-apply">Apply</button></footer></div></div></div>';
+    document.body.appendChild(modal);
+
+    var card = modal.querySelector('.modal-card');
+    var preview = modal.querySelector('.preview-image');
+    var tiles = modal.querySelectorAll('.image-list-item[data-i]');
+    var watchers = {};
+    var data = { path: store.state.wallpaperObject.path, from: store.state.wallpaperObject.from };
+    var vm = {
+      wallpaperItems: BUILT_IN.map(function (p) { return { path: p }; }),
+      backgroundStyleObj: {},
+      $watch: function (prop, cb) { (watchers[prop] = watchers[prop] || []).push(cb); }
+    };
+    function render() {
+      tiles.forEach(function (t, i) { t.classList.toggle('active', BUILT_IN[i] === data.path); });
+    }
+    ['path', 'from'].forEach(function (prop) {
+      Object.defineProperty(vm, prop, {
+        get: function () { return data[prop]; },
+        set: function (v) { data[prop] = v; render(); (watchers[prop] || []).forEach(function (cb) { cb(v); }); }
+      });
+    });
+    Object.defineProperty(vm.backgroundStyleObj, 'backgroundImage', {
+      get: function () { return preview.style.backgroundImage; },
+      set: function (v) { preview.style.backgroundImage = v; }
+    });
+    vm.backgroundStyleObj.backgroundImage = 'url("' + data.path + '")';
+    card.__vue__ = vm;
+    render();
+
+    tiles.forEach(function (t, i) {
+      t.addEventListener('click', function () {
+        vm.backgroundStyleObj.backgroundImage = 'url("' + BUILT_IN[i] + '")';
+        vm.path = BUILT_IN[i];
+        vm.from = 'Built-in';
+      });
+    });
+    modal.querySelector('#mock-cancel').addEventListener('click', function () { modal.remove(); });
+    modal.querySelector('#mock-apply').addEventListener('click', function () {
+      var choice = { path: vm.path, from: vm.from };
+      localStorage.setItem(SERVER_KEY, JSON.stringify(choice));
+      modal.remove();
+      setTimeout(function () { store.commit('SET_WALLPAPER', choice); }, 300);
+    });
+  }
+  document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('#mock-change-wallpaper')) {
+      dd.classList.remove('is-active');
+      openWallpaperMenu();
+    }
+  });
+
+  // Test helpers: simulate Vue re-rendering and route changes
+  window.Mock = {
+    rerenderSidebar: function () {
+      var old = document.querySelector('.ps-container');
+      var fresh = document.createElement('div');
+      fresh.className = 'ps-container';
+      fresh.innerHTML = '<div class="widget has-text-white is-relative"><div class="blur-background"></div><div class="widget-content clock-widget">14:33</div></div>';
+      old.parentNode.replaceChild(fresh, old);
+    },
+    rerenderSettings: renderSettings,
+    hideBackground: function () { document.querySelector('.wallpaper-root').innerHTML = ''; },
+    showBackground: function () {
+      document.querySelector('.wallpaper-root').innerHTML = '<div id="background"></div>';
+      paintBackground(store.state.wallpaperObject.path);
+    },
+    BUILT_IN: BUILT_IN,
+    SERVER_KEY: SERVER_KEY
+  };
+</script>
+</body>
+</html>
