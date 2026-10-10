@@ -3,7 +3,7 @@
 Independent CasaMOD mods for CasaOS, one folder each: `casaos-live-wallpapers` (animated wallpapers), `casaos-music-player` (a music widget), and three CSS-only ones: `casaos-hide-footer`, `casaos-hide-widget-settings`, `casaos-transparence-everywhere`. Each has its own `CLAUDE.md` with the rules for working on it: read the one of the project you touch. None depends on another.
 
 - The user is Brazilian: reply in Portuguese (pt-BR). Code, comments and READMEs stay in English. The user tests on their own CasaOS and decides; keep replies short and say what changed.
-- GitHub: `NescauQuente/CasaMODs` (private). Commits are authored as NescauQuente (set in this repository's git config).
+- GitHub: `UsuarioDeJava/CasaMODs` (private; formerly NescauQuente). Commits are authored as UsuarioDeJava (set in this repository's git config).
 - Starry Orbit, the Wallpaper Engine wallpaper the user runs through Live Wallpapers, is a separate project outside this repository (`../star-wallpaper` on the user's PC), worked on in another chat: don't change it from here.
 
 ## Where you run
