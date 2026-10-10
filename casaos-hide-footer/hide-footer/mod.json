@@ -1,0 +1,11 @@
+{
+  "name": "Hide Footer",
+  "version": "1.0.0",
+  "description": "Hides the dashboard footer (CasaOS logo, text and social buttons) and gives the space to apps and widgets.",
+  "author": "UsuarioDeJava",
+  "casaos_min_version": "0.4.0",
+  "styles": [
+    "mod.css"
+  ],
+  "preview": "preview.png"
+}

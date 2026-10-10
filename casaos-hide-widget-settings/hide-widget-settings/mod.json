@@ -1,0 +1,11 @@
+{
+  "name": "Hide Widget Settings",
+  "version": "1.0.0",
+  "description": "Hides the \"Widget settings\" card of the widget column, so the widgets reach down to the end of the app list.",
+  "author": "UsuarioDeJava",
+  "casaos_min_version": "0.4.0",
+  "styles": [
+    "mod.css"
+  ],
+  "preview": "preview.png"
+}
