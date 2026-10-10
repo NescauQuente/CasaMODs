@@ -1,0 +1,4 @@
+/* Hide the "Widget settings" card */
+.widget:has(> .wsettings) { display: none !important; }
+/* Extend the widget list down to the end of the app list */
+.side-bar:has(.wsettings) > .scroll-area { max-height: calc(100% - 3rem) !important; }

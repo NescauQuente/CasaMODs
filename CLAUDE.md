@@ -1,6 +1,6 @@
 # CasaMODs
 
-Two independent CasaMOD mods for CasaOS, one folder each: `casaos-live-wallpapers` (animated wallpapers) and `casaos-music-player` (a music widget). Each has its own `CLAUDE.md` with the rules for working on it: read the one of the project you touch. Neither depends on the other.
+Independent CasaMOD mods for CasaOS, one folder each: `casaos-live-wallpapers` (animated wallpapers), `casaos-music-player` (a music widget), and three CSS-only ones: `casaos-hide-footer`, `casaos-hide-widget-settings`, `casaos-transparence-everywhere`. Each has its own `CLAUDE.md` with the rules for working on it: read the one of the project you touch. None depends on another.
 
 - The user is Brazilian: reply in Portuguese (pt-BR). Code, comments and READMEs stay in English. The user tests on their own CasaOS and decides; keep replies short and say what changed.
 - GitHub: `NescauQuente/CasaMODs` (private). Commits are authored as NescauQuente (set in this repository's git config).
@@ -13,4 +13,4 @@ Two independent CasaMOD mods for CasaOS, one folder each: `casaos-live-wallpaper
 
 ## At the end
 
-Tell the user what to copy: the changed mod folder (`casaos-live-wallpapers/live-wallpapers` or `casaos-music-player/music-player-widget`) into `/DATA/AppData/casamod/mod/` on the CasaOS server, then restart CasaMOD and reload with Ctrl+F5. From a cloud session, the changes are pushed to GitHub first, so the user can pull or download them.
+Tell the user what to copy: the changed mod folder (the folder inside the project, e.g. `casaos-music-player/music-player-widget`) into `/DATA/AppData/casamod/mod/` on the CasaOS server, then restart CasaMOD and reload with Ctrl+F5. From a cloud session, the changes are pushed to GitHub first, so the user can pull or download them.

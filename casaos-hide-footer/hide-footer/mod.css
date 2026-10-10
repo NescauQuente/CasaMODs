@@ -1,0 +1,8 @@
+/* Remove the footer logo, text and social buttons
+   (html body = more specific than CasaOS's .is-flex) */
+html body .base-bar,
+html body .brand-bar,
+html body .contact-bar { display: none !important; }
+/* Use the freed space: apps and widgets end on the same line */
+html body .out-container .contents { height: calc(100% - 4rem) !important; }
+html body .out-container .side-bar > .scroll-area { max-height: 100% !important; }

@@ -1,0 +1,101 @@
+/* ===== transparence-everywhere: frosted glass like the widgets' ===== */
+
+/* Top bar. The blur sits on a ::before so it doesn't limit
+   the blur of the menus that open from it */
+html body .navbar.top-bar {
+  background-color: transparent !important;
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+}
+html body .navbar.top-bar::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background-color: rgba(53, 54, 58, .4);
+  backdrop-filter: blur(5px) saturate(1.8); -webkit-backdrop-filter: blur(5px) saturate(1.8);
+}
+
+/* Panels: Account/Settings menus and dialogs (Terminal, Logs etc.)
+   The file manager (.file-panel) is left out */
+html body .top-bar .dropdown-menu .dropdown-content,
+html body .modal .modal-card:not(.file-panel .modal-card) {
+  background: rgba(53, 54, 58, .4) !important;
+  backdrop-filter: blur(20px) saturate(1.8); -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border: 1px solid rgba(255, 255, 255, .08);
+}
+html body .top-bar .dropdown-content .modal-card {
+  background: transparent !important; backdrop-filter: none; border: 0;
+}
+html body .top-bar .dropdown-content .modal-card-head,
+html body .top-bar .dropdown-content .modal-card-foot,
+html body .modal .modal-card:not(.file-panel .modal-card) .modal-card-head,
+html body .modal .modal-card:not(.file-panel .modal-card) .modal-card-foot {
+  background: transparent !important; border-color: rgba(255, 255, 255, .1) !important;
+}
+
+/* Light text (buttons and colored texts keep their color) */
+html body .top-bar .dropdown-content *:not(.button):not(.button *):not(option):not([class*="has-text-"]),
+html body .modal .modal-card:not(.file-panel .modal-card) *:not(.button):not(.button *):not(option):not([class*="has-text-"]):not(.xterm *) {
+  color: rgba(255, 255, 255, .92) !important;
+}
+
+/* Fields, selects and inner boxes */
+html body .top-bar .dropdown-content select,
+html body .top-bar .dropdown-content input[type=text],
+html body .modal .modal-card:not(.file-panel .modal-card) select,
+html body .modal .modal-card:not(.file-panel .modal-card) input,
+html body .modal .modal-card:not(.file-panel .modal-card) textarea {
+  background: rgba(0, 0, 0, .25) !important; border-color: rgba(255, 255, 255, .15) !important;
+}
+html body .top-bar .dropdown-content option,
+html body .modal .modal-card option { background: #35363a; color: #fff; }
+html body .top-bar .dropdown-content .select:not(.is-multiple):not(.is-loading)::after { border-color: #fff !important; }
+html body .top-bar .dropdown-content .hover-effect:hover { background: rgba(255, 255, 255, .08) !important; }
+html body .modal .modal-card:not(.file-panel .modal-card) .flight-bg { background: transparent !important; }
+html body .modal .modal-card:not(.file-panel .modal-card) .card {
+  background: rgba(0, 0, 0, .2) !important; border: 1px solid rgba(255, 255, 255, .08); box-shadow: none !important;
+}
+html body .modal .modal-card .tabs li.is-active a { border-bottom-color: #4a9eff !important; }
+
+/* ===== App Store tweaks (and other dialogs) ===== */
+html body .modal .modal-card:not(.file-panel .modal-card) .title { color: rgba(255, 255, 255, .92) !important; }
+html body .modal .modal-card:not(.file-panel .modal-card) input::placeholder,
+html body .modal .modal-card:not(.file-panel .modal-card) textarea::placeholder { color: rgba(255, 255, 255, .4) !important; }
+
+/* Neutral buttons (filters, "678 apps") */
+html body .modal .modal-card:not(.file-panel .modal-card) .button:not(.is-primary):not(.is-danger):not(.is-success):not(.is-warning):not(.is-info):not(.is-link):not(.is-dark) {
+  background: rgba(0, 0, 0, .25) !important; border-color: rgba(255, 255, 255, .15) !important; color: #fff !important;
+}
+html body .modal .modal-card:not(.file-panel .modal-card) .button:not(.is-primary):not(.is-danger):not(.is-success):not(.is-warning):not(.is-info):not(.is-link):not(.is-dark) * { color: #fff !important; }
+
+/* "Install" / "Start and open" buttons */
+html body .modal .modal-card:not(.file-panel .modal-card) .button.is-primary.is-light {
+  background: rgba(32, 117, 243, .2) !important; color: #8ab8ff !important; border: 1px solid rgba(32, 117, 243, .35) !important;
+}
+html body .modal .modal-card:not(.file-panel .modal-card) .button.is-primary.is-light * { color: #8ab8ff !important; }
+html body .modal .modal-card:not(.file-panel .modal-card) .button.is-primary.is-light:hover { background: rgba(32, 117, 243, .35) !important; }
+
+/* Dropdowns inside dialogs (solid background for readability) */
+html body .modal .modal-card:not(.file-panel .modal-card) .dropdown-content {
+  background: rgb(40, 41, 45) !important; border: 1px solid rgba(255, 255, 255, .08);
+}
+html body .modal .modal-card:not(.file-panel .modal-card) .dropdown-item:hover,
+html body .modal .modal-card:not(.file-panel .modal-card) .dropdown-item.is-active { background: rgba(255, 255, 255, .1) !important; }
+
+/* App Store card hover */
+html body .modal .modal-card:not(.file-panel .modal-card) .app-item:hover {
+  background-color: rgba(255, 255, 255, .08) !important;
+}
+
+/* Dialog inside a dialog (e.g. app details in the store): solid,
+   because glass over glass doesn't blur and what's behind shows through */
+html body .modal .modal-card .modal-card:not(.file-panel .modal-card) {
+  background: rgb(38, 39, 43) !important; backdrop-filter: none !important; border: 0 !important;
+}
+/* "Back" button without a box */
+html body .modal .modal-card:not(.file-panel .modal-card) .button.is-ghost {
+  background: transparent !important; border-color: transparent !important;
+}
+/* App description (was in a white box) */
+html body .modal .modal-card:not(.file-panel .modal-card) .v-md-editor,
+html body .modal .modal-card:not(.file-panel .modal-card) .v-md-editor * { background: transparent !important; }
+html body .modal .modal-card:not(.file-panel .modal-card) .v-md-editor a { color: #8ab8ff !important; }
+/* Dark loading veil instead of white */
+html body .modal .modal-card:not(.file-panel .modal-card) .loading-overlay .loading-background { background: rgba(0, 0, 0, .3) !important; }
