@@ -127,6 +127,35 @@ try {
     __track.loop = true; __track.play()`);
   check('any audio playing in the tab reaches it as Wallpaper Engine audio (128 values)', await waitFor(`(() => { const p = window.__probe;
     return p && p.audioCalls > 20 && p.audioLength === 128 && p.audioMax > 0.05; })()`, 10000), await ev('window.__probe && { calls: __probe.audioCalls, max: __probe.audioMax, len: __probe.audioLength }'));
+
+  // ---------------------------------------------------------------- media integration
+  const MEDIA = 'window.__probe && window.__probe.media';
+  check('media integration: the wallpaper is told it is on, with the playback constants',
+    await waitFor(`(() => { const m = ${MEDIA}; return m && m.status && m.status.enabled === true && m.constants && m.constants.PLAYBACK_PAUSED === 2; })()`, 4000), await ev(MEDIA));
+  check('…without Media Session data the title is the file name, and it is playing (1)',
+    await waitFor(`(() => { const m = ${MEDIA}; return m.properties && m.properties.title === '01 Pulse' && m.properties.contentType === 'music' && m.playback === 1; })()`, 4000), await ev(MEDIA));
+  check('…the timeline flows (position and duration, several times a second)',
+    await waitFor(`(() => { const m = ${MEDIA}; return m.timelines > 4 && m.timeline.position > 0.3 && Math.round(m.timeline.duration) === 45; })()`, 6000), await ev(MEDIA));
+  // a player sets its Media Session (title, artist, cover): a cover mostly red, some blue
+  await ev(`(() => { const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d');
+    g.fillStyle = '#d02020'; g.fillRect(0, 0, 64, 64); g.fillStyle = '#2040e0'; g.fillRect(0, 48, 64, 16);
+    navigator.mediaSession.metadata = new MediaMetadata({ title: 'Song A', artist: 'Band A', album: 'Album A',
+      artwork: [{ src: c.toDataURL('image/png'), sizes: '64x64', type: 'image/png' }] }); })()`);
+  check('…title, artist and album come from the Media Session',
+    await waitFor(`(() => { const p = (${MEDIA}).properties; return p.title === 'Song A' && p.artist === 'Band A' && p.albumTitle === 'Album A' && p.albumArtist === 'Band A'; })()`, 3000), await ev(MEDIA));
+  check('…the cover arrives as a thumbnail with its colors (red first, then blue; white text)',
+    await waitFor(`(() => { const t = (${MEDIA}).thumbnail; return t && t.has && /^#(c|d|e)[0-9a-f]{5}$/.test(t.primaryColor) && t.primaryColor.slice(3, 5) < '40'
+      && parseInt(t.secondaryColor.slice(5, 7), 16) > 0xa0 && t.textColor === '#ffffff'; })()`, 3000), await ev(MEDIA));
+  await ev('__track.pause()');
+  check('…pausing sends paused (2)', await waitFor(`(${MEDIA}).playback === 2`, 2000), await ev(MEDIA));
+  await ev('__track.currentTime = 30');
+  check('…seeking moves the timeline', await waitFor(`(${MEDIA}).timeline.position >= 29.9`, 2000), await ev(MEDIA));
+  await ev('__track.play()');
+  check('…playing again sends playing (1)', await waitFor(`(${MEDIA}).playback === 1`, 2000), await ev(MEDIA));
+  await ev(`navigator.mediaSession.metadata = new MediaMetadata({ title: 'Song B', artist: 'Band B' })`);
+  check('…a new track without a cover: new properties, an empty thumbnail',
+    await waitFor(`(() => { const m = ${MEDIA}; return m.properties.title === 'Song B' && m.thumbnail && !m.thumbnail.has; })()`, 3000), await ev(MEDIA));
+  await ev('navigator.mediaSession.metadata = null');
   await ev('__track.pause()');
 
   // mouse

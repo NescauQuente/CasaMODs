@@ -44,6 +44,9 @@ try {
   check('pick a track from the playlist (subfolder)', await waitFor(`document.querySelector('.smp-title').textContent === '03 Echo'
     && document.querySelector('.smp-sub').textContent === 'Album'`, 5000),
     await ev(`({ title: document.querySelector('.smp-title').textContent, sub: document.querySelector('.smp-sub').textContent })`));
+  check('…without tags, it shows the cover image of its folder (Album/cover.png)', await waitFor(`(() => { const a = document.querySelector('.smp-art');
+    return a.classList.contains('smp-cover') && /cover\.png/.test(decodeURIComponent(a.style.backgroundImage)); })()`, 4000),
+    await ev(`document.querySelector('.smp-art').style.backgroundImage`));
   const scrolled = await ev(`({ contents: document.querySelector('.contents').scrollTop, page: document.scrollingElement.scrollTop })`);
   check('the playlist never scrolls the CasaOS dashboard', scrolled.contents === 0 && scrolled.page === 0, scrolled);
   await clickSel('.smp-widget [data-act="shuffle"]');
@@ -121,6 +124,7 @@ try {
   await clickSel(queueBtn(2));
   check('…a second click takes it out', (await ev(badges)) === '||1' && (await ev(`CasaMusicPlayer.state.queue.join()`)) === '2', await ev(badges));
   check('…and the current track keeps playing', (await ev(`document.querySelector('.smp-title').textContent`)) === '01 Pulse', null);
+  await waitFor(`isFinite(CasaMusicPlayer.audio.duration)`, 5000);   // loaded, so it can jump near the end
   await ev(`CasaMusicPlayer.audio.currentTime = CasaMusicPlayer.audio.duration - 0.4`);
   check('when the track ends, the queued one plays', await waitFor(`document.querySelector('.smp-title').textContent === '03 Echo'
     && CasaMusicPlayer.state.queue.length === 0`, 6000), await ev(`document.querySelector('.smp-title').textContent`));
@@ -138,6 +142,60 @@ try {
 
   // ---------------------------------------------------------------- languages
   await ev(`CasaMusicPlayer.audio.pause(); localStorage.setItem('lang', 'pt_br')`);
+  // ---------------------------------------------------------------- tags and covers
+  // the tag reader, on files built here: FLAC, Ogg Opus and MP4
+  const TAGS = await ev(`(() => {
+    const enc = new TextEncoder(), le = n => [n & 255, n >> 8 & 255, n >> 16 & 255, n >>> 24 & 255], be = n => [n >>> 24 & 255, n >> 16 & 255, n >> 8 & 255, n & 255];
+    const b24 = n => [n >> 16 & 255, n >> 8 & 255, n & 255], str = s => [...enc.encode(s)];
+    const comments = (list) => { const o = [...le(6), ...str('vendor'), ...le(list.length)]; list.forEach(c => { const b = str(c); o.push(...le(b.length), ...b); }); return o; };
+    const png = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a];
+    const picture = [...be(3), ...be(9), ...str('image/png'), ...be(0), ...be(1), ...be(1), ...be(24), ...be(0), ...be(png.length), ...png];
+    // FLAC: STREAMINFO, VORBIS_COMMENT, PICTURE (last)
+    const vc = comments(['TITLE=Flac Song', 'ARTIST=Flac Band', 'ALBUM=Flac Album']);
+    const flac = new Uint8Array([...str('fLaC'), 0, ...b24(34), ...new Array(34).fill(0), 4, ...b24(vc.length), ...vc, 0x86, ...b24(picture.length), ...picture]);
+    // Ogg Opus: OpusHead page, then OpusTags (with a base64 picture)
+    const page = (seq, data) => [...str('OggS'), 0, seq ? 0 : 2, 0, 0, 0, 0, 0, 0, 0, 0, ...le(77), ...le(seq), 0, 0, 0, 0, 1, data.length, ...data];
+    const tagsPkt = [...str('OpusTags'), ...comments(['title=Opus Song', 'artist=Opus Band', 'METADATA_BLOCK_PICTURE=' + btoa(String.fromCharCode(...picture))])];
+    const ogg = new Uint8Array([...page(0, [...str('OpusHead'), 1, 2, 0, 0, 0x80, 0xbb, 0, 0, 0, 0, 0]), ...page(1, tagsPkt)]);
+    // MP4: ftyp, then moov > udta > meta > ilst
+    const atom = (type, body) => [...be(8 + type.length - 4 + body.length), ...type, ...body].slice(0) && [...be(8 + body.length), ...type, ...body];
+    const data = (kind, body) => atom(str('data'), [...be(kind), ...be(0), ...body]);
+    const ilst = atom(str('ilst'), [...atom([0xa9, ...str('nam')], data(1, str('M4A Song'))), ...atom([0xa9, ...str('ART')], data(1, str('M4A Band'))),
+      ...atom([0xa9, ...str('alb')], data(1, str('M4A Album'))), ...atom(str('covr'), data(14, png))]);
+    const mp4 = new Uint8Array([...atom(str('ftyp'), str('M4A isom')), ...atom(str('moov'), atom(str('udta'), atom(str('meta'), [0, 0, 0, 0, ...ilst])))]);
+    const sum = t => ({ title: t.title, artist: t.artist, album: t.album || '', pic: t.picture ? t.picture.mime + ':' + t.picture.data.length : null });
+    return { flac: sum(CasaMusicPlayer.readTags(flac)), ogg: sum(CasaMusicPlayer.readTags(ogg)), mp4: sum(CasaMusicPlayer.readTags(mp4)) };
+  })()`);
+  check('the tag reader reads FLAC (Vorbis comments, picture)', JSON.stringify(TAGS.flac) === JSON.stringify({ title: 'Flac Song', artist: 'Flac Band', album: 'Flac Album', pic: 'image/png:6' }), TAGS);
+  check('…Ogg Opus (comments, base64 picture)', JSON.stringify(TAGS.ogg) === JSON.stringify({ title: 'Opus Song', artist: 'Opus Band', album: '', pic: 'image/png:6' }), TAGS);
+  check('…and MP4/M4A (iTunes atoms, cover)', JSON.stringify(TAGS.mp4) === JSON.stringify({ title: 'M4A Song', artist: 'M4A Band', album: 'M4A Album', pic: 'image/png:6' }), TAGS);
+
+  // a real MP3 with an ID3v2.3 tag (UTF-16 title) and a front cover, read from the server with ranges
+  await ev(`CasaMusicPlayer.state.folder = '/DATA/Media/Music/.tagged'; CasaMusicPlayer.rescan()`);
+  await waitFor(`!CasaMusicPlayer.state.loading && CasaMusicPlayer.state.tracks.length === 1`, 5000);
+  if (!(await ev(`!document.querySelector('.smp-listbox').hidden`))) await clickSel('.smp-widget [data-act="list"]');
+  await clickSel('.smp-list .smp-track:nth-child(1) .smp-track-play');
+  const NOW = `(() => { const a = document.querySelector('.smp-art'), m = navigator.mediaSession.metadata;
+    return { title: document.querySelector('.smp-title').textContent, sub: document.querySelector('.smp-sub').textContent,
+      cover: a.classList.contains('smp-cover') && /blob:/.test(a.style.backgroundImage),
+      session: m && { title: m.title, artist: m.artist, album: m.album, art: m.artwork.length ? m.artwork[0].src.slice(0, 5) : '' },
+      now: CasaMusicPlayer.nowPlaying, playing: !CasaMusicPlayer.audio.paused }; })()`;
+  check('an MP3\'s tags show in the widget: title (UTF-16), artist — album, its own cover', await waitFor(`(() => { const n = ${NOW};
+    return n.title === 'Canção de Teste' && n.sub === 'The Testers — Test Album' && n.cover; })()`, 6000), await ev(NOW));
+  check('…and go to the browser\'s media controls (Media Session, with the cover)', await waitFor(`(() => { const s = (${NOW}).session;
+    return s && s.title === 'Canção de Teste' && s.artist === 'The Testers' && s.album === 'Test Album' && s.art === 'blob:'; })()`, 2000), await ev(NOW));
+  check('…the MP3 plays', await waitFor(`!CasaMusicPlayer.audio.paused && CasaMusicPlayer.audio.currentTime > 0.3`, 6000), await ev(NOW));
+  const coverPx = await ev(`new Promise(r => { const i = new Image(); i.onload = () => { const c = document.createElement('canvas'); c.width = c.height = 64;
+    const g = c.getContext('2d'); g.drawImage(i, 0, 0); r([...g.getImageData(40, 40, 1, 1).data.slice(0, 3), ...g.getImageData(4, 4, 1, 1).data.slice(0, 3)]); };
+    i.onerror = () => r('error'); i.src = CasaMusicPlayer.nowPlaying.cover; })`);
+  check('…the cover is the picture inside the file', JSON.stringify(coverPx) === JSON.stringify([30, 170, 70, 220, 40, 40]), coverPx);
+  check('…and the file was read in small ranges, not downloaded for it', await ev(`performance.getEntriesByType('resource')
+    .filter(e => /04%20Tagged|04 Tagged/.test(decodeURIComponent(e.name))).length >= 1`), null);
+  await T.shot('player_cover', await ev(`(() => { const b = document.querySelector('.smp-widget').getBoundingClientRect();
+    return { x: b.x - 8, y: b.y - 8, width: b.width + 16, height: Math.min(b.height + 16, 220) }; })()`));
+  await ev(`CasaMusicPlayer.audio.pause(); CasaMusicPlayer.state.folder = '/DATA/Media/Music'; CasaMusicPlayer.rescan()`);
+  await waitFor(`!CasaMusicPlayer.state.loading && CasaMusicPlayer.state.tracks.length === 3`, 5000);
+
   check('reload in Portuguese', await open(), null);
   check('it follows the CasaOS language (pt)', (await ev(`document.querySelector('.smp-heading').textContent`)) === 'Música', null);
   await ev(`localStorage.setItem('lang', 'ru_ru')`);

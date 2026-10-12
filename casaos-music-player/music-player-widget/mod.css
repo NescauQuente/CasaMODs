@@ -89,6 +89,9 @@
 .smp-art.smp-playing i:nth-child(3) { animation-duration: 1.1s; animation-delay: -0.6s; }
 .smp-art.smp-playing i:nth-child(4) { animation-duration: 0.8s; animation-delay: -0.2s; }
 .smp-art.smp-playing i:nth-child(5) { animation-duration: 1s; animation-delay: -0.5s; }
+/* The track's cover, when it has one (from its tags or its folder), instead of the bars */
+.smp-art.smp-cover { background: center / cover no-repeat; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
+.smp-art.smp-cover i { display: none; }
 @keyframes smp-eq {
   from { height: 15%; }
   to { height: 95%; }

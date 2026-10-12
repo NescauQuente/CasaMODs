@@ -1,6 +1,6 @@
 {
   "name": "Music Player",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A dashboard widget that plays a folder of your CasaOS storage, with a playlist, search and a play queue.",
   "author": "UsuarioDeJava",
   "casaos_min_version": "0.4.0",

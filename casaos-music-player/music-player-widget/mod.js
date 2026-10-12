@@ -496,6 +496,334 @@
   }
 
   // ---------------------------------------------------------------------------
+  // Tags and covers: title, artist, album and picture from the file itself
+  // (ID3v2 in MP3/AAC, FLAC and Ogg/Opus comments, MP4/M4A atoms), read with
+  // HTTP ranges, only what is needed; else a cover image of the track's folder.
+  // Only for the track that plays and the next one, cached.
+  // ---------------------------------------------------------------------------
+  var COVER_FILE = /^(cover|folder|front|album)\.(jpe?g|png|webp)$/i;
+  var TAG_LIMIT = 4 * 1024 * 1024;
+
+  function latin1(b) { var s = ''; for (var i = 0; i < b.length; i++) s += String.fromCharCode(b[i]); return s; }
+  function decode(b, enc) {
+    try { return new TextDecoder(enc).decode(b); } catch (e) { return latin1(b); }
+  }
+  function be32(b, o) { return ((b[o] << 24) >>> 0) + (b[o + 1] << 16) + (b[o + 2] << 8) + b[o + 3]; }
+  function le32(b, o) { return (b[o] | b[o + 1] << 8 | b[o + 2] << 16) + ((b[o + 3] << 24) >>> 0); }
+  function syncsafe(b, o) { return (b[o] & 127) << 21 | (b[o + 1] & 127) << 14 | (b[o + 2] & 127) << 7 | (b[o + 3] & 127); }
+  function imageType(b) {
+    if (b[0] === 0x89 && b[1] === 0x50) return 'image/png';
+    if (b[0] === 0x52 && b[1] === 0x49 && b[8] === 0x57) return 'image/webp';
+    if (b[0] === 0x47 && b[1] === 0x49) return 'image/gif';
+    return 'image/jpeg';
+  }
+
+  // ID3v2.2/2.3/2.4
+  function readId3(b) {
+    var ver = b[3], flags = b[5], end = Math.min(b.length, 10 + syncsafe(b, 6)), out = {};
+    var d = b.subarray(10, end);
+    if (flags & 0x80 && ver < 4) d = unsync(d);
+    var o = 0;
+    if (flags & 0x40) o = ver === 3 ? 4 + be32(d, 0) : ver === 4 ? syncsafe(d, 0) : 0;
+    var idLen = ver === 2 ? 3 : 4, head = ver === 2 ? 6 : 10, pic = null;
+    while (o + head <= d.length) {
+      var id = latin1(d.subarray(o, o + idLen));
+      if (!/^[A-Z0-9]+$/.test(id)) break;   // padding
+      var size = ver === 2 ? d[o + 3] << 16 | d[o + 4] << 8 | d[o + 5] : ver === 4 ? syncsafe(d, o + 4) : be32(d, o + 4);
+      var fflags = ver === 2 ? 0 : d[o + 9];
+      var f = d.subarray(o + head, Math.min(d.length, o + head + size));
+      o += head + size;
+      if (ver === 4) {
+        if (fflags & 0x02) f = unsync(f);
+        if (fflags & 0x01) f = f.subarray(4);
+      }
+      if (!f.length) continue;
+      var key = { TIT2: 'title', TT2: 'title', TPE1: 'artist', TP1: 'artist', TALB: 'album', TAL: 'album', TPE2: 'albumArtist', TP2: 'albumArtist' }[id];
+      if (key) {
+        if (!out[key]) out[key] = id3Text(f);
+      } else if (id === 'APIC' || id === 'PIC') {
+        var p = id3Picture(f, id === 'PIC');
+        if (p && (!pic || (p.kind === 3 && pic.kind !== 3))) pic = p;
+      }
+    }
+    if (pic) out.picture = { mime: pic.mime, data: pic.data };
+    return out;
+  }
+
+  function unsync(b) {
+    var out = new Uint8Array(b.length), n = 0;
+    for (var i = 0; i < b.length; i++) {
+      out[n++] = b[i];
+      if (b[i] === 0xff && b[i + 1] === 0) i++;
+    }
+    return out.subarray(0, n);
+  }
+
+  var ENCODINGS = ['iso-8859-1', 'utf-16le', 'utf-16be', 'utf-8'];
+  function id3Text(f) {
+    var enc = ENCODINGS[f[0]] || 'iso-8859-1';
+    if (f[0] === 1 && f[1] === 0xfe && f[2] === 0xff) enc = 'utf-16be';   // the byte order mark says
+    var s = decode(f.subarray(1), enc).replace(/^\ufeff/, '');
+    return s.split('\u0000').filter(Boolean)[0] || '';   // 2.4: several values, the first
+  }
+
+  // the end of a text in the given ID3 encoding (1 or 2 zero bytes)
+  function textEnd(f, o, enc) {
+    if (enc === 1 || enc === 2) {
+      while (o + 1 < f.length && (f[o] || f[o + 1])) o += 2;
+      return o + 2;
+    }
+    while (o < f.length && f[o]) o++;
+    return o + 1;
+  }
+
+  function id3Picture(f, v22) {
+    var enc = f[0], o = 1, mime;
+    if (v22) {
+      mime = 'image/' + latin1(f.subarray(1, 4)).toLowerCase().replace('jpg', 'jpeg');
+      o = 4;
+    } else {
+      var e = textEnd(f, o, 0);
+      mime = latin1(f.subarray(o, e - 1)).toLowerCase();
+      o = e;
+    }
+    var kind = f[o++];
+    o = textEnd(f, o, enc);
+    var data = f.subarray(o);
+    if (!data.length) return null;
+    if (!/^image\//.test(mime)) mime = imageType(data);
+    return { kind: kind, mime: mime, data: data };
+  }
+
+  // Vorbis comments (FLAC, Ogg Vorbis, Opus)
+  function readComments(b, o, out) {
+    o += 4 + le32(b, o);   // vendor
+    var n = le32(b, o);
+    o += 4;
+    for (var i = 0; i < n && o + 4 <= b.length; i++) {
+      var len = le32(b, o), c = decode(b.subarray(o + 4, o + 4 + len), 'utf-8');
+      o += 4 + len;
+      var eq = c.indexOf('=');
+      if (eq < 0) continue;
+      var k = c.slice(0, eq).toUpperCase(), v = c.slice(eq + 1);
+      var key = { TITLE: 'title', ARTIST: 'artist', ALBUM: 'album', ALBUMARTIST: 'albumArtist', 'ALBUM ARTIST': 'albumArtist' }[k];
+      if (key) { if (!out[key]) out[key] = v; }
+      else if (k === 'METADATA_BLOCK_PICTURE' && !out.picture) {
+        try {
+          var raw = atob(v), bytes = new Uint8Array(raw.length);
+          for (var j = 0; j < raw.length; j++) bytes[j] = raw.charCodeAt(j);
+          out.picture = flacPicture(bytes);
+        } catch (e) { /* bad base64 */ }
+      }
+    }
+    return out;
+  }
+
+  function flacPicture(b) {
+    var o = 4, ml = be32(b, o);
+    var mime = latin1(b.subarray(o + 4, o + 4 + ml));
+    o += 4 + ml;
+    o += 4 + be32(b, o);   // description
+    o += 16;               // width, height, depth, colors
+    var len = be32(b, o), data = b.subarray(o + 4, o + 4 + len);
+    return data.length ? { mime: /^image\//.test(mime) ? mime : imageType(data), data: data } : null;
+  }
+
+  // FLAC metadata blocks; returns null while more bytes are needed
+  function readFlac(b, out) {
+    var o = 4;
+    for (;;) {
+      if (o + 4 > b.length) return null;
+      var last = b[o] & 0x80, type = b[o] & 0x7f, len = b[o + 1] << 16 | b[o + 2] << 8 | b[o + 3];
+      if (o + 4 + len > b.length) return null;
+      var blk = b.subarray(o + 4, o + 4 + len);
+      if (type === 4) readComments(blk, 0, out);
+      else if (type === 6 && !out.picture) out.picture = flacPicture(blk);
+      o += 4 + len;
+      if (last) return out;
+    }
+  }
+
+  // Ogg: the second packet of the first stream holds the comments; null while
+  // more bytes are needed
+  function readOgg(b, out) {
+    var o = 0, packets = [], cur = [], serial = null;
+    while (o + 27 <= b.length && latin1(b.subarray(o, o + 4)) === 'OggS') {
+      var segs = b[o + 26], sizes = b.subarray(o + 27, o + 27 + segs), p = o + 27 + segs;
+      var ser = le32(b, o + 14);
+      if (serial === null) serial = ser;
+      for (var i = 0; i < segs; i++) {
+        if (p + sizes[i] > b.length) return null;
+        if (ser === serial) cur.push(b.subarray(p, p + sizes[i]));
+        p += sizes[i];
+        if (ser === serial && sizes[i] < 255) {
+          packets.push(cur);
+          cur = [];
+          if (packets.length === 2) {
+            var total = 0;
+            packets[1].forEach(function (x) { total += x.length; });
+            var pk = new Uint8Array(total), at = 0;
+            packets[1].forEach(function (x) { pk.set(x, at); at += x.length; });
+            var magic = latin1(pk.subarray(0, 8));
+            if (magic === 'OpusTags') return readComments(pk, 8, out);
+            if (pk[0] === 3 && magic.slice(1, 7) === 'vorbis') return readComments(pk, 7, out);
+            return out;
+          }
+        }
+      }
+      o = p;
+    }
+    return null;
+  }
+
+  // MP4: moov > udta > meta > ilst
+  function readMoov(b, out) {
+    (function walk(s, e) {
+      var o = s;
+      while (o + 8 <= e) {
+        var size = be32(b, o), type = latin1(b.subarray(o + 4, o + 8));
+        if (size < 8 || o + size > e) size = e - o;
+        if (type === 'moov' || type === 'udta' || type === 'ilst') walk(o + 8, o + size);
+        else if (type === 'meta') walk(o + 12, o + size);
+        else if (s > 0 && latin1(b.subarray(s - 4, s)) === 'ilst') item(type, o + 8, o + size);
+        o += size;
+      }
+    })(0, b.length);
+    function item(type, s, e) {
+      if (s + 16 > e || latin1(b.subarray(s + 4, s + 8)) !== 'data') return;
+      var kind = be32(b, s + 8) & 0xffffff, data = b.subarray(s + 16, Math.min(e, s + be32(b, s)));
+      var key = { '©nam': 'title', '©ART': 'artist', '©alb': 'album', aART: 'albumArtist' }[type];
+      if (key && !out[key]) out[key] = decode(data, 'utf-8');
+      else if (type === 'covr' && !out.picture && data.length) {
+        out.picture = { mime: kind === 14 ? 'image/png' : kind === 13 ? 'image/jpeg' : imageType(data), data: data };
+      }
+    }
+    return out;
+  }
+
+  // Tags from the start of a file (for MP4, from its moov atom)
+  function readTags(buffer) {
+    var b = buffer instanceof Uint8Array ? buffer : new Uint8Array(buffer);
+    var magic = latin1(b.subarray(0, 4));
+    if (magic.slice(0, 3) === 'ID3') return readId3(b);
+    if (magic === 'fLaC') return readFlac(b, {});
+    if (magic === 'OggS') return readOgg(b, {});
+    if (magic === 'moov') return readMoov(b, {});
+    if (latin1(b.subarray(4, 8)) === 'ftyp') {   // a whole MP4 file in memory
+      for (var o = 0; o + 8 <= b.length;) {
+        var size = be32(b, o);
+        if (latin1(b.subarray(o + 4, o + 8)) === 'moov') return readMoov(b.subarray(o, o + size), {});
+        if (size < 8) break;
+        o += size;
+      }
+    }
+    return {};
+  }
+
+  // Bytes start..end of a file (an HTTP range); never the whole file
+  function range(path, start, end) {
+    return fetch(fileUrl(path), { headers: { Range: 'bytes=' + start + '-' + end } }).then(function (r) {
+      if (r.status !== 206) {
+        if (r.body) r.body.cancel();
+        throw new Error('no range support');
+      }
+      return r.arrayBuffer();
+    }).then(function (ab) { return new Uint8Array(ab); });
+  }
+
+  function fetchTags(path) {
+    return range(path, 0, 65535).then(function (b) {
+      var magic = latin1(b.subarray(0, 4));
+      if (magic.slice(0, 3) === 'ID3') {
+        var need = 10 + syncsafe(b, 6);
+        if (need <= b.length || need > TAG_LIMIT) return readId3(b);
+        return range(path, 0, need - 1).then(readId3);
+      }
+      if (magic === 'fLaC' || magic === 'OggS') {
+        var more = function (buf) {
+          var r = readTags(buf);
+          if (r || buf.length < 65536 || buf.length >= TAG_LIMIT) return r || {};
+          return range(path, 0, Math.min(TAG_LIMIT, buf.length * 4) - 1).then(more);
+        };
+        return more(b);
+      }
+      if (latin1(b.subarray(4, 8)) === 'ftyp') return findMoov(path, b, 0);
+      return {};
+    });
+  }
+
+  // Walks the top-level MP4 atoms (with small reads) to the moov one, wherever it is
+  function findMoov(path, head, o) {
+    var hops = 0;
+    function at(o) {
+      if (++hops > 64) return Promise.resolve({});
+      var get = o + 16 <= head.length ? Promise.resolve(head.subarray(o, o + 16)) : range(path, o, o + 15);
+      return get.then(function (h) {
+        if (h.length < 8) return {};
+        var size = be32(h, 0), type = latin1(h.subarray(4, 8));
+        if (size === 1) size = be32(h, 8) * 4294967296 + be32(h, 12);
+        if (type === 'moov') {
+          if (size > TAG_LIMIT * 2) return {};
+          var body = o + size <= head.length ? Promise.resolve(head.subarray(o, o + size)) : range(path, o, o + size - 1);
+          return body.then(function (b) { return readMoov(b, {}); });
+        }
+        if (size < 8) return {};
+        return at(o + size);
+      });
+    }
+    return at(o);
+  }
+
+  // path → Promise of { title, artist, album, albumArtist, cover }; the last 30
+  var tagCache = new Map();
+  function trackInfo(tr) {
+    if (tagCache.has(tr.path)) {
+      var hit = tagCache.get(tr.path);
+      tagCache.delete(tr.path);
+      tagCache.set(tr.path, hit);
+      return hit;
+    }
+    var p = fetchTags(tr.path).catch(function () { return {}; }).then(function (t) {
+      var info = { title: t.title || '', artist: t.artist || t.albumArtist || '', album: t.album || '', albumArtist: t.albumArtist || '' };
+      if (t.picture) {
+        info.cover = URL.createObjectURL(new Blob([t.picture.data], { type: t.picture.mime }));
+        info.ownCover = true;
+        info.coverType = t.picture.mime;
+      } else if (tr.cover) {
+        info.cover = fileUrl(tr.cover);
+      }
+      return info;
+    });
+    tagCache.set(tr.path, p);
+    if (tagCache.size > 30) {
+      var old = tagCache.keys().next().value;
+      tagCache.get(old).then(function (i) { if (i.ownCover) URL.revokeObjectURL(i.cover); });
+      tagCache.delete(old);
+    }
+    return p;
+  }
+
+  // The playing track's tags (and the next one's, ahead of time)
+  function loadInfo(i) {
+    var tr = state.tracks[i];
+    if (!tr) return;
+    trackInfo(tr).then(function (info) {
+      tr.info = info;
+      tr.key = fold([tr.title, tr.album, info.title, info.artist, info.album].join(' '));
+      if (state.tracks[state.index] === tr) {
+        updateSession();
+        render();
+      }
+    });
+  }
+
+  function upNext() {
+    if (state.queue.length) return state.queue[0];
+    var pos = state.order.indexOf(state.context >= 0 ? state.context : state.index);
+    return pos >= 0 ? state.order[(pos + 1) % state.order.length] : -1;
+  }
+
+  // ---------------------------------------------------------------------------
   // Library
   // ---------------------------------------------------------------------------
   var scanId = 0;
@@ -510,7 +838,7 @@
     state.message = t('scanning');
     render();
 
-    var found = [], queue = [{ path: state.folder, depth: 0 }], folders = 0, failed = false;
+    var found = [], queue = [{ path: state.folder, depth: 0 }], folders = 0, failed = false, covers = {};
 
     function walk() {
       if (id !== scanId) return Promise.resolve();
@@ -520,11 +848,12 @@
       return listFolder(item.path).then(function (entries) {
         entries.sort(byName).forEach(function (e) {
           if (!e || !e.name || e.name.charAt(0) === '.') return;
+          if (!e.is_dir && COVER_FILE.test(e.name) && !covers[item.path]) covers[item.path] = e.path;
           if (e.is_dir) {
             if (state.recursive && item.depth < MAX_DEPTH) queue.push({ path: e.path, depth: item.depth + 1 });
           } else if (AUDIO_EXT.test(e.name) && found.length < MAX_FILES) {
             var title = pretty(e.name), album = parentName(e.path);
-            found.push({ path: e.path, name: e.name, title: title, album: album, key: fold(title + ' ' + album) });
+            found.push({ path: e.path, name: e.name, title: title, album: album, key: fold(title + ' ' + album), dir: item.path });
           }
         });
       }, function () {
@@ -535,6 +864,7 @@
     walk().then(function () {
       if (id !== scanId) return;
       state.loading = false;
+      found.forEach(function (tr) { tr.cover = covers[tr.dir] || null; });
       state.tracks = found;
       state.message = failed ? t('folderError') : found.length ? '' : t('empty');
       buildOrder();
@@ -553,6 +883,7 @@
           if (resumeAt > 0 && resumeAt < (audio.duration || 0) - 2) audio.currentTime = resumeAt;
         });
         updateSession();
+        loadInfo(at);
       }
       render();
     });
@@ -602,6 +933,9 @@
     updateSession();
     save();
     render();
+    loadInfo(i);
+    var nx = upNext();
+    if (nx >= 0 && nx !== i) setTimeout(function () { if (state.tracks[nx]) trackInfo(state.tracks[nx]); }, 3000);
   }
 
   function togglePlay() {
@@ -674,8 +1008,15 @@
     if (!('mediaSession' in navigator) || !window.MediaMetadata) return;
     var tr = state.tracks[state.index];
     if (!tr) return;
-    navigator.mediaSession.metadata = new MediaMetadata({ title: tr.title, artist: tr.album, album: 'CasaOS' });
+    var info = tr.info || {}, m = { title: info.title || tr.title, artist: info.artist || tr.album, album: info.album || 'CasaOS' };
+    if (info.cover) m.artwork = [info.coverType ? { src: info.cover, sizes: '512x512', type: info.coverType } : { src: info.cover, sizes: '512x512' }];
+    navigator.mediaSession.metadata = new MediaMetadata(m);
   }
+  function updatePlaybackState() {
+    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = audio.paused ? 'paused' : 'playing';
+  }
+  audio.addEventListener('play', updatePlaybackState);
+  audio.addEventListener('pause', updatePlaybackState);
   if ('mediaSession' in navigator) {
     var ms = navigator.mediaSession;
     try {
@@ -957,9 +1298,14 @@
       root.dir = l === 'ar' ? 'rtl' : 'ltr';   // the texts and lists follow the language
     }
     el.heading.textContent = t('title');
-    el.title.textContent = tr ? tr.title : t('nothing');
-    el.sub.textContent = tr ? (tr.album || state.folder) : (state.tracks.length ? trackCount(state.tracks.length) + ' · ' + t('pick') : state.folder);
+    var info = (tr && tr.info) || {};
+    el.title.textContent = tr ? info.title || tr.title : t('nothing');
+    var by = [info.artist, info.album].filter(Boolean).join(' — ');
+    el.sub.textContent = tr ? (by || tr.album || state.folder) : (state.tracks.length ? trackCount(state.tracks.length) + ' · ' + t('pick') : state.folder);
     el.art.classList.toggle('smp-playing', !audio.paused);
+    var cover = info.cover ? 'url("' + info.cover.replace(/"/g, '%22') + '")' : '';
+    if (el.art.style.backgroundImage !== cover) el.art.style.backgroundImage = cover;
+    el.art.classList.toggle('smp-cover', !!info.cover);
     el.vol.value = Math.round(state.volume * 100);
     el.msg.hidden = !state.message;
     el.msg.textContent = state.message;
@@ -1026,6 +1372,13 @@
     play: togglePlay,
     next: function () { step(1, false); },
     prev: prev,
-    rescan: scan
+    rescan: scan,
+    readTags: readTags,
+    get nowPlaying() {
+      var tr = state.tracks[state.index];
+      if (!tr) return null;
+      var info = tr.info || {};
+      return { path: tr.path, title: info.title || tr.title, artist: info.artist || '', album: info.album || '', cover: info.cover || null };
+    }
   };
 })();

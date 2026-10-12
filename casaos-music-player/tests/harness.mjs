@@ -22,7 +22,7 @@ export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // options: { port, cdp, fixtures: true to serve tests/fixtures/wallpapers too }
 export async function start({ port = 8770, cdp = 9333, fixtures = false } = {}) {
-  if (!fs.existsSync(path.join(HERE, 'music'))) spawnSync(PYTHON, [path.join(HERE, 'make_music.py')], { stdio: 'inherit' });
+  if (!fs.existsSync(path.join(HERE, 'music', '.tagged', '04 Tagged.mp3'))) spawnSync(PYTHON, [path.join(HERE, 'make_music.py')], { stdio: 'inherit' });
   const args = [path.join(HERE, 'server.py'), String(port), ROOT].concat(fixtures ? [path.join(HERE, 'fixtures')] : []);
   const server = spawn(PYTHON, args, { stdio: 'ignore' });
   process.on('exit', () => server.kill());

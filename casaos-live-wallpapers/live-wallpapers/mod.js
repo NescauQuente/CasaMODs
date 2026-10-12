@@ -120,13 +120,26 @@
       if (!route(el) && pending.indexOf(el) < 0) pending.push(el);
     }
 
+    // Whoever wants to know which media plays in the tab (media integration):
+    // called with every element that is told to play, in the DOM or not
+    tap.onPlay = [];
+    function started(el) {
+      for (var i = 0; i < tap.onPlay.length; i++) {
+        try { tap.onPlay[i](el); } catch (e) { /* never break playback */ }
+      }
+    }
+
     var nativePlay = HTMLMediaElement.prototype.play;
     HTMLMediaElement.prototype.play = function () {
       try { tryRoute(this); } catch (e) { /* never break playback */ }
+      started(this);
       return nativePlay.apply(this, arguments);
     };
     document.addEventListener('playing', function (e) {
-      if (e.target instanceof HTMLMediaElement) tryRoute(e.target);
+      if (e.target instanceof HTMLMediaElement) {
+        tryRoute(e.target);
+        started(e.target);
+      }
     }, true);
 
     return tap;
@@ -1055,13 +1068,14 @@
   var loading = false;      // the chosen one is being read (its project.json)
   var frame = null, video = null, blobUrl = null;
   var settings = null;
-  var wantsAudio = false, audioTimer = null;
+  var wantsAudio = false, audioTimer = null, wantsMedia = false;
 
   function unmount() {
     generation++;
     loading = false;
     if (audioTimer) { clearInterval(audioTimer); audioTimer = null; }
     wantsAudio = false;
+    wantsMedia = false;
     if (video) { video.pause(); video.removeAttribute('src'); video.load(); }
     if (blobUrl) { URL.revokeObjectURL(blobUrl); blobUrl = null; }
     layer.textContent = '';
@@ -1196,10 +1210,18 @@
       audio.push(cb);
       post({ t: 'audio' });
     };
-    ['wallpaperRegisterMediaStatusListener', 'wallpaperRegisterMediaPropertiesListener',
-      'wallpaperRegisterMediaThumbnailListener', 'wallpaperRegisterMediaPlaybackListener',
-      'wallpaperRegisterMediaTimelineListener', 'wallpaperRequestRandomFileForProperty'
-    ].forEach(function (n) { window[n] = function () {}; });
+    // Media integration: what plays in the CasaOS tab (title, cover, state, time)
+    var media = { status: [], properties: [], thumbnail: [], playback: [], timeline: [] };
+    window.wallpaperMediaIntegration = { PLAYBACK_STOPPED: 0, PLAYBACK_PLAYING: 1, PLAYBACK_PAUSED: 2 };
+    [['Status', 'status'], ['Properties', 'properties'], ['Thumbnail', 'thumbnail'], ['Playback', 'playback'],
+      ['Timeline', 'timeline']].forEach(function (n) {
+      window['wallpaperRegisterMedia' + n[0] + 'Listener'] = function (cb) {
+        if (typeof cb !== 'function') return;
+        media[n[1]].push(cb);
+        post({ t: 'media' });
+      };
+    });
+    window.wallpaperRequestRandomFileForProperty = function () {};
 
     function mouse(type, x, y, buttons) {
       var target = document.elementFromPoint(x, y) || document.body || document.documentElement;
@@ -1229,6 +1251,9 @@
           if (l.setPaused) l.setPaused(d.v);
         } else if (d.t === 'mouse') {
           d.v.types.forEach(function (type) { mouse(type, d.v.x, d.v.y, d.v.buttons); });
+        } else if (d.t === 'media') {
+          var cbs = media[d.v.kind] || [];
+          for (var j = 0; j < cbs.length; j++) cbs[j](d.v.data);
         }
       } catch (err) {
         console.error(err);
@@ -1290,6 +1315,8 @@
     } else if (d.t === 'audio') {
       wantsAudio = true;
       startAudio();
+    } else if (d.t === 'media') {
+      startMedia();
     }
   });
 
@@ -1336,6 +1363,208 @@
       }
       post('audio', frameData);
     }, 33);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Media integration, in the Wallpaper Engine format: what plays in the CasaOS
+  // tab. The source is the media element that last started playing (any
+  // player, in the DOM or not; never this mod's own video); its title, artist
+  // and cover come from the standard Media Session (navigator.mediaSession,
+  // which players set for the browser's media controls), else from the file
+  // name. Nothing runs until a wallpaper registers a media listener.
+  // ---------------------------------------------------------------------------
+  var MEDIA_EVENTS = ['playing', 'pause', 'ended', 'emptied', 'seeked', 'timeupdate', 'durationchange', 'loadedmetadata'];
+  var mediaEl = null, watched = new WeakSet(), sentMedia = {}, thumbs = {}, thumbFor = null;
+
+  function sendMedia(kind, data, force) {
+    var key = JSON.stringify(data);
+    if (!force && kind !== 'timeline' && sentMedia[kind] === key) return;
+    sentMedia[kind] = key;
+    post('media', { kind: kind, data: data });
+  }
+
+  function fileTitle(src) {
+    try {
+      var u = new URL(src, location.href);
+      var name = u.searchParams.get('path') || u.pathname;   // CasaOS: /v1/file?path=…
+      name = decodeURIComponent(name.split('/').pop() || '');
+      return name.replace(/\.[^.]+$/, '').replace(/_/g, ' ');
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function metadata() {
+    var m = navigator.mediaSession && navigator.mediaSession.metadata;
+    var src = mediaEl ? mediaEl.currentSrc || mediaEl.src : '';
+    var title = (m && m.title) || (src ? fileTitle(src) : '');
+    var artist = (m && m.artist) || '';
+    return {
+      props: {
+        title: title, artist: artist, subTitle: '', albumTitle: (m && m.album) || '',
+        albumArtist: artist, genres: '', contentType: 'music'
+      },
+      artwork: m && m.artwork && m.artwork.length ? largest(m.artwork) : ''
+    };
+  }
+
+  function largest(list) {
+    var best = list[0], size = 0;
+    list.forEach(function (a) {
+      var s = String(a.sizes || '').split(/\s+/).reduce(function (mx, wh) {
+        var n = parseInt(wh, 10);
+        return n > mx ? n : mx;
+      }, 0);
+      if (s > size) { size = s; best = a; }
+    });
+    return best.src;
+  }
+
+  function hexOf(c) {
+    return '#' + c.map(function (v) { v = Math.round(v); return (v < 16 ? '0' : '') + v.toString(16); }).join('');
+  }
+
+  // The cover as a small JPEG and its main colors (most common color buckets,
+  // preferring colorful ones), as Wallpaper Engine sends them
+  function coverThumb(url) {
+    if (thumbs[url]) return thumbs[url];
+    thumbs[url] = new Promise(function (resolve) {
+      var img = new Image();
+      img.onload = function () {
+        try {
+          var S = 256, k = Math.min(1, S / Math.max(img.naturalWidth, img.naturalHeight));
+          var cv = document.createElement('canvas');
+          cv.width = Math.max(1, Math.round(img.naturalWidth * k));
+          cv.height = Math.max(1, Math.round(img.naturalHeight * k));
+          var g = cv.getContext('2d');
+          g.drawImage(img, 0, 0, cv.width, cv.height);
+          resolve(Object.assign({ thumbnail: cv.toDataURL('image/jpeg', 0.85) }, colors(g.getImageData(0, 0, cv.width, cv.height).data)));
+        } catch (e) {
+          resolve(emptyThumb());   // a cross-origin cover can't be read
+        }
+      };
+      img.onerror = function () { resolve(emptyThumb()); };
+      img.src = url;
+    });
+    return thumbs[url];
+  }
+
+  function emptyThumb() {
+    return { thumbnail: '', primaryColor: '#000000', secondaryColor: '#000000', tertiaryColor: '#000000',
+      textColor: '#ffffff', highContrastColor: '#ffffff' };
+  }
+
+  function colors(px) {
+    var buckets = {};
+    for (var i = 0; i < px.length; i += 16) {   // every 4th pixel is plenty
+      if (px[i + 3] < 128) continue;
+      var key = (px[i] >> 4) << 8 | (px[i + 1] >> 4) << 4 | (px[i + 2] >> 4);
+      var b = buckets[key] || (buckets[key] = { n: 0, r: 0, g: 0, b: 0 });
+      b.n++; b.r += px[i]; b.g += px[i + 1]; b.b += px[i + 2];
+    }
+    var list = Object.keys(buckets).map(function (k) {
+      var b = buckets[k], c = [b.r / b.n, b.g / b.n, b.b / b.n];
+      var sat = Math.max.apply(null, c) - Math.min.apply(null, c);
+      return { c: c, n: b.n, score: b.n * (0.35 + sat / 255) };
+    }).sort(function (a, b) { return b.score - a.score; });
+    var picked = [];
+    list.forEach(function (x) {
+      if (picked.length < 3 && picked.every(function (p) { return dist(p.c, x.c) > 60; })) picked.push(x);
+    });
+    if (!picked.length) return emptyThumb();
+    while (picked.length < 3) picked.push(picked[picked.length - 1]);
+    var main = picked[0].c, light = lum(main) > 0.5;
+    return {
+      primaryColor: hexOf(main), secondaryColor: hexOf(picked[1].c), tertiaryColor: hexOf(picked[2].c),
+      textColor: light ? '#000000' : '#ffffff', highContrastColor: light ? '#000000' : '#ffffff'
+    };
+  }
+
+  function dist(a, b) { return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]) + Math.abs(a[2] - b[2]); }
+  function lum(c) { return (0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]) / 255; }
+
+  function sendProperties(force) {
+    if (!wantsMedia) return;
+    var m = metadata();
+    sendMedia('properties', m.props, force);
+    if (m.artwork !== thumbFor || force) {
+      thumbFor = m.artwork;
+      if (!m.artwork) return sendMedia('thumbnail', emptyThumb(), force);
+      coverThumb(m.artwork).then(function (th) {
+        if (wantsMedia && thumbFor === m.artwork) sendMedia('thumbnail', th, true);
+      });
+    }
+  }
+
+  function sendPlayback(force) {
+    if (!wantsMedia) return;
+    var st = !mediaEl || mediaEl.ended || !(mediaEl.currentSrc || mediaEl.src) ? 0 : mediaEl.paused ? 2 : 1;
+    sendMedia('playback', { state: st }, force);
+  }
+
+  function sendTimeline() {
+    if (!wantsMedia || !mediaEl) return;
+    var d = mediaEl.duration;
+    sendMedia('timeline', { position: mediaEl.currentTime || 0, duration: isFinite(d) ? d : 0 });
+  }
+
+  function onMediaEvent(e) {
+    var el = e.target;
+    if (e.type === 'playing' && el !== mediaEl) {
+      mediaEl = el;
+      sendProperties();
+    }
+    if (el !== mediaEl) return;
+    if (e.type === 'loadedmetadata' || e.type === 'emptied') sendProperties();
+    if (e.type !== 'timeupdate') sendPlayback();
+    sendTimeline();
+  }
+
+  function watchMedia(el) {
+    if (!(el instanceof HTMLMediaElement) || el === video || watched.has(el)) return;
+    watched.add(el);
+    MEDIA_EVENTS.forEach(function (type) { el.addEventListener(type, onMediaEvent); });
+  }
+  audioTap.onPlay.push(function (el) {
+    if (el === video) return;
+    watchMedia(el);
+    if (!el.paused && el !== mediaEl) {   // already playing: no 'playing' event will come
+      mediaEl = el;
+      sendProperties();
+      sendPlayback();
+    }
+  });
+
+  // A player that changes its Media Session metadata (a new track, its cover)
+  (function () {
+    var MS = window.MediaSession && MediaSession.prototype;
+    var d = MS && Object.getOwnPropertyDescriptor(MS, 'metadata');
+    if (!d || !d.set || !d.configurable) return;
+    Object.defineProperty(MS, 'metadata', {
+      configurable: true, enumerable: d.enumerable, get: d.get,
+      set: function (v) {
+        d.set.call(this, v);
+        try { sendProperties(); } catch (e) { /* never break the player */ }
+      }
+    });
+  })();
+
+  // A wallpaper registered a media listener: everything at once, then changes
+  function startMedia() {
+    wantsMedia = true;
+    sentMedia = {};
+    thumbFor = null;
+    if (!mediaEl) {
+      // something may be playing already, from before this mod saw it start
+      var all = document.querySelectorAll('audio,video');
+      for (var i = 0; i < all.length; i++) {
+        if (all[i] !== video && !all[i].paused) { mediaEl = all[i]; watchMedia(mediaEl); break; }
+      }
+    }
+    sendMedia('status', { enabled: true }, true);
+    sendProperties(true);
+    sendPlayback(true);
+    sendTimeline();
   }
 
   // ---------------------------------------------------------------------------

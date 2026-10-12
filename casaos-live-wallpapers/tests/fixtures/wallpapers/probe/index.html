@@ -18,6 +18,19 @@
       for (var i = 0; i < a.length; i++) if (a[i] > state.audioMax) state.audioMax = a[i];
     });
   }
+  // Media integration: the last of each event (the timeline keeps a count too)
+  state.media = { status: null, properties: null, thumbnail: null, playback: null, timeline: null, timelines: 0, constants: null };
+  if (window.wallpaperRegisterMediaPropertiesListener) {
+    state.media.constants = window.wallpaperMediaIntegration || null;
+    window.wallpaperRegisterMediaStatusListener(function (e) { state.media.status = e; });
+    window.wallpaperRegisterMediaPropertiesListener(function (e) { state.media.properties = e; });
+    window.wallpaperRegisterMediaThumbnailListener(function (e) {
+      state.media.thumbnail = { has: /^data:image\//.test(e.thumbnail), primaryColor: e.primaryColor,
+        secondaryColor: e.secondaryColor, textColor: e.textColor };
+    });
+    window.wallpaperRegisterMediaPlaybackListener(function (e) { state.media.playback = e.state; });
+    window.wallpaperRegisterMediaTimelineListener(function (e) { state.media.timeline = e; state.media.timelines++; });
+  }
   window.wallpaperPropertyListener = {
     applyUserProperties: function (p) {
       Object.keys(p).forEach(function (k) { state.props[k] = p[k].value; });

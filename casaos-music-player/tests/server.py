@@ -31,6 +31,11 @@ VROOT = "/DATA/Media/Music"
 LROOT = os.path.join(HERE, "music")
 
 
+# /v1/file serves any file with its type (audio, and cover images)
+FILE_TYPES = {".wav": "audio/wav", ".mp3": "audio/mpeg", ".flac": "audio/flac", ".ogg": "audio/ogg", ".m4a": "audio/mp4",
+              ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp"}
+
+
 def to_local(vpath):
     vpath = os.path.normpath(vpath).replace("\\", "/")
     if vpath != VROOT and not vpath.startswith(VROOT + "/"):
@@ -137,6 +142,7 @@ class Handler(BaseHTTPRequestHandler):
             if not local or not os.path.isfile(local):
                 return self.send(404, b"not found", "text/plain")
             data = open(local, "rb").read()
+            ctype = FILE_TYPES.get(os.path.splitext(local)[1].lower(), "application/octet-stream")
             rng = self.headers.get("Range")
             if rng:
                 m = re.match(r"bytes=(\d*)-(\d*)", rng)
@@ -144,8 +150,8 @@ class Handler(BaseHTTPRequestHandler):
                 end = int(m.group(2)) if m.group(2) else len(data) - 1
                 end = min(end, len(data) - 1)
                 chunk = data[start:end + 1]
-                return self.send(206, chunk, "audio/wav", {"Content-Range": "bytes %d-%d/%d" % (start, end, len(data)), "Accept-Ranges": "bytes"})
-            return self.send(200, data, "audio/wav", {"Accept-Ranges": "bytes"})
+                return self.send(206, chunk, ctype, {"Content-Range": "bytes %d-%d/%d" % (start, end, len(data)), "Accept-Ranges": "bytes"})
+            return self.send(200, data, ctype, {"Accept-Ranges": "bytes"})
         return self.send(404, b"not found", "text/plain")
 
 
