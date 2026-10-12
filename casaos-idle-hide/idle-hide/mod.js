@@ -19,7 +19,6 @@
 
   var TAG = '[Idle Hide]';
   var STORE = 'casamod-idle-hide';
-  var TOP_Z = 2147483000;   // the raised wallpaper; the catcher and the switch go just above
 
   // ---------------------------------------------------------------------------
   // Text, in every CasaOS language (follows CasaOS; English by default)
@@ -661,7 +660,6 @@
     if (swInput.checked) hide('manual');
     else show();
   });
-  [cover, catcher, sw].forEach(function (el) { el.style.setProperty('--idh-top', String(TOP_Z)); });
 
   function place() {
     if (!document.body) return;

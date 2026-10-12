@@ -94,7 +94,7 @@ html.idh-hidden #idh-catch { display: block; }
   position: fixed;
   top: 0;
   right: 0.75rem;
-  z-index: 2147483002;
+  z-index: 21;   /* just above the top bar (20), under CasaOS's menus and windows (the file manager's close button…) */
   display: flex;
   align-items: center;
   height: 2.75rem;
@@ -147,7 +147,7 @@ html.idh-hidden #idh-catch { display: block; }
 #idh-switch input:checked + .idh-track .idh-knob { transform: translateX(0.75rem); }
 #idh-switch input:focus-visible + .idh-track { outline: 2px solid hsl(216, 90%, 54%); outline-offset: 2px; }
 /* While hidden: only the switch, discreet over the wallpaper */
-html.idh-hidden #idh-switch { opacity: 0.35; }
+html.idh-hidden #idh-switch { opacity: 0.35; z-index: 2147483002; }   /* hidden: above the raised wallpaper */
 html.idh-hidden #idh-switch:hover,
 html.idh-hidden #idh-switch:focus-within { opacity: 1; }
 html.idh-hidden #idh-switch .idh-icon { visibility: hidden; }

@@ -69,6 +69,16 @@ try {
       s.right >= 0 && s.right <= 40 && s.inBar && s.hit && s.brandClear && s.w > 30, s);
   }
   await setWidth(1440);
+  await ev('Mock.openFiles()');
+  const closeAt = await center('.files-close');
+  check('a CasaOS window (the file manager, full screen) covers the switch: its close button at the top right can be clicked',
+    (await ev(`document.elementFromPoint(${closeAt[0]}, ${closeAt[1]}).className`)).includes('files-close'), await ev(`document.elementFromPoint(${closeAt[0]}, ${closeAt[1]}).className`));
+  await click(closeAt[0], closeAt[1]);
+  check('…and it closes', await waitFor(`getComputedStyle(document.querySelector('.file-panel')).display === 'none'`, 1000), null);
+  await ev('Mock.openModal()');
+  const swAt = await center('#idh-switch .idh-track');
+  check('…a dialog\'s backdrop covers it too', !(await ev(`document.getElementById('idh-switch').contains(document.elementFromPoint(${swAt[0]}, ${swAt[1]}))`)), null);
+  await ev('Mock.closeModal()');
   check('everything shows at first, the switch off', JSON.stringify(await state()) === JSON.stringify({ mode: null, hidden: false, raised: false, anim: false, checked: false }), await state());
   await shot('idle_visible');
 

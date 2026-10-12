@@ -90,6 +90,8 @@
   .modal.is-active { display: flex; }
   .modal-background { position: absolute; inset: 0; background: rgba(10, 10, 10, .86); }
   .modal-card { position: relative; background: #fff; border-radius: 10px; padding: 2rem; }
+  .file-panel .files-card { position: fixed; inset: 0; border-radius: 0; }
+  .files-close { position: absolute; top: 6px; right: 10px; }
   #login-page { height: 100%; align-items: center; justify-content: center; }
   .login-panel { background: rgba(255, 255, 255, .9); padding: 2rem; border-radius: 12px; position: relative; z-index: 1; }
   /* stands for Live Wallpapers' layer and panel when a test turns them on */
@@ -164,7 +166,8 @@
       '<section><div class="home-section has-text-left"><div class="is-flex is-align-items-center mb-4"><span class="is-flex-grow-1">Apps</span></div>' +
       '<div class="app-list contextmenu-canvas">' + cards + '</div></div></section>' +
       '</div></div></div></div></div>' +
-      '<div class="modal is-active file-panel" style="display: none;"><div class="modal-background"></div><div class="modal-card">Files</div></div>' +
+      '<div class="modal is-active file-panel" style="display: none;"><div class="modal-background"></div><div class="modal-card files-card">Files' +
+      '<button class="button files-close" onclick="Mock.closeFiles()">✕</button></div></div>' +
       '</div>';
   }
   function login() {
@@ -227,6 +230,9 @@
       document.body.appendChild(m);
     },
     closeModal: function () { document.querySelectorAll('.mock-dialog').forEach(function (m) { m.remove(); }); },
+    // the file manager (Home.vue's b-modal, full screen, kept in the page; its close button at the top right)
+    openFiles: function () { document.querySelector('.file-panel').style.display = ''; },
+    closeFiles: function () { document.querySelector('.file-panel').style.display = 'none'; },
     openLwPanel: function () {
       var p = document.createElement('aside');
       p.id = 'lw-panel';
