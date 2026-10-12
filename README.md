@@ -5,8 +5,8 @@ Mods for the [CasaOS](https://casaos.io) dashboard, installed with [CasaMOD](htt
 - [`casaos-live-wallpapers`](casaos-live-wallpapers) — **Live Wallpapers**: animated wallpapers for the dashboard. Wallpaper Engine web and video wallpapers, HTML folders and loose videos, picked from the CasaOS wallpaper menu, with a settings panel built from their `project.json`.
 - [`casaos-music-player`](casaos-music-player) — **Music Player**: a dashboard widget that plays a folder of the CasaOS storage in the CasaOS tab.
 - [`casaos-idle-hide`](casaos-idle-hide) — **Idle Hide**: after a while without activity (or with a switch at the far right of the top bar), everything but the wallpaper fades away, one piece after the other; a click or a key brings it back. The idle time is set in the CasaOS settings.
-- [`casaos-hide-footer`](casaos-hide-footer) — **Hide Footer**: hides the dashboard footer (CasaOS logo, text and social buttons) and gives the space to apps and widgets. CSS only.
-- [`casaos-hide-widget-settings`](casaos-hide-widget-settings) — **Hide Widget Settings**: hides the "Widget settings" card of the widget column. CSS only.
+- [`casaos-hide-footer`](casaos-hide-footer) — **Hide Footer**: hides the dashboard footer (CasaOS logo, text and social buttons) and gives the space to apps and widgets.
+- [`casaos-hide-widget-settings`](casaos-hide-widget-settings) — **Hide Widget Settings**: hides the "Widget settings" card of the widget column. With Hide Footer, they also fix CasaOS's widget column so it ends on the apps' line at any window size.
 - [`casaos-transparence-everywhere`](casaos-transparence-everywhere) — **Transparence Everywhere**: the widgets' frosted glass on the top bar, its menus and the CasaOS dialogs. CSS only.
 
 ## Install
@@ -28,4 +28,4 @@ node casaos-idle-hide/tests/text-check.js
 node casaos-idle-hide/tests/idle-runner.mjs
 ```
 
-The widget column of the CSS-only Hide Footer and Hide Widget Settings: `node casaos-hide-widget-settings/tests/layout-check.mjs`.
+The widget column of Hide Footer and Hide Widget Settings: `node casaos-hide-widget-settings/tests/layout-check.mjs`.

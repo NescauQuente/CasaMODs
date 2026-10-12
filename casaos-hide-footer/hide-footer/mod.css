@@ -12,7 +12,7 @@ html body .out-container .contents { height: calc(100% - 4rem) !important; }
    too). The widgets fill it and the widget settings card stays at its end. */
 :root { --casamods-footer-space: 0rem; }
 html body .side-bar {
-  height: calc(100dvh - 7rem - var(--casamods-footer-space, 3rem)) !important;
+  height: var(--casamods-widget-column, calc(100dvh - 7rem - var(--casamods-footer-space, 3rem))) !important;
   display: flex !important;
   flex-direction: column;
 }

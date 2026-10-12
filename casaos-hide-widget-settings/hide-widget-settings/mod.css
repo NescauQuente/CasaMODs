@@ -6,7 +6,7 @@
    footer (whose space is shared with the Hide Footer mod: 0 there), and the
    widgets fill it, scrolling inside when they don't fit. */
 html body .side-bar {
-  height: calc(100dvh - 7rem - var(--casamods-footer-space, 3rem)) !important;
+  height: var(--casamods-widget-column, calc(100dvh - 7rem - var(--casamods-footer-space, 3rem))) !important;
   display: flex !important;
   flex-direction: column;
 }
