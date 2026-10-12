@@ -1,4 +1,14 @@
 /* Hide the "Widget settings" card */
 .widget:has(> .wsettings) { display: none !important; }
-/* Extend the widget list down to the end of the app list */
-.side-bar:has(.wsettings) > .scroll-area { max-height: calc(100% - 3rem) !important; }
+/* The widget column. CasaOS sizes it from the window height it measured once,
+   when the page loaded (--vh), so after going fullscreen or resizing the window
+   it ends too early: follow the live window height instead. It ends above the
+   footer (whose space is shared with the Hide Footer mod: 0 there), and the
+   widgets fill it, scrolling inside when they don't fit. */
+html body .side-bar {
+  height: calc(100dvh - 7rem - var(--casamods-footer-space, 3rem)) !important;
+  display: flex !important;
+  flex-direction: column;
+}
+html body .side-bar > .scroll-area { flex: 0 1 auto; min-height: 0; max-height: none !important; }
+html body .side-bar > :not(.scroll-area) { flex: none; }
