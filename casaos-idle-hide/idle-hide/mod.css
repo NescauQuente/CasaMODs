@@ -1,0 +1,191 @@
+/* Idle Hide: only the wallpaper, after a while idle or with the top-bar switch.
+ * Everything here is prefixed idh-; the state lives on <html>:
+ *   idh-hidden   everything but the wallpaper goes (idh-idle or idh-manual says why)
+ *   idh-anim     a cascade is running (hiding or showing)
+ *   idh-raised   the wallpaper is above everything
+ * mod.js sets --idh-d (each item's delay), --idh-total and --idh-each.
+ */
+
+/* ---------- The cascade: the top bar, the dashboard items, the footer ---------- */
+html.idh-anim .top-bar,
+html.idh-anim .search-bar,
+html.idh-anim .swiper-container,
+html.idh-anim .home-section > .is-flex,
+html.idh-anim .home-section > .title-bar,
+html.idh-anim .app-list > .handle,
+html.idh-anim .side-bar .scroll-area > :not([class*="ps__rail"]),
+html.idh-anim .side-bar > :not(.scroll-area),
+html.idh-anim #app > .base-bar {
+  transition: opacity var(--idh-each, 300ms) ease var(--idh-d, 0ms), translate var(--idh-each, 300ms) ease var(--idh-d, 0ms) !important;
+}
+html.idh-hidden .top-bar,
+html.idh-hidden .search-bar,
+html.idh-hidden .swiper-container,
+html.idh-hidden .home-section > .is-flex,
+html.idh-hidden .home-section > .title-bar,
+html.idh-hidden .app-list > .handle,
+html.idh-hidden .side-bar .scroll-area > :not([class*="ps__rail"]),
+html.idh-hidden .side-bar > :not(.scroll-area),
+html.idh-hidden #app > .base-bar {
+  translate: 0 8px;   /* the individual property: it adds to CasaOS's own transforms */
+}
+/* The fade itself goes to the pieces mod.js marks in each item (so the frosted
+   glass keeps blurring the wallpaper while it fades); they take their item's
+   turn through the inherited --idh-d */
+html.idh-anim [data-idh-fade],
+html.idh-anim [data-idh-glass~="before"]::before,
+html.idh-anim [data-idh-glass~="after"]::after {
+  transition: opacity var(--idh-each, 300ms) ease var(--idh-d, 0ms) !important;
+}
+html.idh-hidden [data-idh-fade],
+html.idh-hidden [data-idh-glass~="before"]::before,
+html.idh-hidden [data-idh-glass~="after"]::after {
+  opacity: 0 !important;
+}
+
+/* Then the whole dashboard and the footer become hidden once the last piece
+   has faded (not clickable, not focusable, the frosted glass not drawn); what
+   wasn't in the cascade goes with them. No opacity or transform on the
+   dashboard itself: opacity would cut the glass inside off from the wallpaper
+   while it fades, a transform would break the fixed widget column. */
+html.idh-hidden #app > :has(> .top-bar),
+html.idh-hidden #app > :has(> .top-bar) *,
+html.idh-hidden #app > .base-bar,
+html.idh-hidden #app > .base-bar *,
+html.idh-hidden #lw-panel {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+html.idh-hidden.idh-anim #app > :has(> .top-bar),
+html.idh-hidden.idh-anim #app > :has(> .top-bar) *,
+html.idh-hidden.idh-anim #app > .base-bar,
+html.idh-hidden.idh-anim #app > .base-bar * {
+  /* visibility waits for the fade; the opacity transitions above still apply */
+  transition-property: opacity, translate, visibility !important;
+  transition-duration: var(--idh-each, 450ms), var(--idh-each, 450ms), 0s !important;
+  transition-delay: var(--idh-d, 0ms), var(--idh-d, 0ms), calc(var(--idh-total, 0ms) + var(--idh-each, 450ms)) !important;
+}
+
+/* ---------- The wallpaper on top ---------- */
+html.idh-raised.lw-on #lw-layer { z-index: 2147483000 !important; }
+#idh-cover {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: none;
+  background: #000 center / cover no-repeat;
+  pointer-events: none;
+}
+html.idh-raised:not(.lw-on) #idh-cover { display: block; }
+
+/* Every click while hidden lands here, never on something invisible */
+#idh-catch {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483001;
+  display: none;
+  background: transparent;
+}
+html.idh-hidden #idh-catch { display: block; }
+
+/* ---------- The switch, at the far right of the top bar ---------- */
+#idh-switch {
+  --idh-fg: rgb(74, 74, 74);
+  position: fixed;
+  top: 0;
+  right: 0.75rem;
+  z-index: 2147483002;
+  display: flex;
+  align-items: center;
+  height: 2.75rem;
+  transition: opacity 0.2s ease;
+}
+#idh-switch[hidden] { display: none !important; }
+#idh-switch .idh-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  height: 100%;
+  padding: 0 0.5rem;
+  cursor: pointer;
+  color: var(--idh-fg);
+  -webkit-user-select: none;
+  user-select: none;
+}
+#idh-switch .idh-icon { display: inline-flex; width: 1.25rem; height: 1.25rem; align-items: center; justify-content: center; font-size: 1.25rem; }
+#idh-switch .idh-icon i { font-size: 1.25rem; line-height: 1; }
+/* the checkbox stays focusable and readable, drawn as CasaOS's small switch */
+#idh-switch input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+#idh-switch .idh-track {
+  position: relative;
+  box-sizing: border-box;
+  width: 2rem;
+  height: 1.25rem;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--idh-fg) 35%, transparent);
+  transition: background 0.2s ease;
+}
+#idh-switch .idh-knob {
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+}
+#idh-switch input:checked + .idh-track .idh-knob { transform: translateX(0.75rem); }
+#idh-switch input:focus-visible + .idh-track { outline: 2px solid hsl(216, 90%, 54%); outline-offset: 2px; }
+/* While hidden: only the switch, discreet over the wallpaper */
+html.idh-hidden #idh-switch { opacity: 0.35; }
+html.idh-hidden #idh-switch:hover,
+html.idh-hidden #idh-switch:focus-within { opacity: 1; }
+html.idh-hidden #idh-switch .idh-icon { visibility: hidden; }
+html.idh-hidden #idh-switch .idh-track {
+  background: rgba(0, 0, 0, 0.45);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5), 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- The settings row (CasaOS's own row classes do the rest) ---------- */
+#idh-row .idh-name { min-width: 0; }
+#idh-row .idh-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#idh-row .idh-minutes input {
+  width: 4.25em;
+  height: 1.75rem;
+  padding: 0 0.25em;
+  border: 1px solid currentColor;
+  border-radius: 0.375rem;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  font-size: 0.875rem;
+  text-align: center;
+}
+#idh-row .idh-unit { margin: 0 0.25rem; font-size: 0.75rem; opacity: 0.7; }
+#idh-row.idh-off .idh-minutes,
+#idh-row.idh-off .idh-unit { opacity: 0.45; }
+
+/* "Reduce motion" (mod.js sets idh-calm): no cascade, no movement, a short fade */
+html.idh-calm.idh-hidden .top-bar,
+html.idh-calm.idh-hidden .search-bar,
+html.idh-calm.idh-hidden .swiper-container,
+html.idh-calm.idh-hidden .home-section > .is-flex,
+html.idh-calm.idh-hidden .home-section > .title-bar,
+html.idh-calm.idh-hidden .app-list > .handle,
+html.idh-calm.idh-hidden .side-bar .scroll-area > :not([class*="ps__rail"]),
+html.idh-calm.idh-hidden .side-bar > :not(.scroll-area),
+html.idh-calm.idh-hidden #app > .base-bar { translate: none; }
+@media (prefers-reduced-motion: reduce) {
+  #idh-switch, #idh-switch * { transition: none !important; }
+}

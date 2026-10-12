@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+  A mock of the CasaOS dashboard for the Idle Hide tests, after CasaOS-UI
+  (src/App.vue, views/Home.vue, components/TopBar.vue, SideBar.vue,
+  Apps/AppSection.vue) and Buefy 0.9.29: the same tree, classes and layering.
+  The mods are injected by server.py where CasaMOD's run.sh puts them.
+-->
+<title>CasaOS</title>
+<style>
+  /* Bulma / CasaOS globals the dashboard relies on */
+  html, body { margin: 0; height: 100%; font: 14px/1.4 sans-serif; }
+  * { box-sizing: border-box; }
+  .is-flex { display: flex !important; }
+  .is-flex-direction-column { flex-direction: column; }
+  .is-align-items-center { align-items: center; }
+  .is-flex-grow-1 { flex-grow: 1; }
+  .mb-1 { margin-bottom: .25rem; } .mb-4 { margin-bottom: 1rem; } .mr-4 { margin-right: 1rem; } .ml-4 { margin-left: 1rem; }
+  .ml-3 { margin-left: .75rem; } .ml-2 { margin-left: .5rem; } .mr-1 { margin-right: .25rem; } .mr-3 { margin-right: .75rem; }
+  .pr-2 { padding-right: .5rem; } .p-0 { padding: 0 !important; } .mt-4 { margin-top: 1rem; } .mr-0 { margin-right: 0; }
+  .icon { display: inline-flex; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; }
+  .icon.is-20 { width: 1.25rem; height: 1.25rem; }
+  .button { border: 1px solid #ccc; border-radius: 9999px; padding: 2px 10px; background: #fff; cursor: pointer; }
+  .input { border: 1px solid #ccc; border-radius: 4px; padding: 4px 8px; font: inherit; }
+  /* #app (App.vue) */
+  #app { width: 100vw; height: 100vh; overflow-y: hidden; }
+  #app.is-dark-bg { background: #000; }
+  /* the CasaOS wallpaper (CasaWallpaper.vue) */
+  #background { position: fixed; z-index: 0; width: 100%; height: 100%; background-size: cover; background-position: center;
+    background-image: linear-gradient(135deg, rgb(20, 40, 90), rgb(90, 30, 110)); }
+  /* the footer (App.vue, BrandBar, ContactBar) */
+  .base-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 10; height: 4rem; }
+  .brand-bar { position: fixed; left: 2rem; bottom: 1rem; color: #fff; }
+  .contact-bar { position: fixed; right: 1.375rem; bottom: 1rem; color: #fff; display: flex; gap: 8px; }
+  .b-tooltip { position: relative; }
+  .tooltip-content { position: absolute; bottom: 120%; right: 0; background: #333; color: #fff; padding: 2px 6px; border-radius: 4px; white-space: nowrap; }
+  /* Home.vue */
+  .out-container { position: relative; height: 100%; display: flex; flex-direction: column; }
+  /* TopBar.vue */
+  .top-bar { position: relative; z-index: 20; height: 2.75rem; background: #fff; display: flex; }
+  ._fixed-height { height: 2.75rem; min-height: 2.75rem; }
+  .top-bar .icon { color: rgb(74, 74, 74); }
+  .navbar-brand { display: flex; align-items: center; }
+  .navbar-item { height: 2.75rem; padding: .75rem .75rem .5rem; display: flex; align-items: center; cursor: pointer; }
+  .navbar-menu { flex-grow: 1; display: flex; justify-content: flex-end; }
+  @media (max-width: 1023px) { .navbar-menu { display: none; } }
+  .dropdown { position: relative; }
+  .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; margin-top: .5rem; min-width: 22.5rem; z-index: 20; }
+  .dropdown.is-active .dropdown-menu { display: block; }
+  .dropdown-content { background: #fff; border-radius: 10px; padding: 10px 0; box-shadow: 0 8px 24px rgba(0, 0, 0, .25); color: #363636; }
+  ._title { margin: 0 1rem 1rem; font-size: 1.1rem; }
+  ._is-large { padding: .625rem 0; } ._box { height: 2.5rem; } ._is-radius { border-radius: .375rem; }
+  ._is-normal { font-size: .875rem; line-height: 1.25rem; }
+  .hover-effect:hover { background-color: rgba(0, 0, 0, .04); }
+  ._footer { display: flex; justify-content: space-around; padding: .5rem 1rem; border-top: 1px solid #eee; }
+  /* Buefy switch (_small in the top bar) */
+  .switch { display: inline-flex; align-items: center; cursor: pointer; position: relative; }
+  .switch input[type=checkbox] { position: absolute; left: 0; opacity: 0; outline: none; z-index: -1; }
+  .switch input[type=checkbox] + .check { display: flex; align-items: center; width: 2.286em; height: 1.429em; padding: .2em; border-radius: 9999px; background: #b5b5b5; transition: background .15s; }
+  .switch input[type=checkbox] + .check::before { content: ""; width: 1.143em; height: 1.143em; border-radius: 50%; background: #fff; transition: transform .15s; }
+  .switch input[type=checkbox]:checked + .check { background: #363636; }
+  .switch input[type=checkbox]:checked + .check::before { transform: translate3d(80%, 0, 0); }
+  .select select { font: inherit; }
+  /* the dashboard */
+  .contents { flex: 1; overflow-y: auto; height: calc(100% - 7rem); }
+  .container { max-width: 1240px; margin: 0 auto; }
+  .columns { display: flex; gap: 1.5rem; padding: 1.5rem; }
+  .slider-content { width: 18rem; min-width: 18rem; position: relative; }
+  .main-content { flex: 1; z-index: 10; }
+  .side-bar { position: fixed; z-index: 10; width: 18rem; top: 4.25rem; bottom: 4rem; display: flex; flex-direction: column; }
+  .scroll-area { position: relative; overflow: hidden; }
+  .ps__rail-y { position: absolute; right: 0; top: 0; width: 6px; height: 40px; }
+  .widget { position: relative; border-radius: 10px; margin-bottom: 1rem; color: #fff; }
+  .widget .blur-background { position: absolute; inset: 0; z-index: 0; border-radius: 10px;
+    background-color: rgba(53, 54, 58, 0.4); backdrop-filter: blur(5px) saturate(180%); }
+  .widget .widget-content { position: relative; z-index: 1; padding: 1rem 1.25rem; }
+  .search-bar .input { width: 100%; background: rgba(255, 255, 255, .15); color: #fff; border-color: rgba(255, 255, 255, .2); }
+  .swiper-container { height: 70px; border-radius: 10px; background: rgba(53, 54, 58, .4); color: #fff; padding: 1rem; margin-bottom: 1rem; }
+  .home-section { color: #fff; }
+  .app-list { display: grid; grid-template-columns: repeat(auto-fill, 112px); gap: 16px; }
+  .app-card { position: relative; width: 112px; height: 112px; border-radius: 14px; background: transparent; color: #fff; border: 0; cursor: pointer;
+    display: flex; align-items: flex-end; justify-content: center; padding-bottom: 10px; font: inherit; }
+  .app-card .blur-background { position: absolute; inset: 0; border-radius: 14px; background-color: rgba(53, 54, 58, 0.4); backdrop-filter: blur(5px) saturate(180%); }
+  .app-card .app-name { position: relative; }
+  /* Bulma modal */
+  .modal { position: fixed; inset: 0; z-index: 40; display: none; align-items: center; justify-content: center; }
+  .modal.is-active { display: flex; }
+  .modal-background { position: absolute; inset: 0; background: rgba(10, 10, 10, .86); }
+  .modal-card { position: relative; background: #fff; border-radius: 10px; padding: 2rem; }
+  #login-page { height: 100%; align-items: center; justify-content: center; }
+  .login-panel { background: rgba(255, 255, 255, .9); padding: 2rem; border-radius: 12px; position: relative; z-index: 1; }
+  /* stands for Live Wallpapers' layer and panel when a test turns them on */
+  #lw-layer { position: fixed; inset: 0; z-index: 0; pointer-events: none; display: none;
+    background: radial-gradient(circle at 30% 40%, rgb(255, 160, 60), rgb(40, 10, 60)); }
+  html.lw-on #lw-layer { display: block; }
+  html.lw-on #background { visibility: hidden !important; }
+  #lw-panel { position: fixed; top: 64px; right: 16px; z-index: 45; width: 300px; height: 200px; background: rgba(53, 54, 58, .8); color: #fff; }
+</style>
+</head>
+<body>
+<div id="app" class="is-flex is-flex-direction-column is-dark-bg">
+  <div><div id="background"></div><div><div class="home-context-menu"></div></div></div>
+  <div class="base-bar is-flex">
+    <div class="brand-bar">CasaOS · news</div>
+    <div class="contact-bar"><span>Feedback</span><span>GitHub</span>
+      <div class="b-tooltip is-dark is-left"><div class="tooltip-content" style="visibility: visible;">Share CasaOS</div><span>Share</span></div></div>
+  </div>
+  <div id="home-slot"></div>
+</div>
+<script>
+  // The language and token CasaOS keeps
+  if (!localStorage.getItem('lang')) localStorage.setItem('lang', 'en_us');
+
+  var ROW = 'is-flex is-align-items-center mb-1 _is-large _box hover-effect _is-radius pr-2 mr-4 ml-4';
+  var SWITCH = '<div><div class="field"><label class="switch is-flex-direction-row-reverse mr-0 _small"><input type="checkbox">' +
+    '<span class="check is-dark"></span></label></div></div>';
+  function row(icon, text, right) {
+    return '<div class="' + ROW + '"><div class="is-flex is-align-items-center is-flex-grow-1 _is-normal">' +
+      '<span class="icon is-20 mr-1 ml-2"><i class="casa casa-' + icon + ' is-size-5"></i></span>' + text + '</div>' + right + '</div>';
+  }
+  function settings() {
+    return '<div class="dropdown-item p-0"><h2 class="_title mb-4 has-text-weight-bold">Settings</h2>' +
+      row('show-search-outline', 'Show Search Bar', SWITCH) +
+      row('language-outline', 'Language', '<div><div class="field"><div class="control set-select"><span class="select is-small"><select><option>English</option></select></span></div></div></div>') +
+      row('port-outline', 'WebUI Port', '<div>80</div><div class="ml-2"><button class="button is-small">Change</button></div>') +
+      row('wallpaper-outline', 'Wallpaper', '<div class="ml-2"><button class="button is-small" id="mock-change">Change</button></div>') +
+      row('news-outline', 'Show news feed', SWITCH) +
+      row('usb-outline', 'Automount USB Drive', SWITCH) +
+      '<div class="_footer"><span>Restart</span><span>Shutdown</span></div></div>';
+  }
+  function topBar() {
+    return '<div class="navbar top-bar is-flex is-align-items-center _fixed-height">' +
+      '<div class="navbar-brand ml-4 _fixed-height">' +
+      '<div class="dropdown navbar-item" id="account-dropdown"><div class="dropdown-trigger" id="account-btn"><span class="icon picon is-20"><i class="casa casa-account-outline is-size-5">A</i></span></div>' +
+      '<div class="dropdown-menu"><div class="dropdown-content"><div class="dropdown-item">Account</div></div></div></div>' +
+      '<div class="dropdown navbar-item" id="settings-dropdown"><div class="dropdown-trigger" id="settings-btn"><span class="icon picon is-20"><i class="casa casa-control-outline is-size-5">S</i></span></div>' +
+      '<div class="dropdown-menu"><div class="dropdown-content" id="settings-content">' + settings() + '</div></div></div>' +
+      '<div class="is-flex is-align-items-center ml-3 _fixed-height" id="terminal-btn"><span class="icon picon is-20">T</span></div>' +
+      '</div><div class="navbar-menu"><div class="navbar-end mr-3"></div></div></div>';
+  }
+  function widget(id, text) {
+    return '<div><div class="widget has-text-white is-relative" id="' + id + '"><div class="blur-background"></div><div class="widget-content">' + text + '</div></div></div>';
+  }
+  function home() {
+    var cards = '';
+    ['Files', 'App Store', 'Portainer', 'Jellyfin', 'Home Assistant', 'Syncthing', 'qBittorrent', 'Pi-hole'].forEach(function (n, i) {
+      // AppCard.vue: the glass is a .blur-background child, the name its own element
+      cards += '<div class="handle" id="app-' + i + '"><button class="common-card app-card" data-app="' + n + '"><div class="blur-background"></div>' +
+        '<span class="app-name">' + n + '</span></button></div>';
+    });
+    return '<div class="out-container">' + topBar() +
+      '<div class="contents pt-55 contextmenu-canvas"><div class="container"><div class="columns is-variable is-2">' +
+      '<div class="column is-one-quarter slider-content"><div class="side-bar contextmenu-canvas">' +
+      '<div class="scroll-area contextmenu-canvas ps-container">' + widget('w-clock', '12:08 PM') + widget('w-cpu', 'CPU 12% · RAM 41%') +
+      widget('w-storage', 'Storage 1.2 TB free') + '<div class="ps__rail-y"></div></div>' +
+      '<div class="widget mt-4"><div class="blur-background"></div><div class="wsettings widget-content">Widget settings</div></div>' +
+      '</div></div>' +
+      '<div class="column is-three-quarters main-content"><div class="contextmenu-canvas">' +
+      '<section><div class="field search-bar has-text-white mb-4"><div class="control"><input class="input is-medium" id="search" placeholder="Search"></div></div></section>' +
+      '<section><div class="swiper-container">Notices · Sync · Smart blocks</div></section>' +
+      '<section><div class="home-section has-text-left"><div class="is-flex is-align-items-center mb-4"><span class="is-flex-grow-1">Apps</span></div>' +
+      '<div class="app-list contextmenu-canvas">' + cards + '</div></div></section>' +
+      '</div></div></div></div></div>' +
+      '<div class="modal is-active file-panel" style="display: none;"><div class="modal-background"></div><div class="modal-card">Files</div></div>' +
+      '</div>';
+  }
+  function login() {
+    return '<div id="login-page" class="is-flex"><div class="login-panel"><input class="input" id="login-user" placeholder="Username"></div></div>';
+  }
+  var slot = document.getElementById('home-slot');
+  function render() { slot.outerHTML = (/^#\/login/.test(location.hash) ? login() : home()).replace('<div ', '<div data-slot="1" '); slot = document.querySelector('[data-slot]'); }
+  render();
+
+  // Buefy-like dropdowns: the trigger toggles its own; a click anywhere outside closes them
+  document.addEventListener('click', function (e) {
+    var trig = e.target.closest && e.target.closest('.dropdown-trigger');
+    var own = trig && trig.closest('.dropdown');
+    document.querySelectorAll('.dropdown.is-active').forEach(function (d) {
+      if (d !== own && !d.contains(e.target)) d.classList.remove('is-active');
+    });
+    if (own) own.classList.toggle('is-active');
+  });
+
+  // Apps open on click; the tests count them
+  document.addEventListener('click', function (e) {
+    var c = e.target.closest && e.target.closest('.app-card');
+    if (c) Mock.launched.push(c.dataset.app);
+  });
+
+  // What the page itself sees (on document, like other mods and CasaOS), recorded
+  ['mousedown', 'mouseup', 'click', 'contextmenu', 'keydown', 'keyup', 'touchstart', 'touchend'].forEach(function (type) {
+    document.addEventListener(type, function (e) {
+      Mock.rec.push(type + (e.key ? ':' + e.key : '') + '@' + (e.target.id || e.target.className || e.target.tagName));
+    }, true);
+  });
+  document.addEventListener('mousemove', function () { Mock.moves++; }, true);
+
+  // Like Live Wallpapers: presses on the empty background (not on the UI, a big
+  // element) are forwarded to the wallpaper
+  var LW_UI = 'a,button,input,textarea,select,label,img,video,audio,svg,[role="button"],[contenteditable],' +
+    '[draggable="true"],.widget,.card,.dropdown,.modal,.navbar,.b-tooltip,.tooltip,.snackbar,.toast,.context-menu,#lw-panel';
+  document.addEventListener('mousedown', function (e) {
+    var el = e.target;
+    if (!el || !el.closest || el.closest(LW_UI)) return;
+    var r = el.getBoundingClientRect();
+    if (r.width * r.height >= innerWidth * innerHeight * 0.3) Mock.wallpaperPresses.push(el.id || el.className || el.tagName);
+  }, true);
+
+  window.Mock = {
+    rec: [], moves: 0, launched: [], wallpaperPresses: [],
+    reset: function () { Mock.rec = []; Mock.moves = 0; Mock.launched = []; Mock.wallpaperPresses = []; },
+    rerenderSettings: function () { document.getElementById('settings-content').innerHTML = settings(); },
+    rerenderTopBar: function () {
+      var t = document.querySelector('.top-bar');
+      var tmp = document.createElement('div');
+      tmp.innerHTML = topBar();
+      t.replaceWith(tmp.firstChild);
+    },
+    route: function (hash) { location.hash = hash; render(); },
+    openModal: function () {
+      var m = document.createElement('div');
+      m.className = 'modal is-active mock-dialog';
+      m.innerHTML = '<div class="modal-background"></div><div class="modal-card">A CasaOS dialog</div>';
+      document.body.appendChild(m);
+    },
+    closeModal: function () { document.querySelectorAll('.mock-dialog').forEach(function (m) { m.remove(); }); },
+    openLwPanel: function () {
+      var p = document.createElement('aside');
+      p.id = 'lw-panel';
+      p.textContent = 'Live Wallpapers settings';
+      document.body.appendChild(p);
+    },
+    closeLwPanel: function () { var p = document.getElementById('lw-panel'); if (p) p.remove(); },
+    lwOn: function () {
+      if (!document.getElementById('lw-layer')) {
+        var l = document.createElement('div');
+        l.id = 'lw-layer';
+        document.body.insertBefore(l, document.body.firstChild);
+      }
+      document.documentElement.classList.add('lw-on');
+    },
+    lwOff: function () { document.documentElement.classList.remove('lw-on'); }
+  };
+</script>
+</body>
+</html>
