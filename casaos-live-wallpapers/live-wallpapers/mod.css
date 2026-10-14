@@ -230,6 +230,39 @@ html.lw-on #background { visibility: hidden !important; }
   text-transform: lowercase;
 }
 #lw-panel button.lw-drop { display: inline-flex; align-items: center; justify-content: center; flex: none; }
+/* File and folder: the pick's name in a button that opens a browser under its row */
+#lw-panel .lw-file-ctl { display: flex; align-items: center; gap: 4px; min-width: 0; max-width: 200px; }
+#lw-panel button.lw-file { display: inline-flex; align-items: center; gap: 6px; min-width: 0; max-width: 100%; padding: 0.3rem 0.75rem; }
+#lw-panel button.lw-file[aria-expanded="true"] { box-shadow: inset 0 0 0 1px var(--lw-accent); }
+#lw-panel .lw-file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#lw-panel button.lw-clear { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 1.6rem; height: 1.6rem; font-size: 0.75rem; }
+#lw-panel button.lw-clear[hidden] { display: none; }
+#lw-panel .lw-glyph { display: inline-flex; flex: none; }
+#lw-panel .lw-glyph svg { display: block; }
+#lw-panel .lw-browser { gap: 8px; }
+#lw-panel .lw-browse-bar { display: flex; align-items: center; gap: 6px; }
+#lw-panel .lw-browse-bar input[type="text"] { flex: 1; min-width: 0; max-width: none; }
+#lw-panel button.lw-up { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 1.8rem; height: 1.8rem; }
+#lw-panel button:disabled { opacity: 0.4; cursor: default; }
+#lw-panel .lw-browse-list { display: flex; flex-direction: column; max-height: 220px; margin: 0 -4px; overflow-y: auto; scrollbar-width: thin; }
+#lw-panel .lw-browse-list:empty { display: none; }
+#lw-panel button.lw-entry {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  width: 100%;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: transparent;
+  text-align: start;
+}
+#lw-panel button.lw-entry:hover { background: var(--lw-hover); }
+#lw-panel button.lw-entry > span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#lw-panel button.lw-entry[aria-current="true"] { background: color-mix(in srgb, var(--lw-accent) 30%, transparent); }
+#lw-panel button.lw-use { justify-self: start; }
+#lw-panel .lw-browser .lw-note { margin: 0; }
+#lw-panel .lw-note[hidden] { display: none; }
 #lw-panel select,
 #lw-panel input[type="text"],
 #lw-panel input[type="search"] {

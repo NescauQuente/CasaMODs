@@ -17,8 +17,9 @@
  *
  * Web wallpapers run in a sandboxed iframe with no access to CasaOS (unless the
  * wallpaper is marked as trusted) and get the Wallpaper Engine web API: user and
- * general properties, the audio of the tab (128 bands), the mouse over the empty
- * background, pause. Nothing is loaded until a wallpaper is chosen, and only
+ * general properties (with pictures, videos and folders picked from the CasaOS
+ * storage), the audio of the tab (128 bands), what plays in it, the mouse over
+ * the empty background, pause. Nothing is loaded until a wallpaper is chosen, and only
  * that one; the wallpaper menu reads the folder when it opens.
  */
 (function () {
@@ -170,7 +171,14 @@
       hue: 'Hue',
       shade: 'Saturation and brightness',
       eyedropper: 'Pick a color from the screen',
-      hex: 'Hex color'
+      hex: 'Hex color',
+      choose: 'Choose…',
+      remove: 'Remove',
+      upFolder: 'Up one folder',
+      useFolder: 'Use this folder',
+      emptyFolder: 'Nothing to choose in this folder',
+      folderError: 'This folder can\'t be read',
+      folderPath: 'Folder'
     },
     ar: {
       customize: 'تخصيص',
@@ -193,7 +201,14 @@
       hue: 'تدرج اللون',
       shade: 'التشبع والسطوع',
       eyedropper: 'اختر لونًا من الشاشة',
-      hex: 'اللون بالنظام الست عشري'
+      hex: 'اللون بالنظام الست عشري',
+      choose: 'اختيار…',
+      remove: 'إزالة',
+      upFolder: 'المجلد الأعلى',
+      useFolder: 'استخدام هذا المجلد',
+      emptyFolder: 'لا يوجد ما يمكن اختياره في هذا المجلد',
+      folderError: 'تعذّرت قراءة هذا المجلد',
+      folderPath: 'المجلد'
     },
     be: {
       customize: 'Наладзіць',
@@ -216,7 +231,14 @@
       hue: 'Адценне',
       shade: 'Насычанасць і яркасць',
       eyedropper: 'Узяць колер з экрана',
-      hex: 'Шаснаццатковы колер'
+      hex: 'Шаснаццатковы колер',
+      choose: 'Выбраць…',
+      remove: 'Выдаліць',
+      upFolder: 'На ўзровень вышэй',
+      useFolder: 'Выкарыстаць гэту папку',
+      emptyFolder: 'У гэтай папцы няма чаго выбраць',
+      folderError: 'Не ўдалося прачытаць гэту папку',
+      folderPath: 'Папка'
     },
     bg: {
       customize: 'Персонализиране',
@@ -239,7 +261,14 @@
       hue: 'Оттенък',
       shade: 'Наситеност и яркост',
       eyedropper: 'Вземи цвят от екрана',
-      hex: 'Шестнадесетичен цвят'
+      hex: 'Шестнадесетичен цвят',
+      choose: 'Избор…',
+      remove: 'Премахване',
+      upFolder: 'Една папка нагоре',
+      useFolder: 'Използване на тази папка',
+      emptyFolder: 'В тази папка няма какво да се избере',
+      folderError: 'Тази папка не може да бъде прочетена',
+      folderPath: 'Папка'
     },
     ca: {
       customize: 'Personalitzar',
@@ -262,7 +291,14 @@
       hue: 'To',
       shade: 'Saturació i brillantor',
       eyedropper: 'Agafa un color de la pantalla',
-      hex: 'Color hexadecimal'
+      hex: 'Color hexadecimal',
+      choose: 'Tria…',
+      remove: 'Treu',
+      upFolder: 'Una carpeta amunt',
+      useFolder: 'Fes servir aquesta carpeta',
+      emptyFolder: 'No hi ha res per triar en aquesta carpeta',
+      folderError: 'No es pot llegir aquesta carpeta',
+      folderPath: 'Carpeta'
     },
     cs: {
       customize: 'Přizpůsobit',
@@ -285,7 +321,14 @@
       hue: 'Odstín',
       shade: 'Sytost a jas',
       eyedropper: 'Vybrat barvu z obrazovky',
-      hex: 'Barva v šestnáctkovém zápisu'
+      hex: 'Barva v šestnáctkovém zápisu',
+      choose: 'Vybrat…',
+      remove: 'Odebrat',
+      upFolder: 'O složku výš',
+      useFolder: 'Použít tuto složku',
+      emptyFolder: 'V této složce není co vybrat',
+      folderError: 'Tuto složku nelze přečíst',
+      folderPath: 'Složka'
     },
     de: {
       customize: 'Anpassen',
@@ -308,7 +351,14 @@
       hue: 'Farbton',
       shade: 'Sättigung und Helligkeit',
       eyedropper: 'Farbe vom Bildschirm aufnehmen',
-      hex: 'Hex-Farbe'
+      hex: 'Hex-Farbe',
+      choose: 'Auswählen…',
+      remove: 'Entfernen',
+      upFolder: 'Einen Ordner nach oben',
+      useFolder: 'Diesen Ordner verwenden',
+      emptyFolder: 'In diesem Ordner gibt es nichts zur Auswahl',
+      folderError: 'Dieser Ordner kann nicht gelesen werden',
+      folderPath: 'Ordner'
     },
     el: {
       customize: 'Προσαρμογή',
@@ -331,7 +381,14 @@
       hue: 'Απόχρωση',
       shade: 'Κορεσμός και φωτεινότητα',
       eyedropper: 'Επιλογή χρώματος από την οθόνη',
-      hex: 'Δεκαεξαδικό χρώμα'
+      hex: 'Δεκαεξαδικό χρώμα',
+      choose: 'Επιλογή…',
+      remove: 'Αφαίρεση',
+      upFolder: 'Έναν φάκελο πάνω',
+      useFolder: 'Χρήση αυτού του φακέλου',
+      emptyFolder: 'Δεν υπάρχει κάτι για επιλογή σε αυτόν τον φάκελο',
+      folderError: 'Δεν είναι δυνατή η ανάγνωση αυτού του φακέλου',
+      folderPath: 'Φάκελος'
     },
     es: {
       customize: 'Personalizar',
@@ -354,7 +411,14 @@
       hue: 'Tono',
       shade: 'Saturación y brillo',
       eyedropper: 'Tomar un color de la pantalla',
-      hex: 'Color hexadecimal'
+      hex: 'Color hexadecimal',
+      choose: 'Elegir…',
+      remove: 'Quitar',
+      upFolder: 'Subir una carpeta',
+      useFolder: 'Usar esta carpeta',
+      emptyFolder: 'No hay nada que elegir en esta carpeta',
+      folderError: 'No se puede leer esta carpeta',
+      folderPath: 'Carpeta'
     },
     fr: {
       customize: 'Personnaliser',
@@ -377,7 +441,14 @@
       hue: 'Teinte',
       shade: 'Saturation et luminosité',
       eyedropper: 'Prélever une couleur à l’écran',
-      hex: 'Couleur hexadécimale'
+      hex: 'Couleur hexadécimale',
+      choose: 'Choisir…',
+      remove: 'Retirer',
+      upFolder: 'Dossier parent',
+      useFolder: 'Utiliser ce dossier',
+      emptyFolder: 'Rien à choisir dans ce dossier',
+      folderError: 'Impossible de lire ce dossier',
+      folderPath: 'Dossier'
     },
     hr: {
       customize: 'Prilagodi',
@@ -400,7 +471,14 @@
       hue: 'Nijansa',
       shade: 'Zasićenost i svjetlina',
       eyedropper: 'Uzmi boju sa zaslona',
-      hex: 'Heksadecimalna boja'
+      hex: 'Heksadecimalna boja',
+      choose: 'Odaberi…',
+      remove: 'Ukloni',
+      upFolder: 'Jednu mapu gore',
+      useFolder: 'Koristi ovu mapu',
+      emptyFolder: 'U ovoj mapi nema ničega za odabir',
+      folderError: 'Ova se mapa ne može pročitati',
+      folderPath: 'Mapa'
     },
     hu: {
       customize: 'Testreszabás',
@@ -423,7 +501,14 @@
       hue: 'Színárnyalat',
       shade: 'Telítettség és fényerő',
       eyedropper: 'Szín felvétele a képernyőről',
-      hex: 'Hexadecimális szín'
+      hex: 'Hexadecimális szín',
+      choose: 'Kiválasztás…',
+      remove: 'Eltávolítás',
+      upFolder: 'Egy mappával feljebb',
+      useFolder: 'Ennek a mappának a használata',
+      emptyFolder: 'Ebben a mappában nincs mit kiválasztani',
+      folderError: 'Ez a mappa nem olvasható',
+      folderPath: 'Mappa'
     },
     id: {
       customize: 'Sesuaikan',
@@ -446,7 +531,14 @@
       hue: 'Rona',
       shade: 'Saturasi dan kecerahan',
       eyedropper: 'Ambil warna dari layar',
-      hex: 'Warna heksadesimal'
+      hex: 'Warna heksadesimal',
+      choose: 'Pilih…',
+      remove: 'Hapus',
+      upFolder: 'Naik satu folder',
+      useFolder: 'Gunakan folder ini',
+      emptyFolder: 'Tidak ada yang bisa dipilih di folder ini',
+      folderError: 'Folder ini tidak dapat dibaca',
+      folderPath: 'Folder'
     },
     it: {
       customize: 'Personalizza',
@@ -469,7 +561,14 @@
       hue: 'Tonalità',
       shade: 'Saturazione e luminosità',
       eyedropper: 'Preleva un colore dallo schermo',
-      hex: 'Colore esadecimale'
+      hex: 'Colore esadecimale',
+      choose: 'Scegli…',
+      remove: 'Rimuovi',
+      upFolder: 'Cartella superiore',
+      useFolder: 'Usa questa cartella',
+      emptyFolder: 'Niente da scegliere in questa cartella',
+      folderError: 'Impossibile leggere questa cartella',
+      folderPath: 'Cartella'
     },
     ja: {
       customize: 'カスタマイズ',
@@ -492,7 +591,14 @@
       hue: '色相',
       shade: '彩度と明度',
       eyedropper: '画面から色を取得',
-      hex: '16 進数カラー'
+      hex: '16 進数カラー',
+      choose: '選択…',
+      remove: '削除',
+      upFolder: '1つ上のフォルダー',
+      useFolder: 'このフォルダーを使用',
+      emptyFolder: 'このフォルダーには選択できるものがありません',
+      folderError: 'このフォルダーを読み込めません',
+      folderPath: 'フォルダー'
     },
     ko: {
       customize: '사용자 지정',
@@ -515,7 +621,14 @@
       hue: '색조',
       shade: '채도 및 밝기',
       eyedropper: '화면에서 색 가져오기',
-      hex: '16진수 색상'
+      hex: '16진수 색상',
+      choose: '선택…',
+      remove: '제거',
+      upFolder: '상위 폴더',
+      useFolder: '이 폴더 사용',
+      emptyFolder: '이 폴더에는 선택할 항목이 없습니다',
+      folderError: '이 폴더를 읽을 수 없습니다',
+      folderPath: '폴더'
     },
     nl: {
       customize: 'Aanpassen',
@@ -538,7 +651,14 @@
       hue: 'Tint',
       shade: 'Verzadiging en helderheid',
       eyedropper: 'Kleur van het scherm kiezen',
-      hex: 'Hexkleur'
+      hex: 'Hexkleur',
+      choose: 'Kiezen…',
+      remove: 'Verwijderen',
+      upFolder: 'Eén map omhoog',
+      useFolder: 'Deze map gebruiken',
+      emptyFolder: 'Niets te kiezen in deze map',
+      folderError: 'Deze map kan niet worden gelezen',
+      folderPath: 'Map'
     },
     no: {
       customize: 'Tilpass',
@@ -561,7 +681,14 @@
       hue: 'Fargetone',
       shade: 'Metning og lysstyrke',
       eyedropper: 'Hent en farge fra skjermen',
-      hex: 'Heksadesimal farge'
+      hex: 'Heksadesimal farge',
+      choose: 'Velg…',
+      remove: 'Fjern',
+      upFolder: 'Én mappe opp',
+      useFolder: 'Bruk denne mappen',
+      emptyFolder: 'Ingenting å velge i denne mappen',
+      folderError: 'Denne mappen kan ikke leses',
+      folderPath: 'Mappe'
     },
     pl: {
       customize: 'Dostosuj',
@@ -584,7 +711,14 @@
       hue: 'Odcień',
       shade: 'Nasycenie i jasność',
       eyedropper: 'Pobierz kolor z ekranu',
-      hex: 'Kolor szesnastkowy'
+      hex: 'Kolor szesnastkowy',
+      choose: 'Wybierz…',
+      remove: 'Usuń',
+      upFolder: 'Folder wyżej',
+      useFolder: 'Użyj tego folderu',
+      emptyFolder: 'W tym folderze nie ma nic do wybrania',
+      folderError: 'Nie można odczytać tego folderu',
+      folderPath: 'Folder'
     },
     pt: {
       customize: 'Personalizar',
@@ -607,7 +741,14 @@
       hue: 'Matiz',
       shade: 'Saturação e brilho',
       eyedropper: 'Pegar uma cor da tela',
-      hex: 'Cor hexadecimal'
+      hex: 'Cor hexadecimal',
+      choose: 'Escolher…',
+      remove: 'Remover',
+      upFolder: 'Subir uma pasta',
+      useFolder: 'Usar esta pasta',
+      emptyFolder: 'Nada para escolher nesta pasta',
+      folderError: 'Não foi possível ler esta pasta',
+      folderPath: 'Pasta'
     },
     'pt-pt': {
       settings: 'Definições',
@@ -642,7 +783,14 @@
       hue: 'Nuanță',
       shade: 'Saturație și luminozitate',
       eyedropper: 'Preia o culoare de pe ecran',
-      hex: 'Culoare hexazecimală'
+      hex: 'Culoare hexazecimală',
+      choose: 'Alege…',
+      remove: 'Elimină',
+      upFolder: 'Un dosar mai sus',
+      useFolder: 'Folosește acest dosar',
+      emptyFolder: 'Nimic de ales în acest dosar',
+      folderError: 'Acest dosar nu poate fi citit',
+      folderPath: 'Dosar'
     },
     ru: {
       customize: 'Настроить',
@@ -665,7 +813,14 @@
       hue: 'Оттенок',
       shade: 'Насыщенность и яркость',
       eyedropper: 'Взять цвет с экрана',
-      hex: 'Шестнадцатеричный цвет'
+      hex: 'Шестнадцатеричный цвет',
+      choose: 'Выбрать…',
+      remove: 'Убрать',
+      upFolder: 'На уровень выше',
+      useFolder: 'Использовать эту папку',
+      emptyFolder: 'В этой папке нечего выбрать',
+      folderError: 'Не удалось прочитать эту папку',
+      folderPath: 'Папка'
     },
     sk: {
       customize: 'Prispôsobiť',
@@ -688,7 +843,14 @@
       hue: 'Odtieň',
       shade: 'Sýtosť a jas',
       eyedropper: 'Vybrať farbu z obrazovky',
-      hex: 'Farba v šestnástkovom zápise'
+      hex: 'Farba v šestnástkovom zápise',
+      choose: 'Vybrať…',
+      remove: 'Odstrániť',
+      upFolder: 'O priečinok vyššie',
+      useFolder: 'Použiť tento priečinok',
+      emptyFolder: 'V tomto priečinku nie je čo vybrať',
+      folderError: 'Tento priečinok sa nedá prečítať',
+      folderPath: 'Priečinok'
     },
     sl: {
       customize: 'Prilagodi',
@@ -711,7 +873,14 @@
       hue: 'Odtenek',
       shade: 'Nasičenost in svetlost',
       eyedropper: 'Izberi barvo z zaslona',
-      hex: 'Šestnajstiška barva'
+      hex: 'Šestnajstiška barva',
+      choose: 'Izberi…',
+      remove: 'Odstrani',
+      upFolder: 'Eno mapo višje',
+      useFolder: 'Uporabi to mapo',
+      emptyFolder: 'V tej mapi ni ničesar za izbiro',
+      folderError: 'Te mape ni mogoče prebrati',
+      folderPath: 'Mapa'
     },
     sv: {
       customize: 'Anpassa',
@@ -734,7 +903,14 @@
       hue: 'Nyans',
       shade: 'Mättnad och ljusstyrka',
       eyedropper: 'Hämta en färg från skärmen',
-      hex: 'Hexfärg'
+      hex: 'Hexfärg',
+      choose: 'Välj…',
+      remove: 'Ta bort',
+      upFolder: 'En mapp upp',
+      useFolder: 'Använd den här mappen',
+      emptyFolder: 'Inget att välja i den här mappen',
+      folderError: 'Den här mappen kan inte läsas',
+      folderPath: 'Mapp'
     },
     tr: {
       customize: 'Özelleştir',
@@ -757,7 +933,14 @@
       hue: 'Ton',
       shade: 'Doygunluk ve parlaklık',
       eyedropper: 'Ekrandan renk al',
-      hex: 'Onaltılık renk'
+      hex: 'Onaltılık renk',
+      choose: 'Seç…',
+      remove: 'Kaldır',
+      upFolder: 'Bir klasör yukarı',
+      useFolder: 'Bu klasörü kullan',
+      emptyFolder: 'Bu klasörde seçilecek bir şey yok',
+      folderError: 'Bu klasör okunamıyor',
+      folderPath: 'Klasör'
     },
     uk: {
       customize: 'Налаштувати',
@@ -780,7 +963,14 @@
       hue: 'Відтінок',
       shade: 'Насиченість і яскравість',
       eyedropper: 'Взяти колір з екрана',
-      hex: 'Шістнадцятковий колір'
+      hex: 'Шістнадцятковий колір',
+      choose: 'Вибрати…',
+      remove: 'Прибрати',
+      upFolder: 'На рівень вище',
+      useFolder: 'Використати цю папку',
+      emptyFolder: 'У цій папці нічого вибрати',
+      folderError: 'Не вдалося прочитати цю папку',
+      folderPath: 'Папка'
     },
     vi: {
       customize: 'Tùy chỉnh',
@@ -803,7 +993,14 @@
       hue: 'Sắc độ',
       shade: 'Độ bão hòa và độ sáng',
       eyedropper: 'Lấy màu từ màn hình',
-      hex: 'Màu hex'
+      hex: 'Màu hex',
+      choose: 'Chọn…',
+      remove: 'Xóa',
+      upFolder: 'Lên một thư mục',
+      useFolder: 'Dùng thư mục này',
+      emptyFolder: 'Không có gì để chọn trong thư mục này',
+      folderError: 'Không thể đọc thư mục này',
+      folderPath: 'Thư mục'
     },
     'zh-cn': {
       customize: '自定义',
@@ -826,7 +1023,14 @@
       hue: '色相',
       shade: '饱和度和亮度',
       eyedropper: '从屏幕取色',
-      hex: '十六进制颜色'
+      hex: '十六进制颜色',
+      choose: '选择…',
+      remove: '移除',
+      upFolder: '上一级文件夹',
+      useFolder: '使用此文件夹',
+      emptyFolder: '此文件夹中没有可选择的内容',
+      folderError: '无法读取此文件夹',
+      folderPath: '文件夹'
     },
     'zh-tw': {
       customize: '自訂',
@@ -849,7 +1053,14 @@
       hue: '色相',
       shade: '飽和度與亮度',
       eyedropper: '從螢幕取色',
-      hex: '十六進位色彩'
+      hex: '十六進位色彩',
+      choose: '選擇…',
+      remove: '移除',
+      upFolder: '上一層資料夾',
+      useFolder: '使用此資料夾',
+      emptyFolder: '此資料夾中沒有可選擇的項目',
+      folderError: '無法讀取此資料夾',
+      folderPath: '資料夾'
     }
   };
 
@@ -1221,7 +1432,204 @@
         post({ t: 'media' });
       };
     });
-    window.wallpaperRequestRandomFileForProperty = function () {};
+    // Files the user picked ("file" and "directory" properties). Wallpapers load
+    // them as 'file:///' + value, which can't load here: wherever the wallpaper
+    // puts such a URL (src, CSS, fetch…), it is swapped for the file itself,
+    // which the page sends over (only what the user picked). Until it arrives
+    // nothing is set, so there is no failed load in between.
+    var files = {}, order = [], waiting = {}, denied = {}, randoms = {}, randomId = 0, filesOn = false;
+    var reqs = new WeakMap(), ticket = 0, xhrs = new WeakMap();
+    var KEEP = 512 * 1024 * 1024;   // object URLs kept for directory files, then the oldest go
+    var setAttr = Element.prototype.setAttribute;
+
+    // 'file:///DATA/a.jpg' → 'DATA/a.jpg' (the value given to the wallpaper)
+    function keyOf(s) {
+      if (typeof s !== 'string' && !(s instanceof URL)) return null;
+      s = String(s);
+      if (!/^\s*file:/i.test(s)) return null;
+      var k = s.replace(/^\s*file:\/*/i, '');
+      if (!k || files[k] || waiting[k]) return k || null;
+      try { return decodeURIComponent(k); } catch (e) { return k; }
+    }
+
+    function touch(key) {
+      var i = order.indexOf(key);
+      if (i >= 0) order.splice(i, 1);
+      order.push(key);
+    }
+
+    function keep(key, f) {
+      if (files[key]) { if (f.blob) return; URL.revokeObjectURL(files[key].url); }
+      files[key] = f.blob ? { url: URL.createObjectURL(f.blob), size: f.blob.size, own: true } : { url: f.url, size: 0 };
+      touch(key);
+      var total = 0;
+      for (var i = 0; i < order.length; i++) total += files[order[i]].size;
+      while (total > KEEP && order.length > 3) {
+        var old = order.shift(), o = files[old];
+        total -= o.size;
+        if (o.own) URL.revokeObjectURL(o.url);
+        delete files[old];
+      }
+    }
+
+    function settle(key, ok) {
+      var list = waiting[key] || [];
+      delete waiting[key];
+      for (var i = 0; i < list.length; i++) {
+        try { if (ok) list[i].ok(files[key].url); else list[i].no(); } catch (e) { console.error(e); }
+      }
+    }
+
+    // ok(url) now or when the file arrives; no() when it isn't one the user picked
+    function resolve(key, ok, no) {
+      if (files[key]) { touch(key); ok(files[key].url); return; }
+      if (denied[key]) { no(); return; }
+      if (!waiting[key]) {
+        waiting[key] = [];
+        post({ t: 'file', v: key });
+      }
+      waiting[key].push({ ok: ok, no: no });
+    }
+
+    // A URL attribute (src, poster, href): only the latest one asked for an element is set
+    function urlSink(el, name, value, set) {
+      var key = keyOf(value), mine = reqs.get(el) || {};
+      mine[name] = key === null ? 0 : ++ticket;
+      reqs.set(el, mine);
+      if (key === null) return false;
+      var t = mine[name];
+      resolve(key, function (url) {
+        if ((reqs.get(el) || {})[name] !== t) return;
+        set(url);
+        // a <source> added after its video gave up: the video looks again
+        var v = el.parentNode;
+        if (el.tagName === 'SOURCE' && v && v.load && !v.currentSrc) v.load();
+      }, function () {
+        if ((reqs.get(el) || {})[name] === t) set(String(value));   // fails like in Wallpaper Engine
+      });
+      return true;
+    }
+
+    [[window.HTMLImageElement, 'src'], [window.HTMLMediaElement, 'src'], [window.HTMLSourceElement, 'src'],
+      [window.HTMLVideoElement, 'poster']].forEach(function (a) {
+      var d = a[0] && Object.getOwnPropertyDescriptor(a[0].prototype, a[1]);
+      if (!d || !d.set) return;
+      Object.defineProperty(a[0].prototype, a[1], {
+        configurable: true, enumerable: d.enumerable, get: d.get,
+        set: function (v) {
+          var el = this;
+          if (!urlSink(el, a[1], v, function (u) { d.set.call(el, u); })) d.set.call(el, v);
+        }
+      });
+    });
+
+    Element.prototype.setAttribute = function (name, value) {
+      var n = String(name).toLowerCase(), el = this;
+      if ((n === 'src' || n === 'poster' || n === 'href') &&
+          urlSink(el, n, value, function (u) { setAttr.call(el, name, u); })) return undefined;
+      return setAttr.apply(el, arguments);
+    };
+
+    // CSS: url(file:…) swapped for the ones already here; again() when the others arrive
+    var CSS_URL = /url\(\s*(['"]?)\s*(file:[^'")]*?)\s*\1\s*\)/gi;
+    function cssFix(text, again) {
+      if (typeof text !== 'string' || !/file:/i.test(text)) return text;
+      return text.replace(CSS_URL, function (all, q, url) {
+        var key = keyOf(url);
+        if (key === null) return all;
+        if (files[key]) { touch(key); return 'url("' + files[key].url + '")'; }
+        resolve(key, again, function () {});
+        return all;
+      });
+    }
+
+    function fixAttr(el, name) {
+      var v = el.getAttribute(name);
+      if (!v || !/file:/i.test(v)) return;
+      if (name !== 'style') {
+        var key = keyOf(v);
+        // a refused one stays as it is (setting it again would come back here)
+        if (key !== null && !denied[key]) urlSink(el, name, v, function (u) { setAttr.call(el, name, u); });
+        return;
+      }
+      var fixed = cssFix(v, function () { fixAttr(el, 'style'); });
+      if (fixed !== v) setAttr.call(el, 'style', fixed);
+    }
+
+    function fixStyleSheet(el) {
+      var v = el.textContent, fixed = cssFix(v, function () { fixStyleSheet(el); });
+      if (fixed !== v) el.textContent = fixed;
+    }
+
+    function fixTree(root) {
+      if (root.nodeType !== 1) return;
+      if (root.tagName === 'STYLE') fixStyleSheet(root);
+      ['src', 'poster', 'style'].forEach(function (a) { if (root.hasAttribute(a)) fixAttr(root, a); });
+      var found = root.querySelectorAll('[src*="file:" i], [poster*="file:" i], [style*="file:" i], style');
+      for (var i = 0; i < found.length; i++) {
+        if (found[i].tagName === 'STYLE') fixStyleSheet(found[i]);
+        else ['src', 'poster', 'style'].forEach(function (a) { if (found[i].hasAttribute(a)) fixAttr(found[i], a); });
+      }
+    }
+
+    // Styles set any way (el.style.x = …, setProperty, jQuery, innerHTML,
+    // <style> text) end up in the document: fixed there, before they are drawn.
+    // Only once the wallpaper has a picked file or folder.
+    function startFiles() {
+      if (filesOn) return;
+      filesOn = true;
+      new MutationObserver(function (list) {
+        for (var i = 0; i < list.length; i++) {
+          var m = list[i];
+          if (m.type === 'attributes') fixAttr(m.target, m.attributeName);
+          else {
+            if (m.target.nodeName === 'STYLE') fixStyleSheet(m.target);
+            for (var j = 0; j < m.addedNodes.length; j++) fixTree(m.addedNodes[j]);
+          }
+        }
+      }).observe(document, { subtree: true, childList: true, attributes: true, attributeFilter: ['src', 'poster', 'style'] });
+      if (document.documentElement) fixTree(document.documentElement);
+    }
+
+    var nativeFetch = window.fetch;
+    if (nativeFetch) {
+      window.fetch = function (input, init) {
+        var key = keyOf(input instanceof Request ? input.url : input), self = this;
+        if (key === null) return nativeFetch.apply(self, arguments);
+        return new Promise(function (ok, fail) {
+          resolve(key, function (url) { nativeFetch.call(self, url, init).then(ok, fail); },
+            function () { fail(new TypeError('Failed to fetch')); });
+        });
+      };
+    }
+
+    var XHR = window.XMLHttpRequest && XMLHttpRequest.prototype;
+    if (XHR) {
+      var xOpen = XHR.open, xSend = XHR.send;
+      XHR.open = function (method, url) {
+        var args = Array.prototype.slice.call(arguments), key = keyOf(url);
+        xhrs.delete(this);
+        if (key !== null && files[key]) args[1] = files[key].url;
+        else if (key !== null) xhrs.set(this, { key: key, args: args });   // opened again on send
+        return xOpen.apply(this, args);
+      };
+      XHR.send = function () {
+        var w = xhrs.get(this), x = this, rest = arguments;
+        if (!w) return xSend.apply(x, rest);
+        xhrs.delete(x);
+        resolve(w.key, function (url) {
+          w.args[1] = url;
+          xOpen.apply(x, w.args);
+          xSend.apply(x, rest);
+        }, function () { xSend.apply(x, rest); });
+      };
+    }
+
+    window.wallpaperRequestRandomFileForProperty = function (prop, cb) {
+      if (typeof cb !== 'function') return;
+      randoms[++randomId] = cb;
+      post({ t: 'random', v: { prop: String(prop), id: randomId } });
+    };
 
     function mouse(type, x, y, buttons) {
       var target = document.elementFromPoint(x, y) || document.body || document.documentElement;
@@ -1254,6 +1662,22 @@
         } else if (d.t === 'media') {
           var cbs = media[d.v.kind] || [];
           for (var j = 0; j < cbs.length; j++) cbs[j](d.v.data);
+        } else if (d.t === 'files') {
+          startFiles();
+          denied = {};   // the picks changed: what was refused may be allowed now
+        } else if (d.t === 'file') {
+          startFiles();
+          if (d.v.denied) denied[d.v.key] = true;
+          else keep(d.v.key, d.v);
+          settle(d.v.key, !d.v.denied);
+        } else if (d.t === 'dir') {
+          if (d.v.removed && l.userDirectoryFilesRemoved) l.userDirectoryFilesRemoved(d.v.prop, d.v.removed);
+          if (d.v.added && l.userDirectoryFilesAddedOrChanged) l.userDirectoryFilesAddedOrChanged(d.v.prop, d.v.added);
+        } else if (d.t === 'random') {
+          var cb = randoms[d.v.id];
+          delete randoms[d.v.id];
+          if (d.v.file) { startFiles(); keep(d.v.path, d.v.file); }
+          if (cb) cb(d.v.prop, d.v.path || '');
         }
       } catch (err) {
         console.error(err);
@@ -1310,8 +1734,18 @@
     if (!d || d.lw !== 1) return;
     if (d.t === 'ready') {
       post('general', generalProps());
+      dirSent = {};
+      if (pickProps().length) {
+        post('files', null);
+        prefetch();
+      }
       post('props', allProps());
       post('paused', !visible);
+      syncDirs();
+    } else if (d.t === 'file' && typeof d.v === 'string') {
+      askFile(d.v);
+    } else if (d.t === 'random' && d.v) {
+      randomFile(d.v);
     } else if (d.t === 'audio') {
       wantsAudio = true;
       startAudio();
@@ -1324,6 +1758,147 @@
     var g = { language: WE_LANG[lang()] || 'en-us' };
     if (settings.fps !== '0') g.fps = Number(settings.fps);
     return g;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Files and folders for web wallpapers (Wallpaper Engine "file" and
+  // "directory" properties), picked in the panel from the CasaOS storage. The
+  // wallpaper gets the CasaOS path without its first slash ('DATA/Media/a.jpg',
+  // so 'file:///' + value is its file URL, as with Wallpaper Engine's paths) and
+  // asks for the file itself through the shim. It may read only what the user
+  // picked: the picked files, and the images and videos right inside a picked
+  // folder. An isolated wallpaper gets the file's content (the session never
+  // reaches it); a trusted one, which has the session anyway, gets the CasaOS
+  // URL, so a big video streams instead of loading whole first.
+  // ---------------------------------------------------------------------------
+  var giving = {}, dirSent = {}, dirCache = {}, lastRandom = {};
+
+  function kindOf(p) { return String(p.type).toLowerCase(); }
+
+  function pickProps() {
+    return current ? propList(current).filter(function (p) {
+      return kindOf(p) === 'file' || kindOf(p) === 'directory';
+    }) : [];
+  }
+
+  // A path as a value: no leading slash, no empty or '.' parts; null when it climbs ('..')
+  function cleanPath(path) {
+    var parts = String(path == null ? '' : path).split('/').filter(function (s) { return s && s !== '.'; });
+    return parts.indexOf('..') >= 0 ? null : parts.join('/');
+  }
+
+  function accepts(p, name) {
+    var type = String(p.fileType || '').toLowerCase();
+    return type === 'image' ? IMAGE_EXT.test(name) : type === 'video' ? VIDEO_EXT.test(name)
+      : IMAGE_EXT.test(name) || VIDEO_EXT.test(name);
+  }
+
+  // What the user picked for it: never the project's default (a wallpaper
+  // can't name a file of the server by itself)
+  function picked(p) {
+    var v = settings.props[p.key];
+    return typeof v === 'string' ? cleanPath(v) || '' : '';
+  }
+
+  function allowed(path) {
+    var dir = path.replace(/\/?[^/]*$/, ''), name = path.slice(path.lastIndexOf('/') + 1);
+    return pickProps().some(function (p) {
+      var v = picked(p);
+      return !!v && accepts(p, name) && (kindOf(p) === 'file' ? v === path : v === dir);
+    });
+  }
+
+  function casaFile(path) {
+    return '/v1/file?path=' + encodeURIComponent('/' + path) + '&token=' + encodeURIComponent(token());
+  }
+
+  // The file for the shim: { url } (trusted), { blob }, or { denied } when it can't be read
+  function give(path) {
+    if (settings.trusted) return Promise.resolve({ url: new URL(casaFile(path), location.href).href });
+    if (!giving[path]) {
+      var p = giving[path] = fetch(casaFile(path)).then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.blob();
+      }).then(function (blob) {
+        return { blob: blob };
+      }, function (e) {
+        console.warn(TAG, 'cannot read /' + path, e.message);
+        return { denied: true };
+      });
+      p.then(function () { if (giving[path] === p) delete giving[path]; });   // only shares one in flight
+    }
+    return giving[path];
+  }
+
+  function askFile(key) {
+    var gen = generation, path = cleanPath(key);
+    (path && allowed(path) ? give(path) : Promise.resolve({ denied: true })).then(function (f) {
+      if (gen === generation) post('file', Object.assign({ key: key }, f));
+    });
+  }
+
+  // The picked files, sent before the wallpaper asks for them
+  function prefetch() {
+    var gen = generation;
+    pickProps().forEach(function (p) {
+      var v = picked(p);
+      if (kindOf(p) !== 'file' || !v || !accepts(p, v)) return;
+      give(v).then(function (f) {
+        if (gen === generation && !f.denied) post('file', Object.assign({ key: v }, f));
+      });
+    });
+  }
+
+  // The images and videos right inside a picked folder, as values (the
+  // listing is read again after a minute)
+  function folderFiles(p, dir) {
+    var c = dirCache[dir];
+    if (!c || Date.now() - c.at > 60000) {
+      c = dirCache[dir] = { at: Date.now(), list: listFolder('/' + dir) };
+      c.list.catch(function () { if (dirCache[dir] === c) delete dirCache[dir]; });
+    }
+    return c.list.then(function (entries) {
+      return entries.filter(function (e) { return !e.is_dir && e.name.charAt(0) !== '.' && accepts(p, e.name); })
+        .map(function (e) { return e.name; }).sort(collator.compare)
+        .map(function (n) { return dir + '/' + n; });
+    });
+  }
+
+  // Folders in "fetchall" mode: the wallpaper gets every file at once, and
+  // when the pick changes, the old ones as removed first
+  function syncDirs() {
+    var gen = generation;
+    pickProps().forEach(function (p) {
+      if (kindOf(p) !== 'directory' || String(p.mode || '').toLowerCase() === 'ondemand') return;
+      var v = picked(p), s = dirSent[p.key] || (dirSent[p.key] = { want: null, files: [] });
+      if (s.want === v) return;
+      s.want = v;
+      (v ? folderFiles(p, v) : Promise.resolve([])).catch(function () { return []; }).then(function (list) {
+        if (gen !== generation || dirSent[p.key] !== s || s.want !== v) return;
+        if (s.files.length) post('dir', { prop: p.key, removed: s.files });
+        s.files = list;
+        if (list.length) post('dir', { prop: p.key, added: list });
+      });
+    });
+  }
+
+  // wallpaperRequestRandomFileForProperty: a file of the folder (not the last
+  // one again when there are more), sent along with its name
+  function randomFile(d) {
+    var gen = generation, prop = String(d.prop);
+    var p = pickProps().filter(function (x) { return x.key === prop && kindOf(x) === 'directory'; })[0];
+    var v = p ? picked(p) : '';
+    function reply(path, file) {
+      if (gen === generation) post('random', { id: d.id, prop: prop, path: path, file: file || null });
+    }
+    if (!v) return reply('');
+    folderFiles(p, v).then(function (list) {
+      if (!list.length) return reply('');
+      var i = Math.floor(Math.random() * list.length);
+      if (list.length > 1 && list[i] === lastRandom[prop]) i = (i + 1) % list.length;
+      var path = lastRandom[prop] = list[i];
+      give(path).then(function (f) { reply(path, f.denied ? null : f); });
+    }, function () { reply(''); });
   }
 
   // ---------------------------------------------------------------------------
@@ -1726,7 +2301,13 @@
     saveSettings(current.id, settings);
     var change = {};
     change[key] = { value: value };
+    var pick = pickProps().some(function (p) { return p.key === key; });
+    if (pick) {
+      post('files', null);
+      prefetch();
+    }
     post('props', change);
+    if (pick) syncDirs();
     refreshPanel();
   }
 
@@ -1991,6 +2572,165 @@
     return r;
   }
 
+  // ---------------------------------------------------------------------------
+  // A file or a folder of the CasaOS storage ("file" and "directory"
+  // properties): its name in a button that opens a small browser under the row,
+  // like the color picker (folders first, then the files the option takes; a
+  // folder option picks the folder shown). Read with the CasaOS folder API.
+  // ---------------------------------------------------------------------------
+  var GLYPH = {
+    up: '<path d="M12 19V5M6 11l6-6 6 6"/>',
+    dir: '<path d="M3.5 7.5a2 2 0 012-2h4l2 2h7a2 2 0 012 2v7.5a2 2 0 01-2 2h-13a2 2 0 01-2-2z"/>',
+    image: '<rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M20.5 16l-5-5-9 8.5"/>',
+    video: '<rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M10 9.3v5.4l4.6-2.7z"/>'
+  };
+
+  function glyph(name) {
+    var s = h('span', 'lw-glyph');
+    s.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + GLYPH[name] + '</svg>';
+    return s;
+  }
+
+  function fileRow(p, text) {
+    var folder = kindOf(p) === 'directory';
+    var pick = h('button', 'lw-file');
+    pick.type = 'button';
+    pick.setAttribute('aria-expanded', 'false');
+    var name = h('span', 'lw-file-name');
+    pick.appendChild(glyph(folder ? 'dir' : String(p.fileType).toLowerCase() === 'video' ? 'video' : 'image'));
+    pick.appendChild(name);
+    var r = row(text, pick);
+    var ctl = h('div', 'lw-file-ctl');
+    r.replaceChild(ctl, pick);
+    ctl.appendChild(pick);
+    var clear = h('button', 'lw-icon lw-clear', '✕');
+    clear.type = 'button';
+    clear.title = t('remove');
+    clear.setAttribute('aria-label', t('remove') + ': ' + text);
+    ctl.appendChild(clear);
+
+    var box = h('div', 'lw-picker lw-browser');
+    box.hidden = true;
+    pick.setAttribute('aria-controls', box.id = 'lw-browse-' + Math.random().toString(36).slice(2, 9));
+    var bar = h('div', 'lw-browse-bar');
+    var up = h('button', 'lw-icon lw-up');
+    up.type = 'button';
+    up.title = t('upFolder');
+    up.appendChild(glyph('up'));
+    var where = h('input');
+    where.type = 'text';
+    where.spellcheck = false;
+    where.setAttribute('aria-label', t('folderPath'));
+    bar.appendChild(up);
+    bar.appendChild(where);
+    var list = h('div', 'lw-browse-list');
+    var note = h('p', 'lw-note');
+    note.hidden = true;
+    box.appendChild(bar);
+    box.appendChild(list);
+    box.appendChild(note);
+    var use = null;
+    if (folder) {
+      use = h('button', 'lw-use', t('useFolder'));
+      use.type = 'button';
+      box.appendChild(use);
+    }
+    r.appendChild(box);
+
+    function show() {
+      var v = picked(p);
+      name.textContent = v ? v.slice(v.lastIndexOf('/') + 1) : t('choose');
+      pick.title = v ? '/' + v : '';
+      pick.classList.toggle('lw-empty', !v);
+      clear.hidden = !v;
+    }
+
+    function choose(path) {
+      setProp(p.key, cleanPath(path) || '');
+      show();
+      closePicker();
+      pick.focus();
+    }
+
+    // The list changes only once the new one is read: nothing moves under a
+    // click meanwhile (a typed path is also read when the field loses focus)
+    var at = '', seq = 0;
+    function browse(dir, fresh) {
+      var mine = ++seq;
+      if (fresh) list.textContent = '';   // just opened: no other folder's list meanwhile
+      at = '/' + (cleanPath(dir) || '');
+      where.value = at;
+      up.disabled = at === '/';
+      if (use) use.disabled = at === '/';
+      listFolder(at).then(function (entries) {
+        if (mine !== seq) return;
+        list.textContent = '';
+        note.hidden = true;
+        entries = entries.filter(function (e) {
+          return e.name.charAt(0) !== '.' && (e.is_dir || (!folder && accepts(p, e.name)));
+        }).sort(function (a, b) { return (b.is_dir ? 1 : 0) - (a.is_dir ? 1 : 0) || collator.compare(a.name, b.name); });
+        var chosen = '/' + picked(p);
+        entries.forEach(function (e) {
+          var full = (at === '/' ? '' : at) + '/' + e.name;
+          var b = h('button', 'lw-entry');
+          b.type = 'button';
+          b.title = e.name;
+          b.appendChild(glyph(e.is_dir ? 'dir' : VIDEO_EXT.test(e.name) ? 'video' : 'image'));
+          b.appendChild(h('span', null, e.name));
+          if (!e.is_dir && full === chosen) b.setAttribute('aria-current', 'true');
+          b.addEventListener('click', function () { if (e.is_dir) browse(full); else choose(full); });
+          list.appendChild(b);
+        });
+        if (!entries.length && !folder) {
+          note.textContent = t('emptyFolder');
+          note.hidden = false;
+        }
+      }, function () {
+        if (mine !== seq) return;
+        list.textContent = '';
+        note.textContent = t('folderError');
+        note.hidden = false;
+      });
+    }
+
+    up.addEventListener('click', function () { browse(at.replace(/\/[^/]*$/, '')); });
+    function typed() {
+      var dir = '/' + (cleanPath(where.value.trim()) || '');
+      if (dir !== at) browse(dir);
+      else where.value = at;
+    }
+    where.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      typed();
+    });
+    where.addEventListener('change', typed);
+    if (use) use.addEventListener('click', function () { choose(at); });
+    clear.addEventListener('click', function () {
+      setProp(p.key, '');
+      show();
+      if (openPicker && openPicker.box === box) closePicker();
+      pick.focus();
+    });
+
+    pick.addEventListener('click', function () {
+      var mine = openPicker && openPicker.box === box;
+      closePicker();
+      if (mine) return;
+      box.hidden = false;
+      pick.setAttribute('aria-expanded', 'true');
+      openPicker = { box: box, swatch: pick };
+      // where the pick is (a file: its folder), else where it was left, else /DATA
+      var v = picked(p);
+      browse(v ? '/' + (folder ? v : v.replace(/\/?[^/]*$/, '')) : at || '/DATA', true);
+      box.scrollIntoView({ block: 'nearest' });
+    });
+
+    show();
+    return r;
+  }
+
   function control(p) {
     var v = valueOf(p);
     var text = label(p.text);
@@ -2029,8 +2769,11 @@
       }
       case 'text':
         return text ? h('p', 'lw-text', text) : null;
+      case 'file':
+      case 'directory':
+        return fileRow(p, text);
       default:
-        return null;   // file, directory, scene textures: nothing to offer here
+        return null;   // scene textures and the like: nothing to offer here
     }
   }
 
@@ -2143,7 +2886,9 @@
     reset.addEventListener('click', function () {
       settings.props = {};
       saveSettings(w.id, settings);
+      if (pickProps().length) post('files', null);
       post('props', allProps());
+      syncDirs();
       closePanel();
       openPanel();
     });

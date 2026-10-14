@@ -7,7 +7,9 @@ run.sh does, and fakes the two API routes the mods use:
   GET /v1/folder?path=…          (Authorization: <token>)
   GET /v1/file?path=…&token=…    (with HTTP Range support)
 
-/DATA/Media/Music maps to ./music. /DATA/AppData/casamod/mod/wallpapers (served
+/DATA/Media/Music maps to ./music and, with a fixtures folder, /DATA/Media/Pictures
+to its pictures/ folder; the folders above them list what they hold (to browse
+from /DATA). /DATA/AppData/casamod/mod/wallpapers (served
 at /mod/wallpapers/) is the wallpapers/ folder of the second argument (the
 folder whose mods are injected) plus, when a third argument names a fixtures
 folder, its wallpapers/ folder.
@@ -24,18 +26,28 @@ WALL_VROOT = "/DATA/AppData/casamod/mod/wallpapers"
 WALL_ROOTS = [os.path.join(DIST, "wallpapers")] + ([os.path.join(FIXTURES, "wallpapers")] if FIXTURES else [])
 TYPES = {".css": "text/css", ".js": "application/javascript", ".jpg": "image/jpeg", ".png": "image/png", ".gif": "image/gif",
          ".json": "application/json", ".html": "text/html; charset=utf-8", ".webm": "video/webm", ".mp4": "video/mp4",
-         ".svg": "image/svg+xml"}
+         ".svg": "image/svg+xml", ".wav": "audio/wav"}
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8770
 TOKEN = "test-token"
-VROOT = "/DATA/Media/Music"
-LROOT = os.path.join(HERE, "music")
+ROOTS = {"/DATA/Media/Music": os.path.join(HERE, "music")}
+if FIXTURES:
+    ROOTS["/DATA/Media/Pictures"] = os.path.join(FIXTURES, "pictures")
 
 
 def to_local(vpath):
     vpath = os.path.normpath(vpath).replace("\\", "/")
-    if vpath != VROOT and not vpath.startswith(VROOT + "/"):
-        return None
-    return os.path.join(LROOT, vpath[len(VROOT):].lstrip("/"))
+    for vroot, lroot in ROOTS.items():
+        if vpath == vroot or vpath.startswith(vroot + "/"):
+            return os.path.join(lroot, vpath[len(vroot):].lstrip("/"))
+    return None
+
+
+def above(vpath):
+    """The folders above the mapped ones (/, /DATA, /DATA/Media): their subfolders."""
+    vpath = "/" + os.path.normpath(vpath).replace("\\", "/").strip("/")
+    prefix = vpath.rstrip("/") + "/"
+    subs = {r[len(prefix):].split("/")[0] for r in list(ROOTS) + [WALL_VROOT] if r.startswith(prefix)}
+    return {name: None for name in subs} if subs else None
 
 
 def wall_local(sub):
@@ -61,7 +73,7 @@ def listing(vpath):
         return names
     local = to_local(vpath)
     if not local or not os.path.isdir(local):
-        return None
+        return above(vpath)
     return {name: os.path.join(local, name) for name in os.listdir(local)}
 
 
@@ -126,8 +138,9 @@ class Handler(BaseHTTPRequestHandler):
             vbase = q["path"][0].rstrip("/")
             content = []
             for name, p in sorted(names.items()):
-                content.append({"name": name, "path": vbase + "/" + name, "is_dir": os.path.isdir(p),
-                                "size": 0 if os.path.isdir(p) else os.path.getsize(p)})
+                is_dir = p is None or os.path.isdir(p)
+                content.append({"name": name, "path": vbase + "/" + name, "is_dir": is_dir,
+                                "size": 0 if is_dir else os.path.getsize(p)})
             body = {"success": 200, "message": "ok", "data": {"content": content, "total": len(content), "index": 1, "size": 100000}}
             return self.send(200, json.dumps(body).encode())
         if u.path == "/v1/file":
@@ -136,16 +149,7 @@ class Handler(BaseHTTPRequestHandler):
             local = to_local(q.get("path", [""])[0])
             if not local or not os.path.isfile(local):
                 return self.send(404, b"not found", "text/plain")
-            data = open(local, "rb").read()
-            rng = self.headers.get("Range")
-            if rng:
-                m = re.match(r"bytes=(\d*)-(\d*)", rng)
-                start = int(m.group(1) or 0)
-                end = int(m.group(2)) if m.group(2) else len(data) - 1
-                end = min(end, len(data) - 1)
-                chunk = data[start:end + 1]
-                return self.send(206, chunk, "audio/wav", {"Content-Range": "bytes %d-%d/%d" % (start, end, len(data)), "Accept-Ranges": "bytes"})
-            return self.send(200, data, "audio/wav", {"Accept-Ranges": "bytes"})
+            return self.send_file(local, TYPES.get(os.path.splitext(local)[1].lower(), "application/octet-stream"))
         return self.send(404, b"not found", "text/plain")
 
 

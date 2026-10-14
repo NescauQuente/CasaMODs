@@ -31,11 +31,86 @@
     window.wallpaperRegisterMediaPlaybackListener(function (e) { state.media.playback = e.state; });
     window.wallpaperRegisterMediaTimelineListener(function (e) { state.media.timeline = e; state.media.timelines++; });
   }
+  // Files and folders ("file" and "directory" properties), used the usual
+  // Wallpaper Engine way: 'file:///' + value, in an image, CSS, markup, a video,
+  // fetch; the folder callbacks and random files
+  state.files = { image: null, css: null, tag: null, video: null, fetched: null, added: [], removed: [], random: [], secret: null };
+  function pixelOf(img) {
+    try {
+      var c = document.createElement('canvas');
+      c.width = c.height = 4;
+      var g = c.getContext('2d');
+      g.drawImage(img, 0, 0, 4, 4);
+      return Array.prototype.slice.call(g.getImageData(1, 1, 1, 1).data, 0, 3);
+    } catch (e) { return 'tainted'; }
+  }
+  function useImage(v) {
+    var img = new Image();
+    img.onload = function () { state.files.image = { value: v, w: img.naturalWidth, src: img.src, pixel: pixelOf(img) }; };
+    img.onerror = function () { state.files.image = { value: v, error: true }; };
+    img.src = 'file:///' + v;
+    document.body.style.backgroundImage = "url('file:///" + v + "')";
+    setTimeout(function () {
+      var css = getComputedStyle(document.body).backgroundImage, m = /url\("?([^")]*)"?\)/.exec(css), probe = new Image();
+      state.files.css = { value: v, url: m ? m[1] : css };
+      probe.onload = function () { state.files.css.loaded = true; };
+      probe.onerror = function () { state.files.css.loaded = false; };
+      if (m) probe.src = m[1];
+    }, 600);
+    var holder = document.getElementById('files') || document.body.appendChild(document.createElement('div'));
+    holder.id = 'files';
+    holder.innerHTML = '<img id="tagimg" src="file:///' + v + '">';
+    var tag = document.getElementById('tagimg');
+    tag.onload = function () { state.files.tag = { value: v, w: tag.naturalWidth }; };
+    fetch('file:///' + v).then(function (r) { return r.blob(); }).then(function (b) {
+      state.files.fetched = { value: v, size: b.size, type: b.type };
+    }, function (e) { state.files.fetched = { value: v, error: String(e) }; });
+  }
+  function useVideo(v) {
+    var vid = document.createElement('video');
+    vid.muted = true;
+    vid.onloadeddata = function () { state.files.video = { value: v, w: vid.videoWidth, src: vid.src }; };
+    vid.onerror = function () { state.files.video = { value: v, error: true }; };
+    vid.src = 'file:///' + v;
+  }
+  function randomSlide() {
+    window.wallpaperRequestRandomFileForProperty('slides', function (prop, path) {
+      var r = { prop: prop, path: path };
+      state.files.random.push(r);
+      if (!path) return;
+      var img = new Image();
+      img.onload = function () { r.w = img.naturalWidth; };
+      img.onerror = function () { r.error = true; };
+      img.src = 'file:///' + path;
+    });
+  }
+  // A file the user never picked (the project's own default): must not load
+  function trySecret(v) {
+    var img = new Image(), s = state.files.secret = { value: v };
+    img.onload = function () { s.image = 'loaded'; };
+    img.onerror = function () { s.image = 'refused'; };
+    img.src = 'file:///' + v;
+    fetch('file:///' + v).then(function () { s.fetch = 'loaded'; }, function () { s.fetch = 'refused'; });
+  }
+  // The tests ask it to fetch a path, as a wallpaper could on its own
+  state.tries = {};
+  window.addEventListener('message', function (e) {
+    var path = e.data && e.data.probeTry;
+    if (typeof path !== 'string') return;
+    fetch('file:///' + path).then(function (r) { return r.blob(); }).then(function (b) { state.tries[path] = b.size; },
+      function () { state.tries[path] = 'refused'; });
+  });
   window.wallpaperPropertyListener = {
     applyUserProperties: function (p) {
       Object.keys(p).forEach(function (k) { state.props[k] = p[k].value; });
+      if (p.bgimage && p.bgimage.value) useImage(p.bgimage.value);
+      if (p.bgvideo && p.bgvideo.value) useVideo(p.bgvideo.value);
+      if (p.slides) { randomSlide(); randomSlide(); }
+      if (p.secret && p.secret.value) trySecret(p.secret.value);
       paint();
     },
+    userDirectoryFilesAddedOrChanged: function (prop, files) { state.files.added.push([prop, files]); },
+    userDirectoryFilesRemoved: function (prop, files) { state.files.removed.push([prop, files]); },
     applyGeneralProperties: function (g) { Object.assign(state.general, g); },
     setPaused: function (v) { state.paused = v; }
   };

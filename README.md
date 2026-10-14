@@ -2,7 +2,7 @@
 
 Mods for the [CasaOS](https://casaos.io) dashboard, installed with [CasaMOD](https://github.com/Cp0204/CasaMOD). Each folder is its own project, with its own README and tests:
 
-- [`casaos-live-wallpapers`](casaos-live-wallpapers) — **Live Wallpapers**: animated wallpapers for the dashboard. Wallpaper Engine web and video wallpapers, HTML folders and loose videos, picked from the CasaOS wallpaper menu, with a settings panel built from their `project.json`.
+- [`casaos-live-wallpapers`](casaos-live-wallpapers) — **Live Wallpapers**: animated wallpapers for the dashboard. Wallpaper Engine web and video wallpapers, HTML folders and loose videos, picked from the CasaOS wallpaper menu, with a settings panel built from their `project.json` (pictures, videos and folders picked from the CasaOS storage included).
 - [`casaos-music-player`](casaos-music-player) — **Music Player**: a dashboard widget that plays a folder of the CasaOS storage in the CasaOS tab.
 - [`casaos-idle-hide`](casaos-idle-hide) — **Idle Hide**: after a while without activity (or with a switch at the far right of the top bar), everything but the wallpaper fades away, one piece after the other; a click or a key brings it back. The idle time is set in the CasaOS settings.
 - [`casaos-hide-footer`](casaos-hide-footer) — **Hide Footer**: hides the dashboard footer (CasaOS logo, text and social buttons) and gives the space to apps and widgets.

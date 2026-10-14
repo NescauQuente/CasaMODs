@@ -216,7 +216,8 @@ try {
   const has = (t) => rows.some((r) => r.text === t && !r.hidden);
   check('labels come from its localization (and Wallpaper Engine built-ins), markup stripped',
     has('Probe settings') && has('Scheme color') && has('Speed') && has('Glow') && has('Glow color') && has('Mode'), rows);
-  check('options it cannot offer here (folders) are left out', !rows.some((r) => r.text === 'Pictures'), rows);
+  check('file and folder options show up (the hidden one stays hidden)', has('Background image') && has('Background video')
+    && has('Pictures') && has('Slideshow') && rows.some((r) => r.text === 'Default file' && r.hidden), rows);
   check('conditions hide options ("Wild level" needs mode Wild)', rows.some((r) => r.text === 'Wild level' && r.hidden), rows);
   let gs = await ev(GROUPS);
   check('the sections the wallpaper heads ("— Extra —") open and close, all closed at first, titles without the dashes',
@@ -344,6 +345,128 @@ try {
   check('Esc clears the search first (the panel stays), sections as they were', await ev(`!!document.getElementById('lw-panel')`)
     && gs.length === 3 && groupOf(gs, 'Probe settings').open && !groupOf(gs, 'Extra').open, gs);
 
+  // ---------------------------------------------------------------- files and folders
+  const rowOf = (text) => `[...document.querySelectorAll('#lw-panel .lw-row')].find(r => r.querySelector('label').textContent === ${JSON.stringify(text)})`;
+  const BROWSE = (text) => `(() => { const r = ${rowOf(text)}, box = r.querySelector('.lw-browser'), pick = r.querySelector('.lw-file'), note = box.querySelector('.lw-note'),
+    b = box.getBoundingClientRect(), p = document.getElementById('lw-panel').getBoundingClientRect(), use = box.querySelector('.lw-use');
+    return { open: !box.hidden, expanded: pick.getAttribute('aria-expanded'), name: pick.textContent, title: pick.title,
+      clear: !r.querySelector('.lw-clear').hidden, at: box.querySelector('input').value,
+      entries: [...box.querySelectorAll('.lw-entry')].map(e => e.textContent), note: note.hidden ? null : note.textContent,
+      current: [...box.querySelectorAll('.lw-entry[aria-current]')].map(e => e.textContent), use: use ? !use.disabled : null,
+      inPanel: box.hidden || (b.left >= p.left && b.right <= p.right) }; })()`;
+  const browse = (text) => ev(BROWSE(text));
+  const clickIn = async (text, sel) => {
+    const at = await ev(`(() => { const e = ${rowOf(text)}.querySelector(${JSON.stringify(sel)}); e.scrollIntoView({ block: 'nearest' });
+      const b = e.getBoundingClientRect(); return [b.x + b.width / 2, b.y + b.height / 2]; })()`);
+    await click(at[0], at[1]);
+  };
+  const entry = (text, name) => ev(`[...${rowOf(text)}.querySelectorAll('.lw-entry')].find(e => e.textContent === ${JSON.stringify(name)}).click()`);
+  const listed = (text, names) => waitFor(`JSON.stringify(${BROWSE(text)}.entries) === ${JSON.stringify(JSON.stringify(names))}`, 3000);
+  const typePath = async (text, path) => {
+    await ev(`(() => { const f = ${rowOf(text)}.querySelector('.lw-browser input'); f.focus(); f.select(); })()`);
+    await T.send('Input.insertText', { text: path });
+    await key('Enter', 'Enter', 13);
+  };
+  const probeTry = (path) => ev(`document.querySelector('#lw-layer iframe').contentWindow.postMessage({ probeTry: ${JSON.stringify(path)} }, '*')`);
+  const PIC = 'DATA/Media/Pictures';
+
+  check('a file the user never picked (the project\'s own default, a server file) is refused, as an image and to fetch',
+    await waitFor(`(() => { const s = window.__probe.files.secret; return s && s.image === 'refused' && s.fetch === 'refused'; })()`, 4000),
+    await ev('window.__probe.files.secret'));
+  check('…and the folder options with nothing picked give no files (a random one is "")',
+    await ev(`(() => { const f = window.__probe.files; return !f.added.length && f.random.length === 2 && f.random.every(r => r.prop === 'slides' && r.path === ''); })()`),
+    await ev('window.__probe.files'));
+  let br = await browse('Background image');
+  check('a file option: "Choose…" in a button, nothing to remove', br.name === 'Choose…' && !br.clear && !br.open && br.title === '', br);
+  await clickIn('Background image', '.lw-file');
+  check('clicking it opens a browser under its row, at /DATA, folders first', await listed('Background image', ['AppData', 'Media'])
+    && (br = await browse('Background image')).open && br.expanded === 'true' && br.at === '/DATA' && br.inPanel, await browse('Background image'));
+  await entry('Background image', 'Media');
+  check('…a folder opens on click', await listed('Background image', ['Music', 'Pictures']) && (await browse('Background image')).at === '/DATA/Media', await browse('Background image'));
+  await entry('Background image', 'Pictures');
+  check('…an image option lists the folders, then only the images (no video, no text file)',
+    await listed('Background image', ['empty', 'sub', 'a.png', 'b.png']), await browse('Background image'));
+  await shot('live_file_browser', await ev(`(() => { const b = document.getElementById('lw-panel').getBoundingClientRect(); return { x: b.x - 10, y: b.y - 10, width: b.width + 20, height: b.height + 20 }; })()`));
+  await entry('Background image', 'a.png');
+  br = await browse('Background image');
+  check('picking a file closes the browser and shows its name (the full path as its title), with a remove button',
+    !br.open && br.name === 'a.png' && br.title === '/DATA/Media/Pictures/a.png' && br.clear, br);
+  check('the wallpaper gets the CasaOS path as its value', await waitFor(`window.__probe.props.bgimage === ${JSON.stringify(PIC + '/a.png')}`, 2000),
+    await ev('window.__probe.props.bgimage'));
+  check('…and \'file:///\' + value loads the picked image, from inside the isolated wallpaper (its own copy, no tainted canvas)',
+    await waitFor(`(() => { const i = window.__probe.files.image; return i && i.w === 64 && /^blob:/.test(i.src)
+      && JSON.stringify(i.pixel) === '[220,40,40]'; })()`, 4000), await ev('window.__probe.files.image'));
+  check('…as a CSS background (el.style), in markup (innerHTML) and with fetch too', await waitFor(`(() => { const f = window.__probe.files;
+    return f.css && f.css.loaded === true && /^blob:/.test(f.css.url) && f.tag && f.tag.w === 64 && f.fetched && f.fetched.size === 156 && f.fetched.type === 'image/png'; })()`, 4000),
+    await ev('window.__probe.files'));
+  check('…and nothing the isolated wallpaper sees carries the CasaOS session', !(await ev('JSON.stringify(window.__probe)')).includes('test-token'), null);
+
+  await clickIn('Background image', '.lw-file');
+  check('opened again, it starts in the picked file\'s folder, the file marked', await listed('Background image', ['empty', 'sub', 'a.png', 'b.png'])
+    && JSON.stringify((br = await browse('Background image')).current) === '["a.png"]' && br.at === '/DATA/Media/Pictures', await browse('Background image'));
+  await clickIn('Background image', '.lw-up');
+  check('"Up one folder" goes up', await listed('Background image', ['Music', 'Pictures']), await browse('Background image'));
+  await typePath('Background image', '/DATA/Media/Pictures/sub');
+  check('a folder typed in the path field opens on Enter', await listed('Background image', ['c.png']), await browse('Background image'));
+  await typePath('Background image', '/DATA/Media/Pictures/empty');
+  check('…a folder with nothing to choose says so', await waitFor(`${BROWSE('Background image')}.note === 'Nothing to choose in this folder'`, 3000), await browse('Background image'));
+  await typePath('Background image', '/DATA/nope');
+  check('…one that can\'t be read says so', await waitFor(`${BROWSE('Background image')}.note === "This folder can't be read"`, 3000), await browse('Background image'));
+  await clickIn('Background video', '.lw-file');
+  check('one browser at a time: opening another closes the first', !(await browse('Background image')).open && (await browse('Background video')).open, await browse('Background video'));
+  await typePath('Background video', '/DATA/Media/Pictures');
+  check('a video option lists only the videos', await listed('Background video', ['empty', 'sub', 'clip.webm']), await browse('Background video'));
+  await entry('Background video', 'clip.webm');
+  check('…and the picked video plays in the wallpaper', await waitFor(`(() => { const v = window.__probe.files.video;
+    return v && v.value === ${JSON.stringify(PIC + '/clip.webm')} && v.w > 0 && /^blob:/.test(v.src); })()`, 4000), await ev('window.__probe.files.video'));
+  await clickIn('Background video', '.lw-clear');
+  br = await browse('Background video');
+  check('"Remove" empties it: the wallpaper gets "" and the button says "Choose…" again',
+    br.name === 'Choose…' && !br.clear && await waitFor(`window.__probe.props.bgvideo === ''`, 2000), br);
+
+  await clickIn('Pictures', '.lw-file');
+  await typePath('Pictures', '/DATA/Media/Pictures');
+  check('a folder option lists only folders, with "Use this folder"', await listed('Pictures', ['empty', 'sub'])
+    && (await browse('Pictures')).use === true, await browse('Pictures'));
+  await clickIn('Pictures', '.lw-use');
+  check('using the folder: the wallpaper gets it, then all its images and videos at once ("fetchall")',
+    await waitFor(`(() => { const f = window.__probe.files; return window.__probe.props.folder === ${JSON.stringify(PIC)} && f.added.length === 1
+      && JSON.stringify(f.added[0]) === ${JSON.stringify(JSON.stringify(['folder', [PIC + '/a.png', PIC + '/b.png', PIC + '/clip.webm']]))}; })()`, 3000),
+    await ev('window.__probe.files'));
+  check('…and the name shown is the folder\'s', (await browse('Pictures')).name === 'Pictures' && (await browse('Pictures')).title === '/' + PIC, await browse('Pictures'));
+  for (const p of [PIC + '/b.png', PIC + '/notes.txt', PIC + '/sub/c.png', PIC + '/../Music/01 Pulse.wav', 'DATA/Media/Music/01 Pulse.wav']) await probeTry(p);
+  check('a wallpaper may read the images and videos right in the picked folder, nothing else (not in subfolders, no climbing out)',
+    await waitFor(`Object.keys(window.__probe.tries).length === 5`, 4000) && await ev(`(() => { const t = window.__probe.tries;
+      return t['${PIC}/b.png'] === 100 && t['${PIC}/notes.txt'] === 'refused' && t['${PIC}/sub/c.png'] === 'refused'
+        && t['${PIC}/../Music/01 Pulse.wav'] === 'refused' && t['DATA/Media/Music/01 Pulse.wav'] === 'refused'; })()`), await ev('window.__probe.tries'));
+  await clickIn('Pictures', '.lw-file');
+  check('…opened again, it starts in the picked folder', await listed('Pictures', ['empty', 'sub']) && (await browse('Pictures')).at === '/' + PIC, await browse('Pictures'));
+  await entry('Pictures', 'sub');
+  await listed('Pictures', []);   // no folders in it
+  await clickIn('Pictures', '.lw-use');
+  check('changing the folder: its old files are removed first, then the new ones added',
+    await waitFor(`(() => { const f = window.__probe.files; return f.removed.length === 1 && f.added.length === 2
+      && JSON.stringify(f.removed[0]) === ${JSON.stringify(JSON.stringify(['folder', [PIC + '/a.png', PIC + '/b.png', PIC + '/clip.webm']]))}
+      && JSON.stringify(f.added[1]) === ${JSON.stringify(JSON.stringify(['folder', [PIC + '/sub/c.png']]))}; })()`, 3000), await ev('window.__probe.files'));
+
+  await clickIn('Slideshow', '.lw-file');
+  await typePath('Slideshow', '/DATA/Media/Pictures');
+  await listed('Slideshow', ['empty', 'sub']);
+  await clickIn('Slideshow', '.lw-use');
+  check('a folder "on demand": each request gets a random image of it (not the same twice in a row), ready to load',
+    await waitFor(`(() => { const r = window.__probe.files.random.slice(2); return r.length === 2 && r.every(x => x.w > 0)
+      && r[0].path !== r[1].path && r.every(x => ['${PIC}/a.png', '${PIC}/b.png'].includes(x.path)); })()`, 4000), await ev('window.__probe.files.random'));
+  await clickIn('Slideshow', '.lw-file');
+  await listed('Slideshow', ['empty', 'sub']);
+  await entry('Slideshow', 'empty');
+  await listed('Slideshow', []);
+  await clickIn('Slideshow', '.lw-use');
+  check('…an empty folder gives ""', await waitFor(`(() => { const r = window.__probe.files.random.slice(4); return r.length === 2 && r.every(x => x.path === ''); })()`, 4000),
+    await ev('window.__probe.files.random'));
+  await clickIn('Background image', '.lw-file');
+  await key('Escape', 'Escape', 27);
+  check('Esc closes the browser first, the panel stays', !(await browse('Background image')).open && await ev(`!!document.getElementById('lw-panel')`), await browse('Background image'));
+
   // ---------------------------------------------------------------- trusting it
   await ev(`(() => { const c = ${toggleOf('Trust this wallpaper (full compatibility)')}; c.click(); })()`);
   check('trusting it reloads it with full access (no sandbox)', await waitFor(`(() => { const f = document.querySelector('#lw-layer iframe');
@@ -352,6 +475,9 @@ try {
   check('…and it can reach the page and storage now, keeping its settings', await waitFor(`(() => { const p = window.__probe;
     return p && p.sameOrigin && p.storage && p.props.speed === 7 && p.props.mode === 2; })()`, 6000), await ev('window.__probe'));
   check('…the panel stays open', await waitFor(`document.getElementById('lw-panel')`, 2000), null);
+  check('…and a trusted wallpaper gets the picked file straight from CasaOS (streamed, not copied)', await waitFor(`(() => { const i = window.__probe.files.image;
+    return i && i.w === 64 && i.src.startsWith(location.origin + '/v1/file?path=' + encodeURIComponent('/DATA/Media/Pictures/a.png')); })()`, 4000),
+    await ev('window.__probe.files.image'));
   await key('Escape', 'Escape', 27);
 
   // ---------------------------------------------------------------- persistence and pause
@@ -361,6 +487,9 @@ try {
     && await waitFor(`(() => { const s = ${LAYER}; return s.frame && s.sandbox === null; })()`, 6000)
     && await waitFor(`window.__probe && window.__probe.props.speed === 7`, 6000), await ev(LAYER));
   check('…the color picked too', await waitFor(`window.__probe.props.schemecolor === ${JSON.stringify(rgbOf('#ff00aa'))}`, 2000), await ev('window.__probe.props.schemecolor'));
+  check('…and the picked file and folder (its files sent again)', await waitFor(`(() => { const p = window.__probe, f = p.files;
+    return p.props.bgimage === 'DATA/Media/Pictures/a.png' && f.image && f.image.w === 64 && p.props.folder === 'DATA/Media/Pictures/sub'
+      && JSON.stringify(f.added) === '[["folder",["DATA/Media/Pictures/sub/c.png"]]]'; })()`, 4000), await ev('window.__probe && window.__probe.files'));
   await ev('Mock.hideBackground()');
   check('pages without the CasaOS background hide it and pause it', await waitFor(`!document.documentElement.classList.contains('lw-on')
     && window.__probe && window.__probe.paused === true`, 3000), await ev('window.__probe && window.__probe.paused'));

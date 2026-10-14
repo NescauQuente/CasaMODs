@@ -15,7 +15,11 @@
 				{ "label": "ui_mode_wild", "value": 2 }
 			] },
 			"wildlevel": { "order": 6, "text": "Wild level", "type": "slider", "min": 0, "max": 1, "fraction": true, "precision": 2, "value": 0.5, "condition": "mode.value == 2 && glow.value" },
-			"folder": { "order": 7, "text": "Pictures", "type": "directory", "value": "" },
+			"bgimage": { "order": 7, "text": "Background image", "type": "file", "fileType": "image", "value": "" },
+			"bgvideo": { "order": 7.1, "text": "Background video", "type": "file", "fileType": "video", "value": "" },
+			"folder": { "order": 7.2, "text": "Pictures", "type": "directory", "mode": "fetchall", "value": "" },
+			"slides": { "order": 7.3, "text": "Slideshow", "type": "directory", "mode": "ondemand", "fileType": "image", "value": "" },
+			"secret": { "order": 7.4, "text": "Default file", "type": "file", "value": "DATA/Media/Music/01 Pulse.wav", "condition": "glow.value == 7" },
 			"hdr2": { "order": 8, "text": "<b>— Extra —</b>", "type": "text" },
 			"note": { "order": 9, "text": "<i>This note is a sentence, not a header.</i>", "type": "text" },
 			"sparkles": { "order": 10, "text": "Sparkles", "type": "bool", "value": false }
