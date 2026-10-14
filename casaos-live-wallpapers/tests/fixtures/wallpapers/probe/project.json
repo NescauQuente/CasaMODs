@@ -19,7 +19,7 @@
 			"bgvideo": { "order": 7.1, "text": "Background video", "type": "file", "fileType": "video", "value": "" },
 			"folder": { "order": 7.2, "text": "Pictures", "type": "directory", "mode": "fetchall", "value": "" },
 			"slides": { "order": 7.3, "text": "Slideshow", "type": "directory", "mode": "ondemand", "fileType": "image", "value": "" },
-			"secret": { "order": 7.4, "text": "Default file", "type": "file", "value": "DATA/Media/Music/01 Pulse.wav", "condition": "glow.value == 7" },
+			"secret": { "order": 7.4, "text": "Default file", "type": "file", "value": "/DATA/Media/Music/01 Pulse.wav", "condition": "glow.value == 7" },
 			"hdr2": { "order": 8, "text": "<b>— Extra —</b>", "type": "text" },
 			"note": { "order": 9, "text": "<i>This note is a sentence, not a header.</i>", "type": "text" },
 			"sparkles": { "order": 10, "text": "Sparkles", "type": "bool", "value": false }

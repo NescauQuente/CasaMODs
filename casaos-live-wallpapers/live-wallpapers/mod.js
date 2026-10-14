@@ -1438,18 +1438,29 @@
     // which the page sends over (only what the user picked). Until it arrives
     // nothing is set, so there is no failed load in between.
     var files = {}, order = [], waiting = {}, denied = {}, randoms = {}, randomId = 0, filesOn = false;
+    var known = {};   // the picked files and the folders' files: a bare path to one is a file too
     var reqs = new WeakMap(), ticket = 0, xhrs = new WeakMap();
     var KEEP = 512 * 1024 * 1024;   // object URLs kept for directory files, then the oldest go
     var setAttr = Element.prototype.setAttribute;
 
-    // 'file:///DATA/a.jpg' → 'DATA/a.jpg' (the value given to the wallpaper)
+    // 'file:///DATA/a.jpg', 'file:////DATA/a.jpg' ('file:///' + the value),
+    // 'file:///DATA/My%20a.jpg', '/DATA/a.jpg' → 'DATA/a.jpg'
+    function norm(s) {
+      var k = String(s).replace(/^\s*(file:)?\/*/i, '');
+      if (!k || files[k] || waiting[k] || known[k]) return k;
+      try { return decodeURIComponent(k); } catch (e) { return k; }
+    }
+
     function keyOf(s) {
       if (typeof s !== 'string' && !(s instanceof URL)) return null;
       s = String(s);
-      if (!/^\s*file:/i.test(s)) return null;
-      var k = s.replace(/^\s*file:\/*/i, '');
-      if (!k || files[k] || waiting[k]) return k || null;
-      try { return decodeURIComponent(k); } catch (e) { return k; }
+      if (/^\s*file:/i.test(s)) return norm(s) || null;
+      // the value used as it is: only a path to a picked file (never //host/…)
+      if (/^\/[^/]/.test(s)) {
+        var k = norm(s);
+        return files[k] || known[k] ? k : null;
+      }
+      return null;
     }
 
     function touch(key) {
@@ -1665,18 +1676,21 @@
         } else if (d.t === 'files') {
           startFiles();
           denied = {};   // the picks changed: what was refused may be allowed now
+          (d.v || []).forEach(function (k) { known[k] = true; });
         } else if (d.t === 'file') {
           startFiles();
           if (d.v.denied) denied[d.v.key] = true;
           else keep(d.v.key, d.v);
           settle(d.v.key, !d.v.denied);
         } else if (d.t === 'dir') {
+          (d.v.added || []).forEach(function (p) { known[norm(p)] = true; });
           if (d.v.removed && l.userDirectoryFilesRemoved) l.userDirectoryFilesRemoved(d.v.prop, d.v.removed);
           if (d.v.added && l.userDirectoryFilesAddedOrChanged) l.userDirectoryFilesAddedOrChanged(d.v.prop, d.v.added);
         } else if (d.t === 'random') {
           var cb = randoms[d.v.id];
           delete randoms[d.v.id];
-          if (d.v.file) { startFiles(); keep(d.v.path, d.v.file); }
+          if (d.v.path) known[norm(d.v.path)] = true;
+          if (d.v.file) { startFiles(); keep(norm(d.v.path), d.v.file); }
           if (cb) cb(d.v.prop, d.v.path || '');
         }
       } catch (err) {
@@ -1736,7 +1750,7 @@
       post('general', generalProps());
       dirSent = {};
       if (pickProps().length) {
-        post('files', null);
+        post('files', pickedFiles());
         prefetch();
       }
       post('props', allProps());
@@ -1763,9 +1777,10 @@
   // ---------------------------------------------------------------------------
   // Files and folders for web wallpapers (Wallpaper Engine "file" and
   // "directory" properties), picked in the panel from the CasaOS storage. The
-  // wallpaper gets the CasaOS path without its first slash ('DATA/Media/a.jpg',
-  // so 'file:///' + value is its file URL, as with Wallpaper Engine's paths) and
-  // asks for the file itself through the shim. It may read only what the user
+  // wallpaper gets the absolute CasaOS path ('/DATA/Media/a.jpg', absolute like
+  // Wallpaper Engine's 'C:/…': wallpapers that build their own URL treat a path
+  // without the first slash as a file of their own folder) and asks for the
+  // file itself through the shim (keys there have no first slash). It may read only what the user
   // picked: the picked files, and the images and videos right inside a picked
   // folder. An isolated wallpaper gets the file's content (the session never
   // reaches it); a trusted one, which has the session anyway, gets the CasaOS
@@ -1806,6 +1821,11 @@
       var v = picked(p);
       return !!v && accepts(p, name) && (kindOf(p) === 'file' ? v === path : v === dir);
     });
+  }
+
+  // The picked files, for the shim
+  function pickedFiles() {
+    return pickProps().filter(function (p) { return kindOf(p) === 'file' && picked(p); }).map(picked);
   }
 
   function casaFile(path) {
@@ -1860,7 +1880,7 @@
     return c.list.then(function (entries) {
       return entries.filter(function (e) { return !e.is_dir && e.name.charAt(0) !== '.' && accepts(p, e.name); })
         .map(function (e) { return e.name; }).sort(collator.compare)
-        .map(function (n) { return dir + '/' + n; });
+        .map(function (n) { return '/' + dir + '/' + n; });
     });
   }
 
@@ -1897,7 +1917,7 @@
       var i = Math.floor(Math.random() * list.length);
       if (list.length > 1 && list[i] === lastRandom[prop]) i = (i + 1) % list.length;
       var path = lastRandom[prop] = list[i];
-      give(path).then(function (f) { reply(path, f.denied ? null : f); });
+      give(cleanPath(path)).then(function (f) { reply(path, f.denied ? null : f); });
     }, function () { reply(''); });
   }
 
@@ -2195,7 +2215,11 @@
   }
 
   function valueOf(p) {
-    return p.key in settings.props ? settings.props[p.key] : p.value;
+    if (!(p.key in settings.props)) return p.value;
+    var v = settings.props[p.key], kind = String(p.type).toLowerCase();
+    // a picked file or folder: its absolute path (1.2.0 kept it without the first slash)
+    if ((kind === 'file' || kind === 'directory') && typeof v === 'string') return cleanPath(v) ? '/' + cleanPath(v) : '';
+    return v;
   }
 
   function allProps() {
@@ -2303,7 +2327,7 @@
     change[key] = { value: value };
     var pick = pickProps().some(function (p) { return p.key === key; });
     if (pick) {
-      post('files', null);
+      post('files', pickedFiles());
       prefetch();
     }
     post('props', change);
@@ -2647,7 +2671,7 @@
     }
 
     function choose(path) {
-      setProp(p.key, cleanPath(path) || '');
+      setProp(p.key, cleanPath(path) ? '/' + cleanPath(path) : '');
       show();
       closePicker();
       pick.focus();
@@ -2886,7 +2910,7 @@
     reset.addEventListener('click', function () {
       settings.props = {};
       saveSettings(w.id, settings);
-      if (pickProps().length) post('files', null);
+      if (pickProps().length) post('files', pickedFiles());
       post('props', allProps());
       syncDirs();
       closePanel();

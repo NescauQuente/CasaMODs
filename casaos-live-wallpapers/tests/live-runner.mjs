@@ -368,7 +368,7 @@ try {
     await key('Enter', 'Enter', 13);
   };
   const probeTry = (path) => ev(`document.querySelector('#lw-layer iframe').contentWindow.postMessage({ probeTry: ${JSON.stringify(path)} }, '*')`);
-  const PIC = 'DATA/Media/Pictures';
+  const PIC = '/DATA/Media/Pictures';
 
   check('a file the user never picked (the project\'s own default, a server file) is refused, as an image and to fetch',
     await waitFor(`(() => { const s = window.__probe.files.secret; return s && s.image === 'refused' && s.fetch === 'refused'; })()`, 4000),
@@ -391,7 +391,7 @@ try {
   br = await browse('Background image');
   check('picking a file closes the browser and shows its name (the full path as its title), with a remove button',
     !br.open && br.name === 'a.png' && br.title === '/DATA/Media/Pictures/a.png' && br.clear, br);
-  check('the wallpaper gets the CasaOS path as its value', await waitFor(`window.__probe.props.bgimage === ${JSON.stringify(PIC + '/a.png')}`, 2000),
+  check('the wallpaper gets the absolute CasaOS path as its value', await waitFor(`window.__probe.props.bgimage === ${JSON.stringify(PIC + '/a.png')}`, 2000),
     await ev('window.__probe.props.bgimage'));
   check('…and \'file:///\' + value loads the picked image, from inside the isolated wallpaper (its own copy, no tainted canvas)',
     await waitFor(`(() => { const i = window.__probe.files.image; return i && i.w === 64 && /^blob:/.test(i.src)
@@ -433,14 +433,14 @@ try {
     await waitFor(`(() => { const f = window.__probe.files; return window.__probe.props.folder === ${JSON.stringify(PIC)} && f.added.length === 1
       && JSON.stringify(f.added[0]) === ${JSON.stringify(JSON.stringify(['folder', [PIC + '/a.png', PIC + '/b.png', PIC + '/clip.webm']]))}; })()`, 3000),
     await ev('window.__probe.files'));
-  check('…and the name shown is the folder\'s', (await browse('Pictures')).name === 'Pictures' && (await browse('Pictures')).title === '/' + PIC, await browse('Pictures'));
+  check('…and the name shown is the folder\'s', (await browse('Pictures')).name === 'Pictures' && (await browse('Pictures')).title === PIC, await browse('Pictures'));
   for (const p of [PIC + '/b.png', PIC + '/notes.txt', PIC + '/sub/c.png', PIC + '/../Music/01 Pulse.wav', 'DATA/Media/Music/01 Pulse.wav']) await probeTry(p);
   check('a wallpaper may read the images and videos right in the picked folder, nothing else (not in subfolders, no climbing out)',
     await waitFor(`Object.keys(window.__probe.tries).length === 5`, 4000) && await ev(`(() => { const t = window.__probe.tries;
       return t['${PIC}/b.png'] === 100 && t['${PIC}/notes.txt'] === 'refused' && t['${PIC}/sub/c.png'] === 'refused'
         && t['${PIC}/../Music/01 Pulse.wav'] === 'refused' && t['DATA/Media/Music/01 Pulse.wav'] === 'refused'; })()`), await ev('window.__probe.tries'));
   await clickIn('Pictures', '.lw-file');
-  check('…opened again, it starts in the picked folder', await listed('Pictures', ['empty', 'sub']) && (await browse('Pictures')).at === '/' + PIC, await browse('Pictures'));
+  check('…opened again, it starts in the picked folder', await listed('Pictures', ['empty', 'sub']) && (await browse('Pictures')).at === PIC, await browse('Pictures'));
   await entry('Pictures', 'sub');
   await listed('Pictures', []);   // no folders in it
   await clickIn('Pictures', '.lw-use');
@@ -488,8 +488,8 @@ try {
     && await waitFor(`window.__probe && window.__probe.props.speed === 7`, 6000), await ev(LAYER));
   check('…the color picked too', await waitFor(`window.__probe.props.schemecolor === ${JSON.stringify(rgbOf('#ff00aa'))}`, 2000), await ev('window.__probe.props.schemecolor'));
   check('…and the picked file and folder (its files sent again)', await waitFor(`(() => { const p = window.__probe, f = p.files;
-    return p.props.bgimage === 'DATA/Media/Pictures/a.png' && f.image && f.image.w === 64 && p.props.folder === 'DATA/Media/Pictures/sub'
-      && JSON.stringify(f.added) === '[["folder",["DATA/Media/Pictures/sub/c.png"]]]'; })()`, 4000), await ev('window.__probe && window.__probe.files'));
+    return p.props.bgimage === '/DATA/Media/Pictures/a.png' && f.image && f.image.w === 64 && p.props.folder === '/DATA/Media/Pictures/sub'
+      && JSON.stringify(f.added) === '[["folder",["/DATA/Media/Pictures/sub/c.png"]]]'; })()`, 4000), await ev('window.__probe && window.__probe.files'));
   await ev('Mock.hideBackground()');
   check('pages without the CasaOS background hide it and pause it', await waitFor(`!document.documentElement.classList.contains('lw-on')
     && window.__probe && window.__probe.paused === true`, 3000), await ev('window.__probe && window.__probe.paused'));
