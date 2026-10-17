@@ -2541,7 +2541,10 @@
     var p = sp.playback;
     command('PUT', '/me/player', { device_ids: [id], play: !p || p.playing }, function () {
       state.showDevices = false;
-      if (id !== web.id) web.active = false;   // the player here goes quiet
+      if (id !== web.id) {   // the player here goes quiet
+        web.active = false;
+        keep(false);
+      }
     });
   }
 
@@ -2757,6 +2760,36 @@
   var WEB_SAYS = { drm: 'spWebDrm', scope: 'spWebScope', account: 'spWebFailed', auth: 'spWebFailed', timeout: 'spWebFailed', load: 'spError' };
   var sdkLoading = null;
 
+  // While the music plays here, the browser's and the system's media controls
+  // (Chrome's media button, Windows' overlay) go to this page, which knows
+  // where the song is, not to Spotify's frame (its own media session puts
+  // milliseconds where seconds go: a 2-minute song shows as 40 hours, and
+  // the progress bar skips it). A browser gives them to the topmost frame
+  // with a player, so a silent one loops here meanwhile (paused with the music).
+  var keeper = null;
+  function keep(on) {
+    if (!on) {
+      if (keeper && !keeper.paused) keeper.pause();
+      return;
+    }
+    if (!keeper) {
+      // a quarter of a second of silence (8 kHz, 8 bits), as a WAV
+      var n = 2000, b = new Uint8Array(44 + n), v = new DataView(b.buffer);
+      var w = function (at, txt) { for (var i = 0; i < txt.length; i++) b[at + i] = txt.charCodeAt(i); };
+      w(0, 'RIFF'); v.setUint32(4, 36 + n, true); w(8, 'WAVEfmt ');
+      v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+      v.setUint32(24, 8000, true); v.setUint32(28, 8000, true); v.setUint16(32, 1, true); v.setUint16(34, 8, true);
+      w(36, 'data'); v.setUint32(40, n, true);
+      for (var k = 44; k < b.length; k++) b[k] = 128;
+      keeper = new Audio(URL.createObjectURL(new Blob([b], { type: 'audio/wav' })));
+      keeper.loop = true;
+    }
+    if (keeper.paused) {
+      var r = keeper.play();
+      if (r && r.catch) r.catch(function () { /* no click yet: Spotify's frame keeps the controls */ });
+    }
+  }
+
   // Protected (EME) audio, over HTTPS
   function webSupported() { return secure() && !!navigator.requestMediaKeySystemAccess; }
   // Does the login allow it? (null: unknown, a login from before 1.2.0 until it's renewed)
@@ -2817,6 +2850,7 @@
     var was = web.ready && sp.playback && sp.playback.device && sp.playback.device.id === web.id;
     web.on = web.ready = web.active = false;
     web.playHere = null;
+    keep(false);
     clearTimeout(web.timer);
     webDo('disconnect');
     if (web.release) {
@@ -2894,7 +2928,7 @@
         }, function () { /* logged out: the player stops */ });
       },
       volume: Math.max(0, Math.min(1, state.webVolume)),
-      enableMediaSession: true
+      enableMediaSession: false   // the page's media session, with the right units (see keep)
     });
     pl.addListener('ready', function (d) {
       web.id = (d && d.device_id) || '';
@@ -2937,6 +2971,7 @@
     var tr = s && s.track_window && s.track_window.current_track;
     web.seen = Date.now();
     if (!tr) {
+      keep(false);
       if (web.active) {
         web.active = false;
         later(300);   // where it went
@@ -2944,6 +2979,7 @@
       return;
     }
     web.active = true;
+    keep(!s.paused);
     if (!s.paused && sp.message === t('spWebTap')) say('');
     setPlayback({
       is_playing: !s.paused,
