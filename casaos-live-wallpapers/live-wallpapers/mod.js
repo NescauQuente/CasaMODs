@@ -1966,10 +1966,14 @@
   // player, in the DOM or not; never this mod's own video); its title, artist
   // and cover come from the standard Media Session (navigator.mediaSession,
   // which players set for the browser's media controls), else from the file
-  // name. Nothing runs until a wallpaper registers a media listener.
+  // name. Or another mod's "now playing" ('casamods:nowplaying' events on
+  // window: Music Player + Spotify's Spotify mode, music that plays on another
+  // device), when it started playing last. Nothing runs until a wallpaper
+  // registers a media listener.
   // ---------------------------------------------------------------------------
   var MEDIA_EVENTS = ['playing', 'pause', 'ended', 'emptied', 'seeked', 'timeupdate', 'durationchange', 'loadedmetadata'];
   var mediaEl = null, watched = new WeakSet(), sentMedia = {}, thumbs = {}, thumbFor = null;
+  var ext = null, fromExt = false;   // the last 'casamods:nowplaying', and whether it is the source
 
   function sendMedia(kind, data, force) {
     var key = JSON.stringify(data);
@@ -1990,6 +1994,16 @@
   }
 
   function metadata() {
+    if (fromExt) {
+      var a = (ext && ext.artist) || '';
+      return {
+        props: {
+          title: (ext && ext.title) || '', artist: a, subTitle: '', albumTitle: (ext && ext.album) || '',
+          albumArtist: a, genres: '', contentType: 'music'
+        },
+        artwork: (ext && ext.cover) || ''
+      };
+    }
     var m = navigator.mediaSession && navigator.mediaSession.metadata;
     var src = mediaEl ? mediaEl.currentSrc || mediaEl.src : '';
     var title = (m && m.title) || (src ? fileTitle(src) : '');
@@ -2039,6 +2053,11 @@
         }
       };
       img.onerror = function () { resolve(emptyThumb()); };
+      // a cover from another site (Spotify's) is read through CORS, if it allows it
+      try {
+        var u = new URL(url, location.href);
+        if (/^https?:$/.test(u.protocol) && u.origin !== location.origin) img.crossOrigin = 'anonymous';
+      } catch (e) { /* a data: or blob: URL */ }
       img.src = url;
     });
     return thumbs[url];
@@ -2093,11 +2112,17 @@
 
   function sendPlayback(force) {
     if (!wantsMedia) return;
+    if (fromExt) return sendMedia('playback', { state: ext && ext.title ? (ext.playing ? 1 : 2) : 0 }, force);
     var st = !mediaEl || mediaEl.ended || !(mediaEl.currentSrc || mediaEl.src) ? 0 : mediaEl.paused ? 2 : 1;
     sendMedia('playback', { state: st }, force);
   }
 
   function sendTimeline() {
+    if (wantsMedia && fromExt) {
+      if (!ext || !ext.title) return;
+      var pos = (Number(ext.position) || 0) + (ext.playing && ext.at ? Math.max(0, Date.now() - ext.at) / 1000 : 0);
+      return sendMedia('timeline', { position: pos, duration: Number(ext.duration) || 0 });
+    }
     if (!wantsMedia || !mediaEl) return;
     var d = mediaEl.duration;
     sendMedia('timeline', { position: mediaEl.currentTime || 0, duration: isFinite(d) ? d : 0 });
@@ -2105,8 +2130,9 @@
 
   function onMediaEvent(e) {
     var el = e.target;
-    if (e.type === 'playing' && el !== mediaEl) {
+    if (e.type === 'playing' && (el !== mediaEl || fromExt)) {
       mediaEl = el;
+      fromExt = false;   // the tab's own player starts: it is the source again
       sendProperties();
     }
     if (el !== mediaEl) return;
@@ -2123,8 +2149,9 @@
   audioTap.onPlay.push(function (el) {
     if (el === video) return;
     watchMedia(el);
-    if (!el.paused && el !== mediaEl) {   // already playing: no 'playing' event will come
+    if (!el.paused && (el !== mediaEl || fromExt)) {   // already playing: no 'playing' event will come
       mediaEl = el;
+      fromExt = false;
       sendProperties();
       sendPlayback();
     }
@@ -2144,12 +2171,26 @@
     });
   })();
 
+  // Another mod's now playing: { source, title, artist, album, cover, playing,
+  // position, duration (seconds), at (Date.now() of the position) }; it becomes
+  // the source when it plays (a stop, title '', ends it as the source)
+  window.addEventListener('casamods:nowplaying', function (e) {
+    var d = e.detail;
+    if (!d || typeof d !== 'object') return;
+    ext = d;
+    if (d.playing && d.title) fromExt = true;
+    if (!fromExt) return;
+    sendProperties();
+    sendPlayback();
+    sendTimeline();
+  });
+
   // A wallpaper registered a media listener: everything at once, then changes
   function startMedia() {
     wantsMedia = true;
     sentMedia = {};
     thumbFor = null;
-    if (!mediaEl) {
+    if (!mediaEl && !fromExt) {
       // something may be playing already, from before this mod saw it start
       var all = document.querySelectorAll('audio,video');
       for (var i = 0; i < all.length; i++) {
