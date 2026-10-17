@@ -1,6 +1,6 @@
 {
   "name": "Music Player + Spotify",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "The Music Player widget with a switch to your Spotify account: play a folder of your CasaOS storage, or see and control what plays in Spotify on any of your devices (playlists, queue, search, devices).",
   "author": "UsuarioDeJava",
   "casaos_min_version": "0.4.0",

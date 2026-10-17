@@ -51,7 +51,8 @@
       spRedirect: 'Redirect URI (add it to your Spotify app)', spCopy: 'Copy', spCopied: 'Copied', spConnectedAs: 'Connected as {name}',
       spHelp: 'How to set it up', spConnect: 'Connect', spDisconnect: 'Disconnect', spDenied: 'Access to Spotify was not allowed.',
       spError: 'Spotify didn\'t answer. Try again in a moment.', spLoginAgain: 'The Spotify login expired: connect again.',
-      spNotRegistered: 'This account isn\'t in your Spotify app: add it under User Management.', spBusy: 'Spotify asked to wait a moment.'
+      spNotRegistered: 'This account isn\'t in your Spotify app: add it under User Management.', spBusy: 'Spotify asked to wait a moment.',
+      upNext: 'Up next', playingNow: 'Now playing', nothingNext: 'Nothing up next', jump: 'Skip to this one'
     },
     ar: {
       title: 'الموسيقى', folder: 'مجلد الموسيقى', change: 'تغيير المجلد', scanning: 'جارٍ قراءة المجلد…',
@@ -75,7 +76,8 @@
       spRedirect: 'Redirect URI (أضفه إلى تطبيقك في Spotify)', spCopy: 'نسخ', spCopied: 'تم النسخ', spConnectedAs: 'متصل باسم {name}',
       spHelp: 'طريقة الإعداد', spConnect: 'اتصال', spDisconnect: 'قطع الاتصال', spDenied: 'لم يُسمح بالوصول إلى Spotify.',
       spError: 'لم يستجب Spotify. أعد المحاولة بعد قليل.', spLoginAgain: 'انتهت صلاحية تسجيل الدخول إلى Spotify: اتصل مجددًا.',
-      spNotRegistered: 'هذا الحساب غير موجود في تطبيقك في Spotify: أضفه في User Management.', spBusy: 'طلب Spotify الانتظار قليلًا.'
+      spNotRegistered: 'هذا الحساب غير موجود في تطبيقك في Spotify: أضفه في User Management.', spBusy: 'طلب Spotify الانتظار قليلًا.',
+      upNext: 'التالي', playingNow: 'قيد التشغيل الآن', nothingNext: 'لا شيء تالٍ', jump: 'انتقل إلى هذا'
     },
     be: {
       title: 'Музыка', folder: 'Папка з музыкай', change: 'Змяніць папку', scanning: 'Чытанне папкі…',
@@ -100,7 +102,8 @@
       spRedirect: 'Redirect URI (дадайце яго ў праграму Spotify)', spCopy: 'Капіяваць', spCopied: 'Скапіявана', spConnectedAs: 'Падключана як {name}',
       spHelp: 'Як наладзіць', spConnect: 'Падключыць', spDisconnect: 'Адключыць', spDenied: 'Доступ да Spotify не дазволены.',
       spError: 'Spotify не адказаў. Паспрабуйце яшчэ раз крыху пазней.', spLoginAgain: 'Уваход у Spotify скончыўся: падключыцеся зноў.',
-      spNotRegistered: 'Гэтага акаўнта няма ў вашай праграме Spotify: дадайце яго ў User Management.', spBusy: 'Spotify папрасіў крыху пачакаць.'
+      spNotRegistered: 'Гэтага акаўнта няма ў вашай праграме Spotify: дадайце яго ў User Management.', spBusy: 'Spotify папрасіў крыху пачакаць.',
+      upNext: 'Далей', playingNow: 'Зараз грае', nothingNext: 'Далей нічога няма', jump: 'Перайсці да гэтага трэка'
     },
     bg: {
       title: 'Музика', folder: 'Папка с музика', change: 'Смяна на папката', scanning: 'Четене на папката…',
@@ -126,7 +129,8 @@
       spCopied: 'Копирано', spConnectedAs: 'Свързан като {name}', spHelp: 'Как да се настрои', spConnect: 'Свързване', spDisconnect: 'Прекъсване',
       spDenied: 'Достъпът до Spotify не беше разрешен.', spError: 'Spotify не отговори. Опитайте отново след малко.',
       spLoginAgain: 'Влизането в Spotify изтече: свържете се отново.',
-      spNotRegistered: 'Този акаунт не е в приложението ви в Spotify: добавете го в User Management.', spBusy: 'Spotify помоли да се изчака малко.'
+      spNotRegistered: 'Този акаунт не е в приложението ви в Spotify: добавете го в User Management.', spBusy: 'Spotify помоли да се изчака малко.',
+      upNext: 'Следва', playingNow: 'Сега звучи', nothingNext: 'Нищо не следва', jump: 'Прескочи до тази'
     },
     ca: {
       title: 'Música', folder: 'Carpeta de música', change: 'Canvia la carpeta', scanning: 'Llegint la carpeta…',
@@ -152,7 +156,8 @@
       spCopied: 'Copiat', spConnectedAs: 'Connectat com a {name}', spHelp: 'Com configurar-ho', spConnect: 'Connecta', spDisconnect: 'Desconnecta',
       spDenied: 'No s\'ha permès l\'accés a l\'Spotify.', spError: 'L\'Spotify no ha respost. Torna-ho a provar d\'aquí a una estona.',
       spLoginAgain: 'La sessió de l\'Spotify ha caducat: torna a connectar.',
-      spNotRegistered: 'Aquest compte no és a la teva app de l\'Spotify: afegeix-lo a User Management.', spBusy: 'L\'Spotify ha demanat esperar una mica.'
+      spNotRegistered: 'Aquest compte no és a la teva app de l\'Spotify: afegeix-lo a User Management.', spBusy: 'L\'Spotify ha demanat esperar una mica.',
+      upNext: 'A continuació', playingNow: 'Sonant ara', nothingNext: 'No hi ha res a continuació', jump: 'Salta a aquesta'
     },
     cs: {
       title: 'Hudba', folder: 'Složka s hudbou', change: 'Změnit složku', scanning: 'Čtení složky…',
@@ -177,7 +182,8 @@
       spRedirect: 'Redirect URI (přidejte ho do své aplikace Spotify)', spCopy: 'Kopírovat', spCopied: 'Zkopírováno', spConnectedAs: 'Připojeno jako {name}',
       spHelp: 'Jak to nastavit', spConnect: 'Připojit', spDisconnect: 'Odpojit', spDenied: 'Přístup ke Spotify nebyl povolen.',
       spError: 'Spotify neodpovědělo. Zkuste to za chvíli znovu.', spLoginAgain: 'Přihlášení ke Spotify vypršelo: připojte se znovu.',
-      spNotRegistered: 'Tento účet není ve vaší aplikaci Spotify: přidejte ho v User Management.', spBusy: 'Spotify požádalo o chvilku strpení.'
+      spNotRegistered: 'Tento účet není ve vaší aplikaci Spotify: přidejte ho v User Management.', spBusy: 'Spotify požádalo o chvilku strpení.',
+      upNext: 'Další v pořadí', playingNow: 'Právě hraje', nothingNext: 'Nic dalšího v pořadí', jump: 'Přeskočit na tuto'
     },
     de: {
       title: 'Musik', folder: 'Musikordner', change: 'Ordner wechseln', scanning: 'Ordner wird gelesen…',
@@ -202,7 +208,8 @@
       spConnectedAs: 'Verbunden als {name}', spHelp: 'So richtest du es ein', spConnect: 'Verbinden', spDisconnect: 'Trennen',
       spDenied: 'Der Zugriff auf Spotify wurde nicht erlaubt.', spError: 'Spotify hat nicht geantwortet. Versuch es gleich noch einmal.',
       spLoginAgain: 'Die Spotify-Anmeldung ist abgelaufen: verbinde dich neu.',
-      spNotRegistered: 'Dieses Konto ist nicht in deiner Spotify-App: füge es unter User Management hinzu.', spBusy: 'Spotify bittet, kurz zu warten.'
+      spNotRegistered: 'Dieses Konto ist nicht in deiner Spotify-App: füge es unter User Management hinzu.', spBusy: 'Spotify bittet, kurz zu warten.',
+      upNext: 'Als Nächstes', playingNow: 'Läuft gerade', nothingNext: 'Als Nächstes kommt nichts', jump: 'Zu diesem springen'
     },
     el: {
       title: 'Μουσική', folder: 'Φάκελος μουσικής', change: 'Αλλαγή φακέλου', scanning: 'Ανάγνωση φακέλου…',
@@ -230,7 +237,8 @@
       spDenied: 'Η πρόσβαση στο Spotify δεν επιτράπηκε.', spError: 'Το Spotify δεν απάντησε. Δοκιμάστε ξανά σε λίγο.',
       spLoginAgain: 'Η σύνδεση στο Spotify έληξε: συνδεθείτε ξανά.',
       spNotRegistered: 'Αυτός ο λογαριασμός δεν είναι στην εφαρμογή σας στο Spotify: προσθέστε τον στο User Management.',
-      spBusy: 'Το Spotify ζήτησε να περιμένετε λίγο.'
+      spBusy: 'Το Spotify ζήτησε να περιμένετε λίγο.',
+      upNext: 'Ακολουθεί', playingNow: 'Παίζει τώρα', nothingNext: 'Δεν ακολουθεί τίποτα', jump: 'Μετάβαση σε αυτό'
     },
     es: {
       title: 'Música', folder: 'Carpeta de música', change: 'Cambiar carpeta', scanning: 'Leyendo la carpeta…',
@@ -256,7 +264,8 @@
       spConnectedAs: 'Conectado como {name}', spHelp: 'Cómo configurarlo', spConnect: 'Conectar', spDisconnect: 'Desconectar',
       spDenied: 'No se permitió el acceso a Spotify.', spError: 'Spotify no respondió. Inténtalo de nuevo en un momento.',
       spLoginAgain: 'La sesión de Spotify caducó: vuelve a conectar.',
-      spNotRegistered: 'Esta cuenta no está en tu app de Spotify: añádela en User Management.', spBusy: 'Spotify pidió esperar un momento.'
+      spNotRegistered: 'Esta cuenta no está en tu app de Spotify: añádela en User Management.', spBusy: 'Spotify pidió esperar un momento.',
+      upNext: 'A continuación', playingNow: 'Sonando ahora', nothingNext: 'No hay nada a continuación', jump: 'Saltar a esta'
     },
     fr: {
       title: 'Musique', folder: 'Dossier de musique', change: 'Changer de dossier', scanning: 'Lecture du dossier…',
@@ -283,7 +292,8 @@
       spConnectedAs: 'Connecté en tant que {name}', spHelp: 'Comment le configurer', spConnect: 'Connecter', spDisconnect: 'Déconnecter',
       spDenied: 'L\'accès à Spotify n\'a pas été autorisé.', spError: 'Spotify n\'a pas répondu. Réessayez dans un instant.',
       spLoginAgain: 'La connexion à Spotify a expiré : reconnectez-vous.',
-      spNotRegistered: 'Ce compte n\'est pas dans votre appli Spotify : ajoutez-le dans User Management.', spBusy: 'Spotify demande d\'attendre un instant.'
+      spNotRegistered: 'Ce compte n\'est pas dans votre appli Spotify : ajoutez-le dans User Management.', spBusy: 'Spotify demande d\'attendre un instant.',
+      upNext: 'À suivre', playingNow: 'En cours de lecture', nothingNext: 'Rien à suivre', jump: 'Passer à celle-ci'
     },
     hr: {
       title: 'Glazba', folder: 'Mapa s glazbom', change: 'Promijeni mapu', scanning: 'Čitanje mape…',
@@ -309,7 +319,8 @@
       spCopied: 'Kopirano', spConnectedAs: 'Povezano kao {name}', spHelp: 'Kako postaviti', spConnect: 'Poveži', spDisconnect: 'Prekini vezu',
       spDenied: 'Pristup Spotifyju nije dopušten.', spError: 'Spotify nije odgovorio. Pokušajte ponovno za trenutak.',
       spLoginAgain: 'Prijava na Spotify je istekla: povežite se ponovno.',
-      spNotRegistered: 'Ovaj račun nije u vašoj Spotify aplikaciji: dodajte ga u User Management.', spBusy: 'Spotify je zatražio da malo pričekate.'
+      spNotRegistered: 'Ovaj račun nije u vašoj Spotify aplikaciji: dodajte ga u User Management.', spBusy: 'Spotify je zatražio da malo pričekate.',
+      upNext: 'Sljedeće', playingNow: 'Sada svira', nothingNext: 'Ništa sljedeće', jump: 'Preskoči na ovu'
     },
     hu: {
       title: 'Zene', folder: 'Zenemappa', change: 'Mappa módosítása', scanning: 'Mappa beolvasása…',
@@ -336,7 +347,8 @@
       spCopied: 'Kimásolva', spConnectedAs: 'Csatlakozva mint {name}', spHelp: 'Hogyan állítsd be', spConnect: 'Csatlakozás', spDisconnect: 'Leválasztás',
       spDenied: 'A Spotify-hozzáférést nem engedélyezték.', spError: 'A Spotify nem válaszolt. Próbáld újra egy kicsit később.',
       spLoginAgain: 'A Spotify-bejelentkezés lejárt: csatlakozz újra.',
-      spNotRegistered: 'Ez a fiók nincs benne a Spotify-alkalmazásodban: add hozzá a User Management részben.', spBusy: 'A Spotify egy kis várakozást kért.'
+      spNotRegistered: 'Ez a fiók nincs benne a Spotify-alkalmazásodban: add hozzá a User Management részben.', spBusy: 'A Spotify egy kis várakozást kért.',
+      upNext: 'Következik', playingNow: 'Most szól', nothingNext: 'Nincs következő', jump: 'Ugrás erre'
     },
     id: {
       title: 'Musik', folder: 'Folder musik', change: 'Ganti folder', scanning: 'Membaca folder…',
@@ -362,7 +374,8 @@
       spConnectedAs: 'Terhubung sebagai {name}', spHelp: 'Cara mengaturnya', spConnect: 'Hubungkan', spDisconnect: 'Putuskan',
       spDenied: 'Akses ke Spotify tidak diizinkan.', spError: 'Spotify tidak menjawab. Coba lagi sebentar lagi.',
       spLoginAgain: 'Login Spotify kedaluwarsa: hubungkan lagi.',
-      spNotRegistered: 'Akun ini tidak ada di aplikasi Spotify-mu: tambahkan di User Management.', spBusy: 'Spotify meminta untuk menunggu sebentar.'
+      spNotRegistered: 'Akun ini tidak ada di aplikasi Spotify-mu: tambahkan di User Management.', spBusy: 'Spotify meminta untuk menunggu sebentar.',
+      upNext: 'Berikutnya', playingNow: 'Sedang diputar', nothingNext: 'Tidak ada yang berikutnya', jump: 'Lompat ke lagu ini'
     },
     it: {
       title: 'Musica', folder: 'Cartella della musica', change: 'Cambia cartella', scanning: 'Lettura della cartella…',
@@ -387,7 +400,8 @@
       spRedirect: 'Redirect URI (aggiungilo alla tua app Spotify)', spCopy: 'Copia', spCopied: 'Copiato', spConnectedAs: 'Collegato come {name}',
       spHelp: 'Come configurarlo', spConnect: 'Collega', spDisconnect: 'Scollega', spDenied: 'L\'accesso a Spotify non è stato consentito.',
       spError: 'Spotify non ha risposto. Riprova tra poco.', spLoginAgain: 'L\'accesso a Spotify è scaduto: ricollegati.',
-      spNotRegistered: 'Questo account non è nella tua app Spotify: aggiungilo in User Management.', spBusy: 'Spotify ha chiesto di attendere un momento.'
+      spNotRegistered: 'Questo account non è nella tua app Spotify: aggiungilo in User Management.', spBusy: 'Spotify ha chiesto di attendere un momento.',
+      upNext: 'Prossimi brani', playingNow: 'In riproduzione', nothingNext: 'Nessun brano in arrivo', jump: 'Salta a questo'
     },
     ja: {
       title: '音楽', folder: '音楽フォルダー', change: 'フォルダーを変更', scanning: 'フォルダーを読み込み中…',
@@ -409,7 +423,8 @@
       spRedirect: 'Redirect URI（Spotify アプリに追加してください）', spCopy: 'コピー', spCopied: 'コピーしました', spConnectedAs: '{name} として接続中', spHelp: '設定方法', spConnect: '接続',
       spDisconnect: '接続を解除', spDenied: 'Spotify へのアクセスが許可されませんでした。', spError: 'Spotify から応答がありません。少ししてからもう一度お試しください。',
       spLoginAgain: 'Spotify のログインの有効期限が切れました。もう一度接続してください。', spNotRegistered: 'このアカウントは Spotify アプリに登録されていません。User Management で追加してください。',
-      spBusy: 'Spotify から少し待つよう求められました。'
+      spBusy: 'Spotify から少し待つよう求められました。',
+      upNext: '次に再生', playingNow: '再生中', nothingNext: '次の曲はありません', jump: 'この曲までスキップ'
     },
     ko: {
       title: '음악', folder: '음악 폴더', change: '폴더 변경', scanning: '폴더를 읽는 중…',
@@ -431,7 +446,8 @@
       spRedirect: 'Redirect URI(Spotify 앱에 추가하세요)', spCopy: '복사', spCopied: '복사됨', spConnectedAs: '{name}(으)로 연결됨', spHelp: '설정 방법', spConnect: '연결',
       spDisconnect: '연결 해제', spDenied: 'Spotify 접근이 허용되지 않았습니다.', spError: 'Spotify가 응답하지 않습니다. 잠시 후 다시 시도하세요.',
       spLoginAgain: 'Spotify 로그인이 만료되었습니다. 다시 연결하세요.', spNotRegistered: '이 계정은 Spotify 앱에 없습니다. User Management에서 추가하세요.',
-      spBusy: 'Spotify가 잠시 기다려 달라고 했습니다.'
+      spBusy: 'Spotify가 잠시 기다려 달라고 했습니다.',
+      upNext: '다음 곡', playingNow: '지금 재생 중', nothingNext: '다음 곡이 없습니다', jump: '이 곡으로 건너뛰기'
     },
     nl: {
       title: 'Muziek', folder: 'Muziekmap', change: 'Map wijzigen', scanning: 'Map wordt gelezen…',
@@ -455,7 +471,8 @@
       spRedirect: 'Redirect URI (voeg hem toe aan je Spotify-app)', spCopy: 'Kopiëren', spCopied: 'Gekopieerd', spConnectedAs: 'Verbonden als {name}',
       spHelp: 'Zo stel je het in', spConnect: 'Verbinden', spDisconnect: 'Verbinding verbreken', spDenied: 'Toegang tot Spotify is niet toegestaan.',
       spError: 'Spotify reageerde niet. Probeer het zo opnieuw.', spLoginAgain: 'De Spotify-login is verlopen: verbind opnieuw.',
-      spNotRegistered: 'Dit account staat niet in je Spotify-app: voeg het toe onder User Management.', spBusy: 'Spotify vroeg om even te wachten.'
+      spNotRegistered: 'Dit account staat niet in je Spotify-app: voeg het toe onder User Management.', spBusy: 'Spotify vroeg om even te wachten.',
+      upNext: 'Hierna', playingNow: 'Speelt nu', nothingNext: 'Hierna komt niets', jump: 'Naar deze springen'
     },
     no: {
       title: 'Musikk', folder: 'Musikkmappe', change: 'Bytt mappe', scanning: 'Leser mappen …',
@@ -479,7 +496,8 @@
       spRedirect: 'Redirect URI (legg den til i Spotify-appen din)', spCopy: 'Kopier', spCopied: 'Kopiert', spConnectedAs: 'Tilkoblet som {name}',
       spHelp: 'Slik setter du det opp', spConnect: 'Koble til', spDisconnect: 'Koble fra', spDenied: 'Tilgang til Spotify ble ikke tillatt.',
       spError: 'Spotify svarte ikke. Prøv igjen om litt.', spLoginAgain: 'Spotify-påloggingen har utløpt: koble til på nytt.',
-      spNotRegistered: 'Denne kontoen er ikke i Spotify-appen din: legg den til under User Management.', spBusy: 'Spotify ba om å vente litt.'
+      spNotRegistered: 'Denne kontoen er ikke i Spotify-appen din: legg den til under User Management.', spBusy: 'Spotify ba om å vente litt.',
+      upNext: 'Neste', playingNow: 'Spilles nå', nothingNext: 'Ingenting neste', jump: 'Hopp til denne'
     },
     pl: {
       title: 'Muzyka', folder: 'Folder z muzyką', change: 'Zmień folder', scanning: 'Odczytywanie folderu…',
@@ -504,7 +522,8 @@
       spRedirect: 'Redirect URI (dodaj go do swojej aplikacji Spotify)', spCopy: 'Kopiuj', spCopied: 'Skopiowano', spConnectedAs: 'Połączono jako {name}',
       spHelp: 'Jak to skonfigurować', spConnect: 'Połącz', spDisconnect: 'Rozłącz', spDenied: 'Nie zezwolono na dostęp do Spotify.',
       spError: 'Spotify nie odpowiedziało. Spróbuj ponownie za chwilę.', spLoginAgain: 'Logowanie do Spotify wygasło: połącz ponownie.',
-      spNotRegistered: 'Tego konta nie ma w Twojej aplikacji Spotify: dodaj je w User Management.', spBusy: 'Spotify poprosiło o chwilę cierpliwości.'
+      spNotRegistered: 'Tego konta nie ma w Twojej aplikacji Spotify: dodaj je w User Management.', spBusy: 'Spotify poprosiło o chwilę cierpliwości.',
+      upNext: 'Następne', playingNow: 'Teraz odtwarzane', nothingNext: 'Nic więcej w kolejce', jump: 'Przeskocz do tego'
     },
     pt: {
       title: 'Música', folder: 'Pasta de músicas', change: 'Trocar pasta', scanning: 'Lendo a pasta…',
@@ -530,7 +549,8 @@
       spConnectedAs: 'Conectado como {name}', spHelp: 'Como configurar', spConnect: 'Conectar', spDisconnect: 'Desconectar',
       spDenied: 'O acesso ao Spotify não foi permitido.', spError: 'O Spotify não respondeu. Tente de novo daqui a pouco.',
       spLoginAgain: 'O login do Spotify expirou: conecte de novo.',
-      spNotRegistered: 'Esta conta não está no seu app do Spotify: adicione em User Management.', spBusy: 'O Spotify pediu para esperar um pouco.'
+      spNotRegistered: 'Esta conta não está no seu app do Spotify: adicione em User Management.', spBusy: 'O Spotify pediu para esperar um pouco.',
+      upNext: 'A seguir', playingNow: 'Tocando agora', nothingNext: 'Nada a seguir', jump: 'Pular para esta'
     },
     // Only what differs from pt
     'pt-pt': {
@@ -549,7 +569,8 @@
       spHttps: 'O Spotify só liga com o CasaOS aberto por HTTPS (https://…). Veja os passos no README.', spClientId: 'Client ID da sua aplicação do Spotify',
       spRedirect: 'Redirect URI (adicione-o à sua aplicação do Spotify)', spConnectedAs: 'Ligado como {name}', spConnect: 'Ligar', spDisconnect: 'Desligar',
       spError: 'O Spotify não respondeu. Tente novamente daqui a pouco.', spLoginAgain: 'O início de sessão do Spotify expirou: ligue novamente.',
-      spNotRegistered: 'Esta conta não está na sua aplicação do Spotify: adicione-a em User Management.', spBusy: 'O Spotify pediu para aguardar um pouco.'
+      spNotRegistered: 'Esta conta não está na sua aplicação do Spotify: adicione-a em User Management.', spBusy: 'O Spotify pediu para aguardar um pouco.',
+      playingNow: 'A tocar agora', jump: 'Saltar para esta'
     },
     ro: {
       title: 'Muzică', folder: 'Dosarul cu muzică', change: 'Schimbă dosarul', scanning: 'Se citește dosarul…',
@@ -574,7 +595,8 @@
       spCopied: 'Copiat', spConnectedAs: 'Conectat ca {name}', spHelp: 'Cum se configurează', spConnect: 'Conectează', spDisconnect: 'Deconectează',
       spDenied: 'Accesul la Spotify nu a fost permis.', spError: 'Spotify nu a răspuns. Încearcă din nou peste puțin timp.',
       spLoginAgain: 'Autentificarea Spotify a expirat: conectează-te din nou.',
-      spNotRegistered: 'Acest cont nu este în aplicația ta Spotify: adaugă-l în User Management.', spBusy: 'Spotify a cerut să aștepți puțin.'
+      spNotRegistered: 'Acest cont nu este în aplicația ta Spotify: adaugă-l în User Management.', spBusy: 'Spotify a cerut să aștepți puțin.',
+      upNext: 'Urmează', playingNow: 'Se redă acum', nothingNext: 'Nu urmează nimic', jump: 'Sari la aceasta'
     },
     ru: {
       title: 'Музыка', folder: 'Папка с музыкой', change: 'Сменить папку', scanning: 'Чтение папки…',
@@ -599,7 +621,8 @@
       spRedirect: 'Redirect URI (добавьте его в приложение Spotify)', spCopy: 'Копировать', spCopied: 'Скопировано', spConnectedAs: 'Подключено как {name}',
       spHelp: 'Как настроить', spConnect: 'Подключить', spDisconnect: 'Отключить', spDenied: 'Доступ к Spotify не разрешён.',
       spError: 'Spotify не ответил. Попробуйте ещё раз чуть позже.', spLoginAgain: 'Вход в Spotify истёк: подключитесь снова.',
-      spNotRegistered: 'Этого аккаунта нет в вашем приложении Spotify: добавьте его в User Management.', spBusy: 'Spotify попросил немного подождать.'
+      spNotRegistered: 'Этого аккаунта нет в вашем приложении Spotify: добавьте его в User Management.', spBusy: 'Spotify попросил немного подождать.',
+      upNext: 'Далее', playingNow: 'Сейчас играет', nothingNext: 'Дальше ничего нет', jump: 'Перейти к этому треку'
     },
     sk: {
       title: 'Hudba', folder: 'Priečinok s hudbou', change: 'Zmeniť priečinok', scanning: 'Číta sa priečinok…',
@@ -625,7 +648,8 @@
       spConnectedAs: 'Pripojené ako {name}', spHelp: 'Ako to nastaviť', spConnect: 'Pripojiť', spDisconnect: 'Odpojiť',
       spDenied: 'Prístup k Spotify nebol povolený.', spError: 'Spotify neodpovedalo. Skúste to o chvíľu znova.',
       spLoginAgain: 'Prihlásenie do Spotify vypršalo: pripojte sa znova.',
-      spNotRegistered: 'Tento účet nie je vo vašej aplikácii Spotify: pridajte ho v User Management.', spBusy: 'Spotify požiadalo o chvíľu strpenia.'
+      spNotRegistered: 'Tento účet nie je vo vašej aplikácii Spotify: pridajte ho v User Management.', spBusy: 'Spotify požiadalo o chvíľu strpenia.',
+      upNext: 'Ďalej v poradí', playingNow: 'Práve hrá', nothingNext: 'Nič ďalšie v poradí', jump: 'Preskočiť na túto'
     },
     sl: {
       title: 'Glasba', folder: 'Mapa z glasbo', change: 'Zamenjaj mapo', scanning: 'Branje mape …',
@@ -650,7 +674,8 @@
       spRedirect: 'Redirect URI (dodajte ga v svojo aplikacijo Spotify)', spCopy: 'Kopiraj', spCopied: 'Kopirano', spConnectedAs: 'Povezano kot {name}',
       spHelp: 'Kako nastaviti', spConnect: 'Poveži', spDisconnect: 'Prekini povezavo', spDenied: 'Dostop do Spotifyja ni bil dovoljen.',
       spError: 'Spotify se ni odzval. Poskusite znova čez trenutek.', spLoginAgain: 'Prijava v Spotify je potekla: znova se povežite.',
-      spNotRegistered: 'Tega računa ni v vaši aplikaciji Spotify: dodajte ga v User Management.', spBusy: 'Spotify je prosil, da malo počakate.'
+      spNotRegistered: 'Tega računa ni v vaši aplikaciji Spotify: dodajte ga v User Management.', spBusy: 'Spotify je prosil, da malo počakate.',
+      upNext: 'Sledi', playingNow: 'Zdaj se predvaja', nothingNext: 'Nič ne sledi', jump: 'Preskoči na to'
     },
     sv: {
       title: 'Musik', folder: 'Musikmapp', change: 'Byt mapp', scanning: 'Läser mappen…',
@@ -674,7 +699,8 @@
       spRedirect: 'Redirect URI (lägg till den i din Spotify-app)', spCopy: 'Kopiera', spCopied: 'Kopierat', spConnectedAs: 'Ansluten som {name}',
       spHelp: 'Så konfigurerar du det', spConnect: 'Anslut', spDisconnect: 'Koppla från', spDenied: 'Åtkomst till Spotify tilläts inte.',
       spError: 'Spotify svarade inte. Försök igen om en stund.', spLoginAgain: 'Spotify-inloggningen har gått ut: anslut igen.',
-      spNotRegistered: 'Det här kontot finns inte i din Spotify-app: lägg till det under User Management.', spBusy: 'Spotify bad om att vänta en stund.'
+      spNotRegistered: 'Det här kontot finns inte i din Spotify-app: lägg till det under User Management.', spBusy: 'Spotify bad om att vänta en stund.',
+      upNext: 'Näst på tur', playingNow: 'Spelas nu', nothingNext: 'Inget näst på tur', jump: 'Hoppa till den här'
     },
     tr: {
       title: 'Müzik', folder: 'Müzik klasörü', change: 'Klasörü değiştir', scanning: 'Klasör okunuyor…',
@@ -699,7 +725,8 @@
       spCopied: 'Kopyalandı', spConnectedAs: '{name} olarak bağlı', spHelp: 'Nasıl kurulur', spConnect: 'Bağlan', spDisconnect: 'Bağlantıyı kes',
       spDenied: 'Spotify\'a erişime izin verilmedi.', spError: 'Spotify yanıt vermedi. Biraz sonra yeniden deneyin.',
       spLoginAgain: 'Spotify oturumunun süresi doldu: yeniden bağlanın.',
-      spNotRegistered: 'Bu hesap Spotify uygulamanızda yok: User Management bölümünden ekleyin.', spBusy: 'Spotify biraz beklemenizi istedi.'
+      spNotRegistered: 'Bu hesap Spotify uygulamanızda yok: User Management bölümünden ekleyin.', spBusy: 'Spotify biraz beklemenizi istedi.',
+      upNext: 'Sıradaki', playingNow: 'Şimdi çalıyor', nothingNext: 'Sırada bir şey yok', jump: 'Buna atla'
     },
     uk: {
       title: 'Музика', folder: 'Тека з музикою', change: 'Змінити теку', scanning: 'Читання теки…',
@@ -725,7 +752,8 @@
       spCopied: 'Скопійовано', spConnectedAs: 'Підключено як {name}', spHelp: 'Як налаштувати', spConnect: 'Підключити', spDisconnect: 'Відключити',
       spDenied: 'Доступ до Spotify не дозволено.', spError: 'Spotify не відповів. Спробуйте ще раз трохи згодом.',
       spLoginAgain: 'Вхід у Spotify закінчився: підключіться знову.',
-      spNotRegistered: 'Цього акаунта немає у вашому застосунку Spotify: додайте його в User Management.', spBusy: 'Spotify попросив трохи зачекати.'
+      spNotRegistered: 'Цього акаунта немає у вашому застосунку Spotify: додайте його в User Management.', spBusy: 'Spotify попросив трохи зачекати.',
+      upNext: 'Далі', playingNow: 'Зараз грає', nothingNext: 'Далі нічого немає', jump: 'Перейти до цього треку'
     },
     vi: {
       title: 'Âm nhạc', folder: 'Thư mục nhạc', change: 'Đổi thư mục', scanning: 'Đang đọc thư mục…',
@@ -751,7 +779,8 @@
       spCopied: 'Đã sao chép', spConnectedAs: 'Đã kết nối với tên {name}', spHelp: 'Cách thiết lập', spConnect: 'Kết nối', spDisconnect: 'Ngắt kết nối',
       spDenied: 'Quyền truy cập Spotify không được cho phép.', spError: 'Spotify không phản hồi. Hãy thử lại sau giây lát.',
       spLoginAgain: 'Phiên đăng nhập Spotify đã hết hạn: hãy kết nối lại.',
-      spNotRegistered: 'Tài khoản này không có trong ứng dụng Spotify của bạn: hãy thêm trong User Management.', spBusy: 'Spotify yêu cầu chờ một chút.'
+      spNotRegistered: 'Tài khoản này không có trong ứng dụng Spotify của bạn: hãy thêm trong User Management.', spBusy: 'Spotify yêu cầu chờ một chút.',
+      upNext: 'Tiếp theo', playingNow: 'Đang phát', nothingNext: 'Không có gì tiếp theo', jump: 'Chuyển đến bài này'
     },
     'zh-cn': {
       title: '音乐', folder: '音乐文件夹', change: '更换文件夹', scanning: '正在读取文件夹…',
@@ -771,7 +800,8 @@
       spNoDevice: '没有正在播放的设备：请选择一个。', spHttps: '只有通过 HTTPS（https://…）打开 CasaOS 时 Spotify 才能连接。步骤见 README。', spClientId: '你的 Spotify 应用的 Client ID',
       spRedirect: 'Redirect URI（添加到你的 Spotify 应用中）', spCopy: '复制', spCopied: '已复制', spConnectedAs: '已连接：{name}', spHelp: '如何设置', spConnect: '连接',
       spDisconnect: '断开连接', spDenied: '未允许访问 Spotify。', spError: 'Spotify 没有响应，请稍后再试。', spLoginAgain: 'Spotify 登录已过期：请重新连接。',
-      spNotRegistered: '此账户不在你的 Spotify 应用中：请在 User Management 中添加。', spBusy: 'Spotify 要求稍等片刻。'
+      spNotRegistered: '此账户不在你的 Spotify 应用中：请在 User Management 中添加。', spBusy: 'Spotify 要求稍等片刻。',
+      upNext: '接下来播放', playingNow: '正在播放', nothingNext: '接下来没有歌曲', jump: '跳到这首'
     },
     'zh-tw': {
       title: '音樂', folder: '音樂資料夾', change: '更換資料夾', scanning: '正在讀取資料夾…',
@@ -791,7 +821,8 @@
       spNoDevice: '沒有正在播放的裝置：請選擇一個。', spHttps: '只有透過 HTTPS（https://…）開啟 CasaOS 時 Spotify 才能連接。步驟請見 README。', spClientId: '你的 Spotify 應用程式的 Client ID',
       spRedirect: 'Redirect URI（加到你的 Spotify 應用程式中）', spCopy: '複製', spCopied: '已複製', spConnectedAs: '已連接：{name}', spHelp: '如何設定', spConnect: '連接',
       spDisconnect: '中斷連接', spDenied: '未允許存取 Spotify。', spError: 'Spotify 沒有回應，請稍後再試。', spLoginAgain: 'Spotify 登入已過期：請重新連接。',
-      spNotRegistered: '此帳戶不在你的 Spotify 應用程式中：請在 User Management 中新增。', spBusy: 'Spotify 要求稍候片刻。'
+      spNotRegistered: '此帳戶不在你的 Spotify 應用程式中：請在 User Management 中新增。', spBusy: 'Spotify 要求稍候片刻。',
+      upNext: '即將播放', playingNow: '正在播放', nothingNext: '接下來沒有歌曲', jump: '跳到這首'
     }
   };
 
@@ -840,7 +871,8 @@
     gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/>',
     heart: '<path d="M12 19.5s-7-4.3-7-9.6A4 4 0 0112 7.3a4 4 0 017 2.6c0 5.3-7 9.6-7 9.6z"/>',
     back: '<path d="M14.5 18l-6-6 6-6"/>',
-    check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>'
+    check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+    upnext: '<path d="M4 7h10M4 12h10M4 17h6"/><path d="M15.5 14.2v5.6l4.8-2.8z" fill="currentColor" stroke="none"/>'
   };
   function icon(name) {
     return '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" ' +
@@ -870,7 +902,7 @@
     loading: false, message: '',
     showList: false, showFolder: false, browsePath: '',
     source: saved.source === 'spotify' ? 'spotify' : 'local',   // local files or Spotify
-    showDevices: false, showSettings: false
+    showDevices: false, showSettings: false, showNext: false
   };
   // The saved queue (paths) waits for the folder to be read
   var pendingQueue = Array.isArray(saved.queue) ? saved.queue : null;
@@ -1420,6 +1452,7 @@
     else state.queue.push(i);
     save();
     renderList();
+    renderNext();
   }
 
   audio.addEventListener('ended', function () { step(1, true); });
@@ -1800,6 +1833,7 @@
     if ((p && p.uri) !== (before && before.uri)) {
       sp.liked = null;
       checkLiked();
+      if (state.showNext && state.source === 'spotify') loadNext();
     }
     if (p && p.device) probe();
     tick();
@@ -2007,7 +2041,7 @@
   // Devices with Spotify open; one click moves the music there
   function openDevices() {
     state.showDevices = true;
-    state.showList = state.showFolder = state.showSettings = false;
+    state.showList = state.showFolder = state.showSettings = state.showNext = false;
     loadDevices();
     render();
   }
@@ -2141,6 +2175,52 @@
     }, function () {
       delete sp.queued[r.uri];
     });
+    if (state.showNext) setTimeout(loadNext, 900);
+  }
+
+  // Spotify's "Up next": what plays now and the next ones (what you queued,
+  // then the playlist; Spotify gives about 20)
+  function loadNext() {
+    if (auth.off.queue || !connected()) return;
+    sp.nextLoading = true;
+    renderNext();
+    api('GET', '/me/player/queue').then(function (j) {
+      sp.next = {
+        now: j && j.currently_playing && j.currently_playing.uri ? trackRow(j.currently_playing) : null,
+        list: ((j && j.queue) || []).filter(function (x) { return x && x.uri; }).map(trackRow)
+      };
+      sp.nextLoading = false;
+      renderNext();
+    }, function (e) {
+      sp.nextLoading = false;
+      if (!refused('queue', e)) trouble(e);
+      renderNext();
+    });
+  }
+
+  // The API can't play from the queue: skipping to it, one track after the other
+  function jumpTo(k) {
+    if (auth.premium === false) {
+      sp.info = true;
+      return render();
+    }
+    if (sp.jumping) return;
+    var left = Math.min(20, k + 1);
+    sp.jumping = true;
+    renderNext();
+    (function step() {
+      api('POST', '/me/player/next').then(function () {
+        if (--left > 0) return setTimeout(step, 150);
+        sp.jumping = false;
+        later(300);
+        setTimeout(loadNext, 700);
+      }, function (e) {
+        sp.jumping = false;
+        trouble(e);
+        later(300);
+        renderNext();
+      });
+    })();
   }
 
   // The catalog, from the library's first level (Spotify gives 10 results at most)
@@ -2170,7 +2250,7 @@
     if (src !== 'spotify') src = 'local';
     if (state.source === src) return;
     state.source = src;
-    state.showList = state.showFolder = state.showDevices = state.showSettings = false;
+    state.showList = state.showFolder = state.showDevices = state.showSettings = state.showNext = false;
     sp.info = false;
     state.search = el.search.value = '';
     if (src === 'spotify') {
@@ -2218,8 +2298,8 @@
       '        <button type="button" class="smp-src" data-act="source" data-src="spotify">' + icon('spotify') + '</button>' +
       '      </span>' +
       '      <button type="button" class="smp-btn smp-small" data-act="list">' + icon('list') + '</button>' +
+      '      <button type="button" class="smp-btn smp-small" data-act="next-up">' + icon('upnext') + '</button>' +
       '      <button type="button" class="smp-btn smp-small" data-act="folder">' + icon('folder') + '</button>' +
-      '      <button type="button" class="smp-btn smp-small" data-act="devices">' + icon('device') + '</button>' +
       '      <button type="button" class="smp-btn smp-small" data-act="settings">' + icon('gear') + '</button>' +
       '    </span>' +
       '  </div>' +
@@ -2261,6 +2341,7 @@
       '      <button type="button" class="smp-text-btn" data-act="cancel"></button>' +
       '    </div>' +
       '  </div>' +
+      '  <div class="smp-upnext" hidden><div class="smp-nlist"></div></div>' +
       '  <div class="smp-devices" hidden>' +
       '    <div class="smp-label smp-dev-label"></div>' +
       '    <div class="smp-dev-list"></div>' +
@@ -2300,7 +2381,9 @@
     el.mute = root.querySelector('[data-act="mute"]');
     el.listBtn = root.querySelector('[data-act="list"]');
     el.folderBtn = root.querySelector('[data-act="folder"]');
-    el.devicesBtn = root.querySelector('.smp-head-btns [data-act="devices"]');
+    el.nextBtn = root.querySelector('[data-act="next-up"]');
+    el.upnext = root.querySelector('.smp-upnext');
+    el.nlist = root.querySelector('.smp-nlist');
     el.settingsBtn = root.querySelector('[data-act="settings"]');
     ['info', 'pop', 'like', 'device', 'devices', 'spset', 'https', 'cid', 'uri', 'account', 'help', 'controls', 'volume']
       .forEach(function (k) { el[k] = root.querySelector('.smp-' + k); });
@@ -2369,7 +2452,7 @@
     play: spToggle, next: spNext, prev: spPrev, shuffle: spShuffle, repeat: spRepeat, mute: spMute, like: toggleLike,
     list: function () {
       state.showList = !state.showList;
-      state.showDevices = state.showSettings = false;
+      state.showDevices = state.showSettings = state.showNext = false;
       state.search = el.search.value = '';
       sp.results = [];
       sp.resultsFor = '';
@@ -2383,7 +2466,7 @@
     },
     settings: function () {
       state.showSettings = !state.showSettings;
-      state.showList = state.showDevices = false;
+      state.showList = state.showDevices = state.showNext = false;
       render();
     },
     info: function () {
@@ -2431,11 +2514,25 @@
     if (btn) {
       var act = btn.getAttribute('data-act');
       if (act === 'source') return setSource(btn.getAttribute('data-src'));
+      if (act === 'next-up') {
+        state.showNext = !state.showNext;
+        state.showList = state.showFolder = state.showDevices = state.showSettings = false;
+        if (state.showNext && state.source === 'spotify') {
+          if (!connected()) {
+            state.showNext = false;
+            state.showSettings = true;
+          } else loadNext();
+        }
+        return render();
+      }
+      if (act === 'nx-play') return playIndex(Number(btn.getAttribute('data-index')), btn.hasAttribute('data-queued'));
+      if (act === 'nx-unqueue') return toggleQueue(Number(btn.getAttribute('data-index')));
+      if (act === 'nx-jump') return jumpTo(Number(btn.getAttribute('data-k')));
       if (state.source === 'spotify' && SP_ACTS[act]) {
         // not connected yet: everything leads to the settings
         if (!connected() && !SP_FREE[act]) {
           state.showSettings = true;
-          state.showList = state.showDevices = false;
+          state.showList = state.showDevices = state.showNext = false;
           return render();
         }
         return SP_ACTS[act](btn);
@@ -2451,14 +2548,14 @@
       } else if (act === 'mute') { state.muted = !state.muted; audio.muted = state.muted; save(); render(); }
       else if (act === 'list') {
         state.showList = !state.showList;
-        state.showFolder = false;
+        state.showFolder = state.showNext = false;
         state.search = el.search.value = '';
         listScrolledTo = -1;
         render();
       }
       else if (act === 'folder') {
         state.showFolder = !state.showFolder;
-        state.showList = false;
+        state.showList = state.showNext = false;
         if (state.showFolder) browse(state.folder);
         render();
       } else if (act === 'up') browse(el.path.value.replace(/\/[^/]+\/?$/, '') || '/');
@@ -2650,10 +2747,10 @@
     root.querySelector('[data-act="next"]').title = t('next');
     root.querySelector('[data-act="prev"]').title = t('prev');
     el.listBtn.title = t('spLibrary');
-    el.devicesBtn.title = t('spDevices');
+
     el.settingsBtn.title = t('spSettings');
     el.listBtn.classList.toggle('smp-on', state.showList);
-    el.devicesBtn.classList.toggle('smp-on', state.showDevices);
+
     el.settingsBtn.classList.toggle('smp-on', state.showSettings);
     el.like.hidden = !(p && isTrack(p.uri) && sp.liked != null && !auth.off.like);
     el.like.classList.toggle('smp-on', !!sp.liked);
@@ -2689,7 +2786,11 @@
     }
     el.heading.textContent = spotify ? 'Spotify' : t('title');
     el.folderBtn.hidden = spotify;
-    el.devicesBtn.hidden = el.settingsBtn.hidden = !spotify;
+    el.settingsBtn.hidden = !spotify;
+    el.nextBtn.hidden = spotify && !!auth.off.queue;
+    el.nextBtn.title = t('upNext');
+    el.nextBtn.classList.toggle('smp-on', state.showNext);
+    el.upnext.hidden = !state.showNext;
 
     if (spotify) renderSpotifyNow();
     else {
@@ -2724,7 +2825,104 @@
     root.querySelector('[data-act="sp-back"]').title = t('spBack');
     renderButtons();
     renderList();
+    renderNext();
     updateProgress();
+  }
+
+  // "Up next": what plays now, then what comes (local: the queue, then the
+  // playlist in play order; Spotify: its queue)
+  function nextRow(n, title, sub, act, data, extra) {
+    var row = document.createElement('div');
+    row.className = 'smp-track';
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'smp-track-play';
+    if (act) b.setAttribute('data-act', act);
+    Object.keys(data || {}).forEach(function (k) { b.setAttribute('data-' + k, data[k]); });
+    b.innerHTML = '<span class="smp-track-n"></span><span class="smp-track-t"></span><span class="smp-track-s"></span>';
+    b.children[0].textContent = n;
+    b.children[1].textContent = title;
+    b.children[2].textContent = sub || '';
+    row.appendChild(b);
+    if (extra) row.appendChild(extra);
+    return row;
+  }
+
+  function nextSection(text) {
+    var d = document.createElement('div');
+    d.className = 'smp-section';
+    d.textContent = text;
+    return d;
+  }
+
+  function renderNext() {
+    if (!root || !state.showNext) return;
+    var box = el.nlist, spotify = state.source === 'spotify', added = 0;
+    box.textContent = '';
+    if (spotify) {
+      var nx = sp.next;
+      if (nx && nx.now) {
+        box.appendChild(nextSection(t('playingNow')));
+        box.appendChild(nextRow('', nx.now.name, nx.now.artist)).classList.add('smp-current');
+      }
+      box.appendChild(nextSection(t('upNext')));
+      ((nx && nx.list) || []).forEach(function (r, k) {
+        var row = nextRow(k + 1, r.name, r.artist, 'nx-jump', { k: k });
+        row.firstChild.title = t('jump');
+        if (sp.jumping) row.firstChild.disabled = true;
+        box.appendChild(row);
+        added++;
+      });
+      if (!added) {
+        var none = document.createElement('div');
+        none.className = 'smp-none';
+        none.textContent = sp.nextLoading ? t('spLoading') : t('nothingNext');
+        box.appendChild(none);
+      }
+      return;
+    }
+    var cur = state.tracks[state.index];
+    if (cur) {
+      var info = cur.info || {};
+      box.appendChild(nextSection(t('playingNow')));
+      box.appendChild(nextRow('', info.title || cur.title, info.artist || cur.album)).classList.add('smp-current');
+    }
+    box.appendChild(nextSection(t('upNext')));
+    state.queue.forEach(function (i, k) {
+      var tr = state.tracks[i];
+      if (!tr) return;
+      var x = document.createElement('button');
+      x.type = 'button';
+      x.className = 'smp-queue';
+      x.setAttribute('data-act', 'nx-unqueue');
+      x.setAttribute('data-index', i);
+      x.title = t('queueRemove');
+      x.textContent = '✕';
+      var row = nextRow(k + 1, tr.title, tr.album, 'nx-play', { index: i, queued: 1 }, x);
+      row.classList.add('smp-queued');
+      box.appendChild(row);
+      added++;
+    });
+    // then the playlist, from where it goes on (around again when repeating)
+    var n = state.order.length, from = state.order.indexOf(state.context >= 0 ? state.context : state.index);
+    for (var k = 1, shown = 0; k < n + 1 && shown < 20; k++) {
+      var p = from + k;
+      if (p >= n) {
+        if (state.repeat === 'off' && from >= 0) break;
+        p %= n;
+      }
+      var i = state.order[p];
+      if (i === state.index || state.queue.indexOf(i) >= 0 || !state.tracks[i]) continue;
+      box.appendChild(nextRow('', state.tracks[i].title, state.tracks[i].album, 'nx-play', { index: i }));
+      shown++;
+      added++;
+    }
+    if (!added) {
+      var empty = document.createElement('div');
+      empty.className = 'smp-none';
+      empty.textContent = t('nothingNext');
+      box.appendChild(empty);
+    }
   }
 
   function setCover(url) {

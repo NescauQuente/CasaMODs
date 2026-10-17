@@ -4,7 +4,7 @@ A CasaMOD mod: the Music Player widget (`../casaos-music-player`, copied and ext
 
 - `music-player-spotify/` is the mod as installed (`mod.js`, `mod.css`): no build step, copied as is to `/DATA/AppData/casamod/mod/music-player-spotify/`.
 - It is its own project and replaces the Music Player: it sets `window.__musicPlayerWidget` (it loads first, alphabetically) so the Music Player stands down if both are installed, keeps its `widget-id="music-player"`, and takes over its local settings once. `../casaos-music-player` stays as it is: a fix to the local player may be worth copying to both.
-- The Spotify mode needs CasaOS over HTTPS (the user's: `tailscale serve`, `https://the-maquina.tail1ae8a1.ts.net/`) and a development-mode Spotify app (2026 rules: the owner needs Premium, up to 5 users, fewer endpoints for new apps, `product` gone from `GET /me`). A feature Spotify refuses is hidden (`auth.off`), never an error.
+- The Spotify mode needs CasaOS over HTTPS (the user's CasaOS over HTTPS through `tailscale serve`) and a development-mode Spotify app (2026 rules: the owner needs Premium, up to 5 users, fewer endpoints for new apps, `product` gone from `GET /me`). A feature Spotify refuses is hidden (`auth.off`), never an error.
 
 ## Working here
 

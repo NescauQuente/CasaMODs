@@ -361,6 +361,7 @@
 .smp-info[hidden],
 .smp-pop[hidden],
 .smp-devices[hidden],
+.smp-upnext[hidden],
 .smp-spset[hidden],
 .smp-sp-head[hidden],
 .smp-account[hidden],
@@ -424,7 +425,8 @@
 .smp-widget.smp-free .smp-controls,
 .smp-widget.smp-free .smp-volume { display: none; }
 
-/* Devices and settings panels (the folder picker's look) */
+/* Up next, devices and settings panels (the folder picker's look) */
+.smp-upnext,
 .smp-devices,
 .smp-spset {
   display: grid;
@@ -432,6 +434,9 @@
   padding-top: 0.25rem;
   border-top: 1px solid var(--smp-faint);
 }
+.smp-nlist { display: grid; max-height: 14rem; overflow-y: auto; }
+/* Queued tracks: their place in the queue in the accent color, ✕ takes them out */
+.smp-track.smp-queued .smp-track-n { color: var(--smp-accent); font-weight: 600; }
 .smp-dev-list { display: grid; max-height: 10rem; overflow-y: auto; font-size: 0.8rem; color: var(--smp-muted); }
 .smp-dev.smp-current { color: var(--smp-accent); }
 .smp-dev:disabled { opacity: 0.45; cursor: default; }
