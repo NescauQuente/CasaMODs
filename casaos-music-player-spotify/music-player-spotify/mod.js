@@ -2785,9 +2785,23 @@
       keeper.loop = true;
     }
     if (keeper.paused) {
-      var r = keeper.play();
+      var r;
+      try { r = quietPlay(keeper); } catch (e) { r = keeper.play(); }
       if (r && r.catch) r.catch(function () { /* no click yet: Spotify's frame keeps the controls */ });
     }
+  }
+  // Started with a play() of its own (from a blank frame): other mods watch
+  // what the page's play() starts, and Live Wallpapers would show this
+  // silence as the song (0:00 of 0:00, over and over)
+  var quietFrame = null;
+  function quietPlay(el) {
+    if (!quietFrame || !quietFrame.isConnected) {
+      quietFrame = document.createElement('iframe');
+      quietFrame.style.display = 'none';
+      quietFrame.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(quietFrame);
+    }
+    return quietFrame.contentWindow.HTMLMediaElement.prototype.play.call(el);
   }
 
   // Protected (EME) audio, over HTTPS
