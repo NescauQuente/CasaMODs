@@ -365,6 +365,8 @@
 .smp-spset[hidden],
 .smp-sp-head[hidden],
 .smp-account[hidden],
+.smp-check[hidden],
+.smp-web-note[hidden],
 .smp-note[hidden],
 .smp-text-btn[hidden] { display: none; }
 
@@ -454,6 +456,14 @@
   line-height: 1.35;
 }
 .smp-account { font-size: 0.8rem; color: var(--smp-muted); }
+/* Play in this browser: how it goes, as a warning when it can't */
+.smp-web-note { margin: 0; font-size: 0.75rem; line-height: 1.35; color: var(--smp-muted); }
+.smp-web-note.smp-warn {
+  padding: 0.45rem 0.55rem;
+  border-radius: 0.45rem;
+  background: rgba(255, 190, 60, 0.16);
+  color: inherit;
+}
 .smp-spset .smp-folder-btns { align-items: center; }
 .smp-help {
   margin-inline-end: auto;

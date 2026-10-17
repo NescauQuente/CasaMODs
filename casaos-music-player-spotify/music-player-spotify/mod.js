@@ -52,7 +52,14 @@
       spHelp: 'How to set it up', spConnect: 'Connect', spDisconnect: 'Disconnect', spDenied: 'Access to Spotify was not allowed.',
       spError: 'Spotify didn\'t answer. Try again in a moment.', spLoginAgain: 'The Spotify login expired: connect again.',
       spNotRegistered: 'This account isn\'t in your Spotify app: add it under User Management.', spBusy: 'Spotify asked to wait a moment.',
-      upNext: 'Up next', playingNow: 'Now playing', nothingNext: 'Nothing up next', jump: 'Skip to this one'
+      upNext: 'Up next', playingNow: 'Now playing', nothingNext: 'Nothing up next', jump: 'Skip to this one',
+      spWeb: 'Play in this browser',
+      spWebHint: 'This tab becomes a Spotify device and plays the music. It needs Premium and Web Playback SDK ticked in your Spotify app.',
+      spWebStarting: 'Starting the player in this browser…', spWebReady: 'Ready: {name} is in your Spotify devices.',
+      spWebOther: 'Another CasaOS tab in this browser is the device.', spWebScope: 'Connect again (below) to allow playing in this browser.',
+      spWebDrm: 'This browser can\'t play Spotify here: protected content (DRM) is off or not supported.',
+      spWebFailed: 'Spotify didn\'t take this browser as a device: it needs Premium and Web Playback SDK ticked in your Spotify app.',
+      spWebTap: 'The browser held back the sound: press play.', spThisBrowser: 'This browser'
     },
     ar: {
       title: 'الموسيقى', folder: 'مجلد الموسيقى', change: 'تغيير المجلد', scanning: 'جارٍ قراءة المجلد…',
@@ -77,7 +84,14 @@
       spHelp: 'طريقة الإعداد', spConnect: 'اتصال', spDisconnect: 'قطع الاتصال', spDenied: 'لم يُسمح بالوصول إلى Spotify.',
       spError: 'لم يستجب Spotify. أعد المحاولة بعد قليل.', spLoginAgain: 'انتهت صلاحية تسجيل الدخول إلى Spotify: اتصل مجددًا.',
       spNotRegistered: 'هذا الحساب غير موجود في تطبيقك في Spotify: أضفه في User Management.', spBusy: 'طلب Spotify الانتظار قليلًا.',
-      upNext: 'التالي', playingNow: 'قيد التشغيل الآن', nothingNext: 'لا شيء تالٍ', jump: 'انتقل إلى هذا'
+      upNext: 'التالي', playingNow: 'قيد التشغيل الآن', nothingNext: 'لا شيء تالٍ', jump: 'انتقل إلى هذا',
+      spWeb: 'التشغيل في هذا المتصفح',
+      spWebHint: 'تصبح علامة التبويب هذه جهاز Spotify وتشغّل الموسيقى. يتطلب ذلك Premium وتحديد Web Playback SDK في تطبيقك على Spotify.',
+      spWebStarting: 'جارٍ تشغيل المشغّل في هذا المتصفح…', spWebReady: 'جاهز: {name} ضمن أجهزتك على Spotify.',
+      spWebOther: 'علامة تبويب أخرى لـ CasaOS في هذا المتصفح هي الجهاز.', spWebScope: 'اتصل مرة أخرى (أدناه) للسماح بالتشغيل في هذا المتصفح.',
+      spWebDrm: 'لا يستطيع هذا المتصفح تشغيل Spotify هنا: المحتوى المحمي (DRM) معطّل أو غير مدعوم.',
+      spWebFailed: 'لم يقبل Spotify هذا المتصفح كجهاز: يتطلب ذلك Premium وتحديد Web Playback SDK في تطبيقك على Spotify.',
+      spWebTap: 'منع المتصفح الصوت: اضغط تشغيل.', spThisBrowser: 'هذا المتصفح'
     },
     be: {
       title: 'Музыка', folder: 'Папка з музыкай', change: 'Змяніць папку', scanning: 'Чытанне папкі…',
@@ -103,7 +117,15 @@
       spHelp: 'Як наладзіць', spConnect: 'Падключыць', spDisconnect: 'Адключыць', spDenied: 'Доступ да Spotify не дазволены.',
       spError: 'Spotify не адказаў. Паспрабуйце яшчэ раз крыху пазней.', spLoginAgain: 'Уваход у Spotify скончыўся: падключыцеся зноў.',
       spNotRegistered: 'Гэтага акаўнта няма ў вашай праграме Spotify: дадайце яго ў User Management.', spBusy: 'Spotify папрасіў крыху пачакаць.',
-      upNext: 'Далей', playingNow: 'Зараз грае', nothingNext: 'Далей нічога няма', jump: 'Перайсці да гэтага трэка'
+      upNext: 'Далей', playingNow: 'Зараз грае', nothingNext: 'Далей нічога няма', jump: 'Перайсці да гэтага трэка',
+      spWeb: 'Іграць у гэтым браўзеры',
+      spWebHint: 'Гэтая ўкладка стане прыладай Spotify і будзе іграць музыку. Патрэбныя Premium і адзначаны Web Playback SDK у вашай праграме Spotify.',
+      spWebStarting: 'Запуск плэера ў гэтым браўзеры…', spWebReady: 'Гатова: {name} ёсць у вашых прыладах Spotify.',
+      spWebOther: 'Прыладай стала іншая ўкладка CasaOS у гэтым браўзеры.',
+      spWebScope: 'Падключыцеся зноў (ніжэй), каб дазволіць прайграванне ў гэтым браўзеры.',
+      spWebDrm: 'Гэты браўзер не можа прайграваць Spotify тут: абаронены змест (DRM) адключаны або не падтрымліваецца.',
+      spWebFailed: 'Spotify не прыняў гэты браўзер як прыладу: патрэбныя Premium і адзначаны Web Playback SDK у вашай праграме Spotify.',
+      spWebTap: 'Браўзер заблакаваў гук: націсніце «Прайграць».', spThisBrowser: 'Гэты браўзер'
     },
     bg: {
       title: 'Музика', folder: 'Папка с музика', change: 'Смяна на папката', scanning: 'Четене на папката…',
@@ -130,7 +152,15 @@
       spDenied: 'Достъпът до Spotify не беше разрешен.', spError: 'Spotify не отговори. Опитайте отново след малко.',
       spLoginAgain: 'Влизането в Spotify изтече: свържете се отново.',
       spNotRegistered: 'Този акаунт не е в приложението ви в Spotify: добавете го в User Management.', spBusy: 'Spotify помоли да се изчака малко.',
-      upNext: 'Следва', playingNow: 'Сега звучи', nothingNext: 'Нищо не следва', jump: 'Прескочи до тази'
+      upNext: 'Следва', playingNow: 'Сега звучи', nothingNext: 'Нищо не следва', jump: 'Прескочи до тази',
+      spWeb: 'Възпроизвеждане в този браузър',
+      spWebHint: 'Този раздел става устройство на Spotify и пуска музиката. Нужни са Premium и отметнат Web Playback SDK във вашето приложение в Spotify.',
+      spWebStarting: 'Плейърът в този браузър се стартира…', spWebReady: 'Готово: {name} е сред устройствата ви в Spotify.',
+      spWebOther: 'Устройството е друг раздел на CasaOS в този браузър.',
+      spWebScope: 'Свържете се отново (по-долу), за да разрешите възпроизвеждане в този браузър.',
+      spWebDrm: 'Този браузър не може да възпроизвежда Spotify тук: защитеното съдържание (DRM) е изключено или не се поддържа.',
+      spWebFailed: 'Spotify не прие този браузър като устройство: нужни са Premium и отметнат Web Playback SDK във вашето приложение в Spotify.',
+      spWebTap: 'Браузърът спря звука: натиснете „Пусни“.', spThisBrowser: 'Този браузър'
     },
     ca: {
       title: 'Música', folder: 'Carpeta de música', change: 'Canvia la carpeta', scanning: 'Llegint la carpeta…',
@@ -157,7 +187,15 @@
       spDenied: 'No s\'ha permès l\'accés a l\'Spotify.', spError: 'L\'Spotify no ha respost. Torna-ho a provar d\'aquí a una estona.',
       spLoginAgain: 'La sessió de l\'Spotify ha caducat: torna a connectar.',
       spNotRegistered: 'Aquest compte no és a la teva app de l\'Spotify: afegeix-lo a User Management.', spBusy: 'L\'Spotify ha demanat esperar una mica.',
-      upNext: 'A continuació', playingNow: 'Sonant ara', nothingNext: 'No hi ha res a continuació', jump: 'Salta a aquesta'
+      upNext: 'A continuació', playingNow: 'Sonant ara', nothingNext: 'No hi ha res a continuació', jump: 'Salta a aquesta',
+      spWeb: 'Reprodueix en aquest navegador',
+      spWebHint: 'Aquesta pestanya es converteix en un dispositiu de Spotify i reprodueix la música. Cal Premium i Web Playback SDK marcat a la teva app de Spotify.',
+      spWebStarting: 'S\'està iniciant el reproductor en aquest navegador…', spWebReady: 'A punt: {name} és als teus dispositius de Spotify.',
+      spWebOther: 'Una altra pestanya del CasaOS en aquest navegador és el dispositiu.',
+      spWebScope: 'Torna a connectar (a sota) per permetre la reproducció en aquest navegador.',
+      spWebDrm: 'Aquest navegador no pot reproduir Spotify aquí: el contingut protegit (DRM) està desactivat o no és compatible.',
+      spWebFailed: 'Spotify no ha acceptat aquest navegador com a dispositiu: cal Premium i Web Playback SDK marcat a la teva app de Spotify.',
+      spWebTap: 'El navegador ha retingut el so: prem reproduir.', spThisBrowser: 'Aquest navegador'
     },
     cs: {
       title: 'Hudba', folder: 'Složka s hudbou', change: 'Změnit složku', scanning: 'Čtení složky…',
@@ -183,7 +221,15 @@
       spHelp: 'Jak to nastavit', spConnect: 'Připojit', spDisconnect: 'Odpojit', spDenied: 'Přístup ke Spotify nebyl povolen.',
       spError: 'Spotify neodpovědělo. Zkuste to za chvíli znovu.', spLoginAgain: 'Přihlášení ke Spotify vypršelo: připojte se znovu.',
       spNotRegistered: 'Tento účet není ve vaší aplikaci Spotify: přidejte ho v User Management.', spBusy: 'Spotify požádalo o chvilku strpení.',
-      upNext: 'Další v pořadí', playingNow: 'Právě hraje', nothingNext: 'Nic dalšího v pořadí', jump: 'Přeskočit na tuto'
+      upNext: 'Další v pořadí', playingNow: 'Právě hraje', nothingNext: 'Nic dalšího v pořadí', jump: 'Přeskočit na tuto',
+      spWeb: 'Přehrávat v tomto prohlížeči',
+      spWebHint: 'Tato karta se stane zařízením Spotify a bude přehrávat hudbu. Vyžaduje Premium a zaškrtnuté Web Playback SDK ve vaší aplikaci Spotify.',
+      spWebStarting: 'Spouštění přehrávače v tomto prohlížeči…', spWebReady: 'Hotovo: {name} je mezi vašimi zařízeními Spotify.',
+      spWebOther: 'Zařízením je jiná karta CasaOS v tomto prohlížeči.',
+      spWebScope: 'Připojte se znovu (níže), abyste povolili přehrávání v tomto prohlížeči.',
+      spWebDrm: 'Tento prohlížeč tu nemůže přehrávat Spotify: chráněný obsah (DRM) je vypnutý nebo není podporován.',
+      spWebFailed: 'Spotify nepřijal tento prohlížeč jako zařízení: vyžaduje Premium a zaškrtnuté Web Playback SDK ve vaší aplikaci Spotify.',
+      spWebTap: 'Prohlížeč zadržel zvuk: stiskněte přehrát.', spThisBrowser: 'Tento prohlížeč'
     },
     de: {
       title: 'Musik', folder: 'Musikordner', change: 'Ordner wechseln', scanning: 'Ordner wird gelesen…',
@@ -209,7 +255,15 @@
       spDenied: 'Der Zugriff auf Spotify wurde nicht erlaubt.', spError: 'Spotify hat nicht geantwortet. Versuch es gleich noch einmal.',
       spLoginAgain: 'Die Spotify-Anmeldung ist abgelaufen: verbinde dich neu.',
       spNotRegistered: 'Dieses Konto ist nicht in deiner Spotify-App: füge es unter User Management hinzu.', spBusy: 'Spotify bittet, kurz zu warten.',
-      upNext: 'Als Nächstes', playingNow: 'Läuft gerade', nothingNext: 'Als Nächstes kommt nichts', jump: 'Zu diesem springen'
+      upNext: 'Als Nächstes', playingNow: 'Läuft gerade', nothingNext: 'Als Nächstes kommt nichts', jump: 'Zu diesem springen',
+      spWeb: 'In diesem Browser abspielen',
+      spWebHint: 'Dieser Tab wird zu einem Spotify-Gerät und spielt die Musik ab. Nötig sind Premium und ein Häkchen bei Web Playback SDK in deiner Spotify-App.',
+      spWebStarting: 'Player in diesem Browser wird gestartet…', spWebReady: 'Bereit: {name} ist in deinen Spotify-Geräten.',
+      spWebOther: 'Ein anderer CasaOS-Tab in diesem Browser ist das Gerät.',
+      spWebScope: 'Verbinde dich erneut (unten), um die Wiedergabe in diesem Browser zu erlauben.',
+      spWebDrm: 'Dieser Browser kann Spotify hier nicht abspielen: Geschützte Inhalte (DRM) sind aus oder werden nicht unterstützt.',
+      spWebFailed: 'Spotify hat diesen Browser nicht als Gerät angenommen: Nötig sind Premium und ein Häkchen bei Web Playback SDK in deiner Spotify-App.',
+      spWebTap: 'Der Browser hat den Ton zurückgehalten: Drück auf Play.', spThisBrowser: 'Dieser Browser'
     },
     el: {
       title: 'Μουσική', folder: 'Φάκελος μουσικής', change: 'Αλλαγή φακέλου', scanning: 'Ανάγνωση φακέλου…',
@@ -238,7 +292,15 @@
       spLoginAgain: 'Η σύνδεση στο Spotify έληξε: συνδεθείτε ξανά.',
       spNotRegistered: 'Αυτός ο λογαριασμός δεν είναι στην εφαρμογή σας στο Spotify: προσθέστε τον στο User Management.',
       spBusy: 'Το Spotify ζήτησε να περιμένετε λίγο.',
-      upNext: 'Ακολουθεί', playingNow: 'Παίζει τώρα', nothingNext: 'Δεν ακολουθεί τίποτα', jump: 'Μετάβαση σε αυτό'
+      upNext: 'Ακολουθεί', playingNow: 'Παίζει τώρα', nothingNext: 'Δεν ακολουθεί τίποτα', jump: 'Μετάβαση σε αυτό',
+      spWeb: 'Αναπαραγωγή σε αυτό το πρόγραμμα περιήγησης',
+      spWebHint: 'Αυτή η καρτέλα γίνεται συσκευή Spotify και παίζει τη μουσική. Χρειάζεται Premium και επιλεγμένο το Web Playback SDK στην εφαρμογή σας στο Spotify.',
+      spWebStarting: 'Εκκίνηση του player σε αυτό το πρόγραμμα περιήγησης…', spWebReady: 'Έτοιμο: το {name} είναι στις συσκευές σας στο Spotify.',
+      spWebOther: 'Η συσκευή είναι μια άλλη καρτέλα του CasaOS σε αυτό το πρόγραμμα περιήγησης.',
+      spWebScope: 'Συνδεθείτε ξανά (παρακάτω) για να επιτρέψετε την αναπαραγωγή σε αυτό το πρόγραμμα περιήγησης.',
+      spWebDrm: 'Αυτό το πρόγραμμα περιήγησης δεν μπορεί να παίξει Spotify εδώ: το προστατευμένο περιεχόμενο (DRM) είναι απενεργοποιημένο ή δεν υποστηρίζεται.',
+      spWebFailed: 'Το Spotify δεν δέχτηκε αυτό το πρόγραμμα περιήγησης ως συσκευή: χρειάζεται Premium και επιλεγμένο το Web Playback SDK στην εφαρμογή σας στο Spotify.',
+      spWebTap: 'Το πρόγραμμα περιήγησης συγκράτησε τον ήχο: πατήστε αναπαραγωγή.', spThisBrowser: 'Αυτό το πρόγραμμα περιήγησης'
     },
     es: {
       title: 'Música', folder: 'Carpeta de música', change: 'Cambiar carpeta', scanning: 'Leyendo la carpeta…',
@@ -265,7 +327,15 @@
       spDenied: 'No se permitió el acceso a Spotify.', spError: 'Spotify no respondió. Inténtalo de nuevo en un momento.',
       spLoginAgain: 'La sesión de Spotify caducó: vuelve a conectar.',
       spNotRegistered: 'Esta cuenta no está en tu app de Spotify: añádela en User Management.', spBusy: 'Spotify pidió esperar un momento.',
-      upNext: 'A continuación', playingNow: 'Sonando ahora', nothingNext: 'No hay nada a continuación', jump: 'Saltar a esta'
+      upNext: 'A continuación', playingNow: 'Sonando ahora', nothingNext: 'No hay nada a continuación', jump: 'Saltar a esta',
+      spWeb: 'Reproducir en este navegador',
+      spWebHint: 'Esta pestaña se convierte en un dispositivo de Spotify y reproduce la música. Necesita Premium y Web Playback SDK marcado en tu app de Spotify.',
+      spWebStarting: 'Iniciando el reproductor en este navegador…', spWebReady: 'Listo: {name} está en tus dispositivos de Spotify.',
+      spWebOther: 'Otra pestaña de CasaOS en este navegador es el dispositivo.',
+      spWebScope: 'Vuelve a conectar (abajo) para permitir reproducir en este navegador.',
+      spWebDrm: 'Este navegador no puede reproducir Spotify aquí: el contenido protegido (DRM) está desactivado o no es compatible.',
+      spWebFailed: 'Spotify no aceptó este navegador como dispositivo: necesita Premium y Web Playback SDK marcado en tu app de Spotify.',
+      spWebTap: 'El navegador retuvo el sonido: pulsa reproducir.', spThisBrowser: 'Este navegador'
     },
     fr: {
       title: 'Musique', folder: 'Dossier de musique', change: 'Changer de dossier', scanning: 'Lecture du dossier…',
@@ -293,7 +363,15 @@
       spDenied: 'L\'accès à Spotify n\'a pas été autorisé.', spError: 'Spotify n\'a pas répondu. Réessayez dans un instant.',
       spLoginAgain: 'La connexion à Spotify a expiré : reconnectez-vous.',
       spNotRegistered: 'Ce compte n\'est pas dans votre appli Spotify : ajoutez-le dans User Management.', spBusy: 'Spotify demande d\'attendre un instant.',
-      upNext: 'À suivre', playingNow: 'En cours de lecture', nothingNext: 'Rien à suivre', jump: 'Passer à celle-ci'
+      upNext: 'À suivre', playingNow: 'En cours de lecture', nothingNext: 'Rien à suivre', jump: 'Passer à celle-ci',
+      spWeb: 'Lire dans ce navigateur',
+      spWebHint: 'Cet onglet devient un appareil Spotify et joue la musique. Il faut Premium et Web Playback SDK coché dans votre appli Spotify.',
+      spWebStarting: 'Démarrage du lecteur dans ce navigateur…', spWebReady: 'Prêt : {name} figure dans vos appareils Spotify.',
+      spWebOther: 'Un autre onglet CasaOS de ce navigateur est l\'appareil.',
+      spWebScope: 'Reconnectez-vous (ci-dessous) pour autoriser la lecture dans ce navigateur.',
+      spWebDrm: 'Ce navigateur ne peut pas lire Spotify ici : le contenu protégé (DRM) est désactivé ou non pris en charge.',
+      spWebFailed: 'Spotify n\'a pas accepté ce navigateur comme appareil : il faut Premium et Web Playback SDK coché dans votre appli Spotify.',
+      spWebTap: 'Le navigateur a bloqué le son : appuyez sur lecture.', spThisBrowser: 'Ce navigateur'
     },
     hr: {
       title: 'Glazba', folder: 'Mapa s glazbom', change: 'Promijeni mapu', scanning: 'Čitanje mape…',
@@ -320,7 +398,15 @@
       spDenied: 'Pristup Spotifyju nije dopušten.', spError: 'Spotify nije odgovorio. Pokušajte ponovno za trenutak.',
       spLoginAgain: 'Prijava na Spotify je istekla: povežite se ponovno.',
       spNotRegistered: 'Ovaj račun nije u vašoj Spotify aplikaciji: dodajte ga u User Management.', spBusy: 'Spotify je zatražio da malo pričekate.',
-      upNext: 'Sljedeće', playingNow: 'Sada svira', nothingNext: 'Ništa sljedeće', jump: 'Preskoči na ovu'
+      upNext: 'Sljedeće', playingNow: 'Sada svira', nothingNext: 'Ništa sljedeće', jump: 'Preskoči na ovu',
+      spWeb: 'Reproduciraj u ovom pregledniku',
+      spWebHint: 'Ova kartica postaje Spotify uređaj i reproducira glazbu. Potrebni su Premium i označen Web Playback SDK u vašoj Spotify aplikaciji.',
+      spWebStarting: 'Pokretanje playera u ovom pregledniku…', spWebReady: 'Spremno: {name} je među vašim Spotify uređajima.',
+      spWebOther: 'Uređaj je druga CasaOS kartica u ovom pregledniku.',
+      spWebScope: 'Ponovno se povežite (ispod) da biste dopustili reprodukciju u ovom pregledniku.',
+      spWebDrm: 'Ovaj preglednik ovdje ne može reproducirati Spotify: zaštićeni sadržaj (DRM) je isključen ili nije podržan.',
+      spWebFailed: 'Spotify nije prihvatio ovaj preglednik kao uređaj: potrebni su Premium i označen Web Playback SDK u vašoj Spotify aplikaciji.',
+      spWebTap: 'Preglednik je zadržao zvuk: pritisnite reprodukciju.', spThisBrowser: 'Ovaj preglednik'
     },
     hu: {
       title: 'Zene', folder: 'Zenemappa', change: 'Mappa módosítása', scanning: 'Mappa beolvasása…',
@@ -348,7 +434,15 @@
       spDenied: 'A Spotify-hozzáférést nem engedélyezték.', spError: 'A Spotify nem válaszolt. Próbáld újra egy kicsit később.',
       spLoginAgain: 'A Spotify-bejelentkezés lejárt: csatlakozz újra.',
       spNotRegistered: 'Ez a fiók nincs benne a Spotify-alkalmazásodban: add hozzá a User Management részben.', spBusy: 'A Spotify egy kis várakozást kért.',
-      upNext: 'Következik', playingNow: 'Most szól', nothingNext: 'Nincs következő', jump: 'Ugrás erre'
+      upNext: 'Következik', playingNow: 'Most szól', nothingNext: 'Nincs következő', jump: 'Ugrás erre',
+      spWeb: 'Lejátszás ebben a böngészőben',
+      spWebHint: 'Ez a lap Spotify-eszközzé válik, és lejátssza a zenét. Premium kell, és a Spotify-alkalmazásodban bejelölt Web Playback SDK.',
+      spWebStarting: 'A lejátszó indul ebben a böngészőben…', spWebReady: 'Kész: {name} ott van a Spotify-eszközeid között.',
+      spWebOther: 'Egy másik CasaOS-lap ebben a böngészőben az eszköz.',
+      spWebScope: 'Csatlakozz újra (lent), hogy engedélyezd a lejátszást ebben a böngészőben.',
+      spWebDrm: 'Ez a böngésző itt nem tudja lejátszani a Spotifyt: a védett tartalom (DRM) ki van kapcsolva, vagy nem támogatott.',
+      spWebFailed: 'A Spotify nem fogadta el ezt a böngészőt eszközként: Premium kell, és a Spotify-alkalmazásodban bejelölt Web Playback SDK.',
+      spWebTap: 'A böngésző visszatartotta a hangot: nyomd meg a lejátszást.', spThisBrowser: 'Ez a böngésző'
     },
     id: {
       title: 'Musik', folder: 'Folder musik', change: 'Ganti folder', scanning: 'Membaca folder…',
@@ -375,7 +469,15 @@
       spDenied: 'Akses ke Spotify tidak diizinkan.', spError: 'Spotify tidak menjawab. Coba lagi sebentar lagi.',
       spLoginAgain: 'Login Spotify kedaluwarsa: hubungkan lagi.',
       spNotRegistered: 'Akun ini tidak ada di aplikasi Spotify-mu: tambahkan di User Management.', spBusy: 'Spotify meminta untuk menunggu sebentar.',
-      upNext: 'Berikutnya', playingNow: 'Sedang diputar', nothingNext: 'Tidak ada yang berikutnya', jump: 'Lompat ke lagu ini'
+      upNext: 'Berikutnya', playingNow: 'Sedang diputar', nothingNext: 'Tidak ada yang berikutnya', jump: 'Lompat ke lagu ini',
+      spWeb: 'Putar di browser ini',
+      spWebHint: 'Tab ini menjadi perangkat Spotify dan memutar musiknya. Perlu Premium dan Web Playback SDK dicentang di aplikasi Spotify Anda.',
+      spWebStarting: 'Memulai pemutar di browser ini…', spWebReady: 'Siap: {name} ada di perangkat Spotify Anda.',
+      spWebOther: 'Tab CasaOS lain di browser ini yang menjadi perangkatnya.',
+      spWebScope: 'Hubungkan lagi (di bawah) untuk mengizinkan pemutaran di browser ini.',
+      spWebDrm: 'Browser ini tidak dapat memutar Spotify di sini: konten terlindungi (DRM) mati atau tidak didukung.',
+      spWebFailed: 'Spotify tidak menerima browser ini sebagai perangkat: perlu Premium dan Web Playback SDK dicentang di aplikasi Spotify Anda.',
+      spWebTap: 'Browser menahan suaranya: tekan putar.', spThisBrowser: 'Browser ini'
     },
     it: {
       title: 'Musica', folder: 'Cartella della musica', change: 'Cambia cartella', scanning: 'Lettura della cartella…',
@@ -401,7 +503,15 @@
       spHelp: 'Come configurarlo', spConnect: 'Collega', spDisconnect: 'Scollega', spDenied: 'L\'accesso a Spotify non è stato consentito.',
       spError: 'Spotify non ha risposto. Riprova tra poco.', spLoginAgain: 'L\'accesso a Spotify è scaduto: ricollegati.',
       spNotRegistered: 'Questo account non è nella tua app Spotify: aggiungilo in User Management.', spBusy: 'Spotify ha chiesto di attendere un momento.',
-      upNext: 'Prossimi brani', playingNow: 'In riproduzione', nothingNext: 'Nessun brano in arrivo', jump: 'Salta a questo'
+      upNext: 'Prossimi brani', playingNow: 'In riproduzione', nothingNext: 'Nessun brano in arrivo', jump: 'Salta a questo',
+      spWeb: 'Riproduci in questo browser',
+      spWebHint: 'Questa scheda diventa un dispositivo Spotify e riproduce la musica. Servono Premium e Web Playback SDK spuntato nella tua app Spotify.',
+      spWebStarting: 'Avvio del player in questo browser…', spWebReady: 'Pronto: {name} è tra i tuoi dispositivi Spotify.',
+      spWebOther: 'Un\'altra scheda di CasaOS in questo browser è il dispositivo.',
+      spWebScope: 'Ricollegati (qui sotto) per consentire la riproduzione in questo browser.',
+      spWebDrm: 'Questo browser non può riprodurre Spotify qui: i contenuti protetti (DRM) sono disattivati o non supportati.',
+      spWebFailed: 'Spotify non ha accettato questo browser come dispositivo: servono Premium e Web Playback SDK spuntato nella tua app Spotify.',
+      spWebTap: 'Il browser ha bloccato l\'audio: premi play.', spThisBrowser: 'Questo browser'
     },
     ja: {
       title: '音楽', folder: '音楽フォルダー', change: 'フォルダーを変更', scanning: 'フォルダーを読み込み中…',
@@ -424,7 +534,12 @@
       spDisconnect: '接続を解除', spDenied: 'Spotify へのアクセスが許可されませんでした。', spError: 'Spotify から応答がありません。少ししてからもう一度お試しください。',
       spLoginAgain: 'Spotify のログインの有効期限が切れました。もう一度接続してください。', spNotRegistered: 'このアカウントは Spotify アプリに登録されていません。User Management で追加してください。',
       spBusy: 'Spotify から少し待つよう求められました。',
-      upNext: '次に再生', playingNow: '再生中', nothingNext: '次の曲はありません', jump: 'この曲までスキップ'
+      upNext: '次に再生', playingNow: '再生中', nothingNext: '次の曲はありません', jump: 'この曲までスキップ',
+      spWeb: 'このブラウザで再生', spWebHint: 'このタブが Spotify のデバイスになり、音楽を再生します。Premium と、Spotify アプリで Web Playback SDK のチェックが必要です。',
+      spWebStarting: 'このブラウザでプレーヤーを起動しています…', spWebReady: '準備完了：{name} が Spotify のデバイスに表示されます。', spWebOther: 'このブラウザの別の CasaOS タブがデバイスになっています。',
+      spWebScope: 'このブラウザで再生できるよう、もう一度接続してください（下のボタン）。', spWebDrm: 'このブラウザではここで Spotify を再生できません：保護されたコンテンツ（DRM）がオフか、対応していません。',
+      spWebFailed: 'Spotify はこのブラウザをデバイスとして受け付けませんでした：Premium と、Spotify アプリで Web Playback SDK のチェックが必要です。', spWebTap: 'ブラウザが音声を止めました：再生を押してください。',
+      spThisBrowser: 'このブラウザ'
     },
     ko: {
       title: '음악', folder: '음악 폴더', change: '폴더 변경', scanning: '폴더를 읽는 중…',
@@ -447,7 +562,12 @@
       spDisconnect: '연결 해제', spDenied: 'Spotify 접근이 허용되지 않았습니다.', spError: 'Spotify가 응답하지 않습니다. 잠시 후 다시 시도하세요.',
       spLoginAgain: 'Spotify 로그인이 만료되었습니다. 다시 연결하세요.', spNotRegistered: '이 계정은 Spotify 앱에 없습니다. User Management에서 추가하세요.',
       spBusy: 'Spotify가 잠시 기다려 달라고 했습니다.',
-      upNext: '다음 곡', playingNow: '지금 재생 중', nothingNext: '다음 곡이 없습니다', jump: '이 곡으로 건너뛰기'
+      upNext: '다음 곡', playingNow: '지금 재생 중', nothingNext: '다음 곡이 없습니다', jump: '이 곡으로 건너뛰기',
+      spWeb: '이 브라우저에서 재생', spWebHint: '이 탭이 Spotify 기기가 되어 음악을 재생합니다. Premium과 Spotify 앱에서 Web Playback SDK 선택이 필요합니다.',
+      spWebStarting: '이 브라우저에서 플레이어를 시작하는 중…', spWebReady: '준비됨: {name}이(가) Spotify 기기 목록에 있습니다.', spWebOther: '이 브라우저의 다른 CasaOS 탭이 기기로 쓰이고 있습니다.',
+      spWebScope: '이 브라우저에서 재생하려면 다시 연결하세요(아래).', spWebDrm: '이 브라우저는 여기서 Spotify를 재생할 수 없습니다: 보호된 콘텐츠(DRM)가 꺼져 있거나 지원되지 않습니다.',
+      spWebFailed: 'Spotify가 이 브라우저를 기기로 받아들이지 않았습니다: Premium과 Spotify 앱에서 Web Playback SDK 선택이 필요합니다.', spWebTap: '브라우저가 소리를 막았습니다: 재생을 누르세요.',
+      spThisBrowser: '이 브라우저'
     },
     nl: {
       title: 'Muziek', folder: 'Muziekmap', change: 'Map wijzigen', scanning: 'Map wordt gelezen…',
@@ -472,7 +592,15 @@
       spHelp: 'Zo stel je het in', spConnect: 'Verbinden', spDisconnect: 'Verbinding verbreken', spDenied: 'Toegang tot Spotify is niet toegestaan.',
       spError: 'Spotify reageerde niet. Probeer het zo opnieuw.', spLoginAgain: 'De Spotify-login is verlopen: verbind opnieuw.',
       spNotRegistered: 'Dit account staat niet in je Spotify-app: voeg het toe onder User Management.', spBusy: 'Spotify vroeg om even te wachten.',
-      upNext: 'Hierna', playingNow: 'Speelt nu', nothingNext: 'Hierna komt niets', jump: 'Naar deze springen'
+      upNext: 'Hierna', playingNow: 'Speelt nu', nothingNext: 'Hierna komt niets', jump: 'Naar deze springen',
+      spWeb: 'Afspelen in deze browser',
+      spWebHint: 'Dit tabblad wordt een Spotify-apparaat en speelt de muziek af. Vereist Premium en Web Playback SDK aangevinkt in je Spotify-app.',
+      spWebStarting: 'Speler in deze browser wordt gestart…', spWebReady: 'Klaar: {name} staat bij je Spotify-apparaten.',
+      spWebOther: 'Een ander CasaOS-tabblad in deze browser is het apparaat.',
+      spWebScope: 'Verbind opnieuw (hieronder) om afspelen in deze browser toe te staan.',
+      spWebDrm: 'Deze browser kan Spotify hier niet afspelen: beveiligde inhoud (DRM) staat uit of wordt niet ondersteund.',
+      spWebFailed: 'Spotify accepteerde deze browser niet als apparaat: vereist Premium en Web Playback SDK aangevinkt in je Spotify-app.',
+      spWebTap: 'De browser hield het geluid tegen: druk op afspelen.', spThisBrowser: 'Deze browser'
     },
     no: {
       title: 'Musikk', folder: 'Musikkmappe', change: 'Bytt mappe', scanning: 'Leser mappen …',
@@ -497,7 +625,15 @@
       spHelp: 'Slik setter du det opp', spConnect: 'Koble til', spDisconnect: 'Koble fra', spDenied: 'Tilgang til Spotify ble ikke tillatt.',
       spError: 'Spotify svarte ikke. Prøv igjen om litt.', spLoginAgain: 'Spotify-påloggingen har utløpt: koble til på nytt.',
       spNotRegistered: 'Denne kontoen er ikke i Spotify-appen din: legg den til under User Management.', spBusy: 'Spotify ba om å vente litt.',
-      upNext: 'Neste', playingNow: 'Spilles nå', nothingNext: 'Ingenting neste', jump: 'Hopp til denne'
+      upNext: 'Neste', playingNow: 'Spilles nå', nothingNext: 'Ingenting neste', jump: 'Hopp til denne',
+      spWeb: 'Spill av i denne nettleseren',
+      spWebHint: 'Denne fanen blir en Spotify-enhet og spiller musikken. Krever Premium og Web Playback SDK avkrysset i Spotify-appen din.',
+      spWebStarting: 'Starter spilleren i denne nettleseren…', spWebReady: 'Klar: {name} er blant Spotify-enhetene dine.',
+      spWebOther: 'En annen CasaOS-fane i denne nettleseren er enheten.',
+      spWebScope: 'Koble til på nytt (nedenfor) for å tillate avspilling i denne nettleseren.',
+      spWebDrm: 'Denne nettleseren kan ikke spille Spotify her: beskyttet innhold (DRM) er av eller støttes ikke.',
+      spWebFailed: 'Spotify godtok ikke denne nettleseren som enhet: krever Premium og Web Playback SDK avkrysset i Spotify-appen din.',
+      spWebTap: 'Nettleseren holdt tilbake lyden: trykk spill av.', spThisBrowser: 'Denne nettleseren'
     },
     pl: {
       title: 'Muzyka', folder: 'Folder z muzyką', change: 'Zmień folder', scanning: 'Odczytywanie folderu…',
@@ -523,7 +659,15 @@
       spHelp: 'Jak to skonfigurować', spConnect: 'Połącz', spDisconnect: 'Rozłącz', spDenied: 'Nie zezwolono na dostęp do Spotify.',
       spError: 'Spotify nie odpowiedziało. Spróbuj ponownie za chwilę.', spLoginAgain: 'Logowanie do Spotify wygasło: połącz ponownie.',
       spNotRegistered: 'Tego konta nie ma w Twojej aplikacji Spotify: dodaj je w User Management.', spBusy: 'Spotify poprosiło o chwilę cierpliwości.',
-      upNext: 'Następne', playingNow: 'Teraz odtwarzane', nothingNext: 'Nic więcej w kolejce', jump: 'Przeskocz do tego'
+      upNext: 'Następne', playingNow: 'Teraz odtwarzane', nothingNext: 'Nic więcej w kolejce', jump: 'Przeskocz do tego',
+      spWeb: 'Odtwarzaj w tej przeglądarce',
+      spWebHint: 'Ta karta staje się urządzeniem Spotify i odtwarza muzykę. Wymaga Premium i zaznaczonego Web Playback SDK w Twojej aplikacji Spotify.',
+      spWebStarting: 'Uruchamianie odtwarzacza w tej przeglądarce…', spWebReady: 'Gotowe: {name} jest na liście Twoich urządzeń Spotify.',
+      spWebOther: 'Urządzeniem jest inna karta CasaOS w tej przeglądarce.',
+      spWebScope: 'Połącz ponownie (poniżej), aby zezwolić na odtwarzanie w tej przeglądarce.',
+      spWebDrm: 'Ta przeglądarka nie może tu odtwarzać Spotify: chronione treści (DRM) są wyłączone lub nieobsługiwane.',
+      spWebFailed: 'Spotify nie przyjął tej przeglądarki jako urządzenia: wymaga Premium i zaznaczonego Web Playback SDK w Twojej aplikacji Spotify.',
+      spWebTap: 'Przeglądarka zablokowała dźwięk: naciśnij odtwarzaj.', spThisBrowser: 'Ta przeglądarka'
     },
     pt: {
       title: 'Música', folder: 'Pasta de músicas', change: 'Trocar pasta', scanning: 'Lendo a pasta…',
@@ -550,7 +694,14 @@
       spDenied: 'O acesso ao Spotify não foi permitido.', spError: 'O Spotify não respondeu. Tente de novo daqui a pouco.',
       spLoginAgain: 'O login do Spotify expirou: conecte de novo.',
       spNotRegistered: 'Esta conta não está no seu app do Spotify: adicione em User Management.', spBusy: 'O Spotify pediu para esperar um pouco.',
-      upNext: 'A seguir', playingNow: 'Tocando agora', nothingNext: 'Nada a seguir', jump: 'Pular para esta'
+      upNext: 'A seguir', playingNow: 'Tocando agora', nothingNext: 'Nada a seguir', jump: 'Pular para esta',
+      spWeb: 'Tocar neste navegador',
+      spWebHint: 'Esta aba vira um dispositivo do Spotify e toca a música. Precisa do Premium e do Web Playback SDK marcado no seu app do Spotify.',
+      spWebStarting: 'Iniciando o player neste navegador…', spWebReady: 'Pronto: {name} está nos seus dispositivos do Spotify.',
+      spWebOther: 'Outra aba do CasaOS neste navegador é o dispositivo.', spWebScope: 'Conecte de novo (abaixo) para permitir tocar neste navegador.',
+      spWebDrm: 'Este navegador não consegue tocar o Spotify aqui: o conteúdo protegido (DRM) está desativado ou não é suportado.',
+      spWebFailed: 'O Spotify não aceitou este navegador como dispositivo: precisa do Premium e do Web Playback SDK marcado no seu app do Spotify.',
+      spWebTap: 'O navegador segurou o som: aperte play.', spThisBrowser: 'Este navegador'
     },
     // Only what differs from pt
     'pt-pt': {
@@ -570,7 +721,14 @@
       spRedirect: 'Redirect URI (adicione-o à sua aplicação do Spotify)', spConnectedAs: 'Ligado como {name}', spConnect: 'Ligar', spDisconnect: 'Desligar',
       spError: 'O Spotify não respondeu. Tente novamente daqui a pouco.', spLoginAgain: 'O início de sessão do Spotify expirou: ligue novamente.',
       spNotRegistered: 'Esta conta não está na sua aplicação do Spotify: adicione-a em User Management.', spBusy: 'O Spotify pediu para aguardar um pouco.',
-      playingNow: 'A tocar agora', jump: 'Saltar para esta'
+      playingNow: 'A tocar agora', jump: 'Saltar para esta',
+      spWeb: 'Reproduzir neste navegador',
+      spWebHint: 'Este separador torna-se um dispositivo do Spotify e reproduz a música. Precisa do Premium e do Web Playback SDK assinalado na sua aplicação do Spotify.',
+      spWebStarting: 'A iniciar o leitor neste navegador…', spWebOther: 'Outro separador do CasaOS neste navegador é o dispositivo.',
+      spWebScope: 'Ligue novamente (abaixo) para permitir a reprodução neste navegador.',
+      spWebDrm: 'Este navegador não consegue reproduzir o Spotify aqui: o conteúdo protegido (DRM) está desativado ou não é suportado.',
+      spWebFailed: 'O Spotify não aceitou este navegador como dispositivo: precisa do Premium e do Web Playback SDK assinalado na sua aplicação do Spotify.',
+      spWebTap: 'O navegador reteve o som: carregue em reproduzir.'
     },
     ro: {
       title: 'Muzică', folder: 'Dosarul cu muzică', change: 'Schimbă dosarul', scanning: 'Se citește dosarul…',
@@ -596,7 +754,15 @@
       spDenied: 'Accesul la Spotify nu a fost permis.', spError: 'Spotify nu a răspuns. Încearcă din nou peste puțin timp.',
       spLoginAgain: 'Autentificarea Spotify a expirat: conectează-te din nou.',
       spNotRegistered: 'Acest cont nu este în aplicația ta Spotify: adaugă-l în User Management.', spBusy: 'Spotify a cerut să aștepți puțin.',
-      upNext: 'Urmează', playingNow: 'Se redă acum', nothingNext: 'Nu urmează nimic', jump: 'Sari la aceasta'
+      upNext: 'Urmează', playingNow: 'Se redă acum', nothingNext: 'Nu urmează nimic', jump: 'Sari la aceasta',
+      spWeb: 'Redă în acest browser',
+      spWebHint: 'Această filă devine un dispozitiv Spotify și redă muzica. Are nevoie de Premium și de Web Playback SDK bifat în aplicația ta Spotify.',
+      spWebStarting: 'Se pornește playerul în acest browser…', spWebReady: 'Gata: {name} apare printre dispozitivele tale Spotify.',
+      spWebOther: 'Dispozitivul este o altă filă CasaOS din acest browser.',
+      spWebScope: 'Conectează-te din nou (mai jos) pentru a permite redarea în acest browser.',
+      spWebDrm: 'Acest browser nu poate reda Spotify aici: conținutul protejat (DRM) este dezactivat sau nu este acceptat.',
+      spWebFailed: 'Spotify nu a acceptat acest browser ca dispozitiv: are nevoie de Premium și de Web Playback SDK bifat în aplicația ta Spotify.',
+      spWebTap: 'Browserul a reținut sunetul: apasă redare.', spThisBrowser: 'Acest browser'
     },
     ru: {
       title: 'Музыка', folder: 'Папка с музыкой', change: 'Сменить папку', scanning: 'Чтение папки…',
@@ -622,7 +788,15 @@
       spHelp: 'Как настроить', spConnect: 'Подключить', spDisconnect: 'Отключить', spDenied: 'Доступ к Spotify не разрешён.',
       spError: 'Spotify не ответил. Попробуйте ещё раз чуть позже.', spLoginAgain: 'Вход в Spotify истёк: подключитесь снова.',
       spNotRegistered: 'Этого аккаунта нет в вашем приложении Spotify: добавьте его в User Management.', spBusy: 'Spotify попросил немного подождать.',
-      upNext: 'Далее', playingNow: 'Сейчас играет', nothingNext: 'Дальше ничего нет', jump: 'Перейти к этому треку'
+      upNext: 'Далее', playingNow: 'Сейчас играет', nothingNext: 'Дальше ничего нет', jump: 'Перейти к этому треку',
+      spWeb: 'Играть в этом браузере',
+      spWebHint: 'Эта вкладка станет устройством Spotify и будет играть музыку. Нужны Premium и отмеченный Web Playback SDK в вашем приложении Spotify.',
+      spWebStarting: 'Запуск плеера в этом браузере…', spWebReady: 'Готово: {name} есть в ваших устройствах Spotify.',
+      spWebOther: 'Устройством стала другая вкладка CasaOS в этом браузере.',
+      spWebScope: 'Подключитесь заново (ниже), чтобы разрешить воспроизведение в этом браузере.',
+      spWebDrm: 'Этот браузер не может воспроизводить Spotify здесь: защищённый контент (DRM) отключён или не поддерживается.',
+      spWebFailed: 'Spotify не принял этот браузер как устройство: нужны Premium и отмеченный Web Playback SDK в вашем приложении Spotify.',
+      spWebTap: 'Браузер заблокировал звук: нажмите «Воспроизвести».', spThisBrowser: 'Этот браузер'
     },
     sk: {
       title: 'Hudba', folder: 'Priečinok s hudbou', change: 'Zmeniť priečinok', scanning: 'Číta sa priečinok…',
@@ -649,7 +823,15 @@
       spDenied: 'Prístup k Spotify nebol povolený.', spError: 'Spotify neodpovedalo. Skúste to o chvíľu znova.',
       spLoginAgain: 'Prihlásenie do Spotify vypršalo: pripojte sa znova.',
       spNotRegistered: 'Tento účet nie je vo vašej aplikácii Spotify: pridajte ho v User Management.', spBusy: 'Spotify požiadalo o chvíľu strpenia.',
-      upNext: 'Ďalej v poradí', playingNow: 'Práve hrá', nothingNext: 'Nič ďalšie v poradí', jump: 'Preskočiť na túto'
+      upNext: 'Ďalej v poradí', playingNow: 'Práve hrá', nothingNext: 'Nič ďalšie v poradí', jump: 'Preskočiť na túto',
+      spWeb: 'Prehrávať v tomto prehliadači',
+      spWebHint: 'Táto karta sa stane zariadením Spotify a bude prehrávať hudbu. Vyžaduje Premium a začiarknuté Web Playback SDK vo vašej aplikácii Spotify.',
+      spWebStarting: 'Spúšťa sa prehrávač v tomto prehliadači…', spWebReady: 'Hotovo: {name} je medzi vašimi zariadeniami Spotify.',
+      spWebOther: 'Zariadením je iná karta CasaOS v tomto prehliadači.',
+      spWebScope: 'Pripojte sa znova (nižšie), aby ste povolili prehrávanie v tomto prehliadači.',
+      spWebDrm: 'Tento prehliadač tu nemôže prehrávať Spotify: chránený obsah (DRM) je vypnutý alebo nie je podporovaný.',
+      spWebFailed: 'Spotify neprijal tento prehliadač ako zariadenie: vyžaduje Premium a začiarknuté Web Playback SDK vo vašej aplikácii Spotify.',
+      spWebTap: 'Prehliadač zadržal zvuk: stlačte prehrať.', spThisBrowser: 'Tento prehliadač'
     },
     sl: {
       title: 'Glasba', folder: 'Mapa z glasbo', change: 'Zamenjaj mapo', scanning: 'Branje mape …',
@@ -675,7 +857,14 @@
       spHelp: 'Kako nastaviti', spConnect: 'Poveži', spDisconnect: 'Prekini povezavo', spDenied: 'Dostop do Spotifyja ni bil dovoljen.',
       spError: 'Spotify se ni odzval. Poskusite znova čez trenutek.', spLoginAgain: 'Prijava v Spotify je potekla: znova se povežite.',
       spNotRegistered: 'Tega računa ni v vaši aplikaciji Spotify: dodajte ga v User Management.', spBusy: 'Spotify je prosil, da malo počakate.',
-      upNext: 'Sledi', playingNow: 'Zdaj se predvaja', nothingNext: 'Nič ne sledi', jump: 'Preskoči na to'
+      upNext: 'Sledi', playingNow: 'Zdaj se predvaja', nothingNext: 'Nič ne sledi', jump: 'Preskoči na to',
+      spWeb: 'Predvajaj v tem brskalniku',
+      spWebHint: 'Ta zavihek postane naprava Spotify in predvaja glasbo. Potrebna sta Premium in označen Web Playback SDK v vaši aplikaciji Spotify.',
+      spWebStarting: 'Zaganjanje predvajalnika v tem brskalniku…', spWebReady: 'Pripravljeno: {name} je med vašimi napravami Spotify.',
+      spWebOther: 'Naprava je drug zavihek CasaOS v tem brskalniku.', spWebScope: 'Znova se povežite (spodaj), da dovolite predvajanje v tem brskalniku.',
+      spWebDrm: 'Ta brskalnik tu ne more predvajati Spotifyja: zaščitena vsebina (DRM) je izklopljena ali ni podprta.',
+      spWebFailed: 'Spotify tega brskalnika ni sprejel kot naprave: potrebna sta Premium in označen Web Playback SDK v vaši aplikaciji Spotify.',
+      spWebTap: 'Brskalnik je zadržal zvok: pritisnite predvajaj.', spThisBrowser: 'Ta brskalnik'
     },
     sv: {
       title: 'Musik', folder: 'Musikmapp', change: 'Byt mapp', scanning: 'Läser mappen…',
@@ -700,7 +889,15 @@
       spHelp: 'Så konfigurerar du det', spConnect: 'Anslut', spDisconnect: 'Koppla från', spDenied: 'Åtkomst till Spotify tilläts inte.',
       spError: 'Spotify svarade inte. Försök igen om en stund.', spLoginAgain: 'Spotify-inloggningen har gått ut: anslut igen.',
       spNotRegistered: 'Det här kontot finns inte i din Spotify-app: lägg till det under User Management.', spBusy: 'Spotify bad om att vänta en stund.',
-      upNext: 'Näst på tur', playingNow: 'Spelas nu', nothingNext: 'Inget näst på tur', jump: 'Hoppa till den här'
+      upNext: 'Näst på tur', playingNow: 'Spelas nu', nothingNext: 'Inget näst på tur', jump: 'Hoppa till den här',
+      spWeb: 'Spela upp i den här webbläsaren',
+      spWebHint: 'Den här fliken blir en Spotify-enhet och spelar musiken. Kräver Premium och Web Playback SDK ikryssat i din Spotify-app.',
+      spWebStarting: 'Startar spelaren i den här webbläsaren…', spWebReady: 'Klart: {name} finns bland dina Spotify-enheter.',
+      spWebOther: 'En annan CasaOS-flik i den här webbläsaren är enheten.',
+      spWebScope: 'Anslut igen (nedan) för att tillåta uppspelning i den här webbläsaren.',
+      spWebDrm: 'Den här webbläsaren kan inte spela Spotify här: skyddat innehåll (DRM) är av eller stöds inte.',
+      spWebFailed: 'Spotify godtog inte den här webbläsaren som enhet: kräver Premium och Web Playback SDK ikryssat i din Spotify-app.',
+      spWebTap: 'Webbläsaren höll tillbaka ljudet: tryck på spela.', spThisBrowser: 'Den här webbläsaren'
     },
     tr: {
       title: 'Müzik', folder: 'Müzik klasörü', change: 'Klasörü değiştir', scanning: 'Klasör okunuyor…',
@@ -726,7 +923,14 @@
       spDenied: 'Spotify\'a erişime izin verilmedi.', spError: 'Spotify yanıt vermedi. Biraz sonra yeniden deneyin.',
       spLoginAgain: 'Spotify oturumunun süresi doldu: yeniden bağlanın.',
       spNotRegistered: 'Bu hesap Spotify uygulamanızda yok: User Management bölümünden ekleyin.', spBusy: 'Spotify biraz beklemenizi istedi.',
-      upNext: 'Sıradaki', playingNow: 'Şimdi çalıyor', nothingNext: 'Sırada bir şey yok', jump: 'Buna atla'
+      upNext: 'Sıradaki', playingNow: 'Şimdi çalıyor', nothingNext: 'Sırada bir şey yok', jump: 'Buna atla',
+      spWeb: 'Bu tarayıcıda çal',
+      spWebHint: 'Bu sekme bir Spotify cihazı olur ve müziği çalar. Premium ve Spotify uygulamanızda işaretli Web Playback SDK gerekir.',
+      spWebStarting: 'Oynatıcı bu tarayıcıda başlatılıyor…', spWebReady: 'Hazır: {name} Spotify cihazlarınızda.',
+      spWebOther: 'Cihaz, bu tarayıcıdaki başka bir CasaOS sekmesi.', spWebScope: 'Bu tarayıcıda çalmaya izin vermek için yeniden bağlanın (aşağıda).',
+      spWebDrm: 'Bu tarayıcı Spotify\'ı burada çalamıyor: korumalı içerik (DRM) kapalı ya da desteklenmiyor.',
+      spWebFailed: 'Spotify bu tarayıcıyı cihaz olarak kabul etmedi: Premium ve Spotify uygulamanızda işaretli Web Playback SDK gerekir.',
+      spWebTap: 'Tarayıcı sesi engelledi: oynat\'a basın.', spThisBrowser: 'Bu tarayıcı'
     },
     uk: {
       title: 'Музика', folder: 'Тека з музикою', change: 'Змінити теку', scanning: 'Читання теки…',
@@ -753,7 +957,15 @@
       spDenied: 'Доступ до Spotify не дозволено.', spError: 'Spotify не відповів. Спробуйте ще раз трохи згодом.',
       spLoginAgain: 'Вхід у Spotify закінчився: підключіться знову.',
       spNotRegistered: 'Цього акаунта немає у вашому застосунку Spotify: додайте його в User Management.', spBusy: 'Spotify попросив трохи зачекати.',
-      upNext: 'Далі', playingNow: 'Зараз грає', nothingNext: 'Далі нічого немає', jump: 'Перейти до цього треку'
+      upNext: 'Далі', playingNow: 'Зараз грає', nothingNext: 'Далі нічого немає', jump: 'Перейти до цього треку',
+      spWeb: 'Грати в цьому браузері',
+      spWebHint: 'Ця вкладка стане пристроєм Spotify і гратиме музику. Потрібні Premium і позначений Web Playback SDK у вашому застосунку Spotify.',
+      spWebStarting: 'Запуск плеєра в цьому браузері…', spWebReady: 'Готово: {name} є у ваших пристроях Spotify.',
+      spWebOther: 'Пристроєм стала інша вкладка CasaOS у цьому браузері.',
+      spWebScope: 'Підключіться знову (нижче), щоб дозволити відтворення в цьому браузері.',
+      spWebDrm: 'Цей браузер не може відтворювати Spotify тут: захищений вміст (DRM) вимкнено або не підтримується.',
+      spWebFailed: 'Spotify не прийняв цей браузер як пристрій: потрібні Premium і позначений Web Playback SDK у вашому застосунку Spotify.',
+      spWebTap: 'Браузер заблокував звук: натисніть «Відтворити».', spThisBrowser: 'Цей браузер'
     },
     vi: {
       title: 'Âm nhạc', folder: 'Thư mục nhạc', change: 'Đổi thư mục', scanning: 'Đang đọc thư mục…',
@@ -780,7 +992,15 @@
       spDenied: 'Quyền truy cập Spotify không được cho phép.', spError: 'Spotify không phản hồi. Hãy thử lại sau giây lát.',
       spLoginAgain: 'Phiên đăng nhập Spotify đã hết hạn: hãy kết nối lại.',
       spNotRegistered: 'Tài khoản này không có trong ứng dụng Spotify của bạn: hãy thêm trong User Management.', spBusy: 'Spotify yêu cầu chờ một chút.',
-      upNext: 'Tiếp theo', playingNow: 'Đang phát', nothingNext: 'Không có gì tiếp theo', jump: 'Chuyển đến bài này'
+      upNext: 'Tiếp theo', playingNow: 'Đang phát', nothingNext: 'Không có gì tiếp theo', jump: 'Chuyển đến bài này',
+      spWeb: 'Phát trong trình duyệt này',
+      spWebHint: 'Thẻ này trở thành một thiết bị Spotify và phát nhạc. Cần Premium và đánh dấu Web Playback SDK trong ứng dụng Spotify của bạn.',
+      spWebStarting: 'Đang khởi động trình phát trong trình duyệt này…', spWebReady: 'Sẵn sàng: {name} có trong danh sách thiết bị Spotify của bạn.',
+      spWebOther: 'Một thẻ CasaOS khác trong trình duyệt này đang là thiết bị.',
+      spWebScope: 'Hãy kết nối lại (bên dưới) để cho phép phát trong trình duyệt này.',
+      spWebDrm: 'Trình duyệt này không thể phát Spotify ở đây: nội dung được bảo vệ (DRM) đang tắt hoặc không được hỗ trợ.',
+      spWebFailed: 'Spotify không nhận trình duyệt này làm thiết bị: cần Premium và đánh dấu Web Playback SDK trong ứng dụng Spotify của bạn.',
+      spWebTap: 'Trình duyệt đã chặn âm thanh: hãy nhấn phát.', spThisBrowser: 'Trình duyệt này'
     },
     'zh-cn': {
       title: '音乐', folder: '音乐文件夹', change: '更换文件夹', scanning: '正在读取文件夹…',
@@ -801,7 +1021,11 @@
       spRedirect: 'Redirect URI（添加到你的 Spotify 应用中）', spCopy: '复制', spCopied: '已复制', spConnectedAs: '已连接：{name}', spHelp: '如何设置', spConnect: '连接',
       spDisconnect: '断开连接', spDenied: '未允许访问 Spotify。', spError: 'Spotify 没有响应，请稍后再试。', spLoginAgain: 'Spotify 登录已过期：请重新连接。',
       spNotRegistered: '此账户不在你的 Spotify 应用中：请在 User Management 中添加。', spBusy: 'Spotify 要求稍等片刻。',
-      upNext: '接下来播放', playingNow: '正在播放', nothingNext: '接下来没有歌曲', jump: '跳到这首'
+      upNext: '接下来播放', playingNow: '正在播放', nothingNext: '接下来没有歌曲', jump: '跳到这首',
+      spWeb: '在此浏览器中播放', spWebHint: '此标签页会成为一台 Spotify 设备并播放音乐。需要 Premium，并在你的 Spotify 应用中勾选 Web Playback SDK。', spWebStarting: '正在此浏览器中启动播放器…',
+      spWebReady: '就绪：{name} 已在你的 Spotify 设备中。', spWebOther: '此浏览器中的另一个 CasaOS 标签页是该设备。', spWebScope: '请重新连接（下方），以允许在此浏览器中播放。',
+      spWebDrm: '此浏览器无法在这里播放 Spotify：受保护内容（DRM）已关闭或不受支持。', spWebFailed: 'Spotify 未接受此浏览器作为设备：需要 Premium，并在你的 Spotify 应用中勾选 Web Playback SDK。',
+      spWebTap: '浏览器拦截了声音：请按播放。', spThisBrowser: '此浏览器'
     },
     'zh-tw': {
       title: '音樂', folder: '音樂資料夾', change: '更換資料夾', scanning: '正在讀取資料夾…',
@@ -822,7 +1046,11 @@
       spRedirect: 'Redirect URI（加到你的 Spotify 應用程式中）', spCopy: '複製', spCopied: '已複製', spConnectedAs: '已連接：{name}', spHelp: '如何設定', spConnect: '連接',
       spDisconnect: '中斷連接', spDenied: '未允許存取 Spotify。', spError: 'Spotify 沒有回應，請稍後再試。', spLoginAgain: 'Spotify 登入已過期：請重新連接。',
       spNotRegistered: '此帳戶不在你的 Spotify 應用程式中：請在 User Management 中新增。', spBusy: 'Spotify 要求稍候片刻。',
-      upNext: '即將播放', playingNow: '正在播放', nothingNext: '接下來沒有歌曲', jump: '跳到這首'
+      upNext: '即將播放', playingNow: '正在播放', nothingNext: '接下來沒有歌曲', jump: '跳到這首',
+      spWeb: '在此瀏覽器中播放', spWebHint: '此分頁會成為一台 Spotify 裝置並播放音樂。需要 Premium，並在你的 Spotify 應用程式中勾選 Web Playback SDK。', spWebStarting: '正在此瀏覽器中啟動播放器…',
+      spWebReady: '就緒：{name} 已在你的 Spotify 裝置中。', spWebOther: '此瀏覽器中的另一個 CasaOS 分頁是該裝置。', spWebScope: '請重新連線（下方），以允許在此瀏覽器中播放。',
+      spWebDrm: '此瀏覽器無法在這裡播放 Spotify：受保護內容（DRM）已關閉或不受支援。', spWebFailed: 'Spotify 未接受此瀏覽器作為裝置：需要 Premium，並在你的 Spotify 應用程式中勾選 Web Playback SDK。',
+      spWebTap: '瀏覽器擋下了聲音：請按播放。', spThisBrowser: '此瀏覽器'
     }
   };
 
@@ -902,6 +1130,8 @@
     loading: false, message: '',
     showList: false, showFolder: false, browsePath: '',
     source: saved.source === 'spotify' ? 'spotify' : 'local',   // local files or Spotify
+    web: !!saved.web,                         // Spotify plays in this browser too (a Spotify device)
+    webVolume: typeof saved.webVolume === 'number' ? saved.webVolume : 0.8,
     showDevices: false, showSettings: false, showNext: false
   };
   // The saved queue (paths) waits for the folder to be read
@@ -911,6 +1141,7 @@
       localStorage.setItem(STORE, JSON.stringify({
         folder: state.folder, recursive: state.recursive, volume: state.volume, muted: state.muted,
         shuffle: state.shuffle, repeat: state.repeat, current: state.current, source: state.source,
+        web: state.web, webVolume: state.webVolume,
         time: Math.floor(audio.currentTime || 0),
         queue: pendingQueue || state.queue.map(function (i) { return state.tracks[i] && state.tracks[i].path; }).filter(Boolean)
       }));
@@ -1474,17 +1705,33 @@
   audio.addEventListener('loadedmetadata', updateProgress);
   window.addEventListener('pagehide', save);
 
-  // Media keys, lock screen, browser media controls
+  // Media keys, lock screen, browser media controls (in Spotify mode: what
+  // plays on Spotify, for when the keys reach this tab)
   function updateSession() {
     if (!('mediaSession' in navigator) || !window.MediaMetadata) return;
+    var ms = navigator.mediaSession, m;
+    if (state.source === 'spotify') {
+      var p = sp.playback;
+      if (p && p.uri) {
+        m = { title: p.title, artist: p.artist, album: p.album };
+        if (p.cover) m.artwork = [{ src: p.cover, sizes: '300x300' }];
+      }
+      ms.metadata = m ? new MediaMetadata(m) : null;
+      ms.playbackState = m ? (p.playing ? 'playing' : 'paused') : 'none';
+      return;
+    }
     var tr = state.tracks[state.index];
-    if (!tr) return;
-    var info = tr.info || {}, m = { title: info.title || tr.title, artist: info.artist || tr.album, album: info.album || 'CasaOS' };
+    if (!tr) {
+      ms.metadata = null;
+      return;
+    }
+    var info = tr.info || {};
+    m = { title: info.title || tr.title, artist: info.artist || tr.album, album: info.album || 'CasaOS' };
     if (info.cover) m.artwork = [info.coverType ? { src: info.cover, sizes: '512x512', type: info.coverType } : { src: info.cover, sizes: '512x512' }];
-    navigator.mediaSession.metadata = new MediaMetadata(m);
+    ms.metadata = new MediaMetadata(m);
   }
   function updatePlaybackState() {
-    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = audio.paused ? 'paused' : 'playing';
+    if ('mediaSession' in navigator && state.source !== 'spotify') navigator.mediaSession.playbackState = audio.paused ? 'paused' : 'playing';
   }
   audio.addEventListener('play', updatePlaybackState);
   audio.addEventListener('pause', updatePlaybackState);
@@ -1492,8 +1739,14 @@
     var ms = navigator.mediaSession;
     try {
       // (in Spotify mode, the keys that reach this tab go to Spotify)
-      ms.setActionHandler('play', function () { if (state.source === 'spotify') spToggle(); else togglePlay(); });
-      ms.setActionHandler('pause', function () { if (state.source === 'spotify') spToggle(); else audio.pause(); });
+      ms.setActionHandler('play', function () {
+        if (state.source !== 'spotify') togglePlay();
+        else if (!(sp.playback && sp.playback.playing)) spToggle();
+      });
+      ms.setActionHandler('pause', function () {
+        if (state.source !== 'spotify') audio.pause();
+        else if (sp.playback && sp.playback.playing) spToggle();
+      });
       ms.setActionHandler('nexttrack', function () { if (state.source === 'spotify') spNext(); else step(1, false); });
       ms.setActionHandler('previoustrack', function () { if (state.source === 'spotify') spPrev(); else prev(); });
       ms.setActionHandler('seekto', function (d) {
@@ -1506,8 +1759,9 @@
 
   // ---------------------------------------------------------------------------
   // Spotify: instead of the files, the widget can show and control your
-  // Spotify account (the Spotify app plays on any of your devices; nothing
-  // plays in the tab). The login is Authorization Code + PKCE from this page,
+  // Spotify account (the Spotify app plays on any of your devices; with
+  // "Play in this browser" this tab is one of them, see the Web Playback SDK
+  // section below). The login is Authorization Code + PKCE from this page,
   // with the Client ID of your own Spotify app: no server, no secret. Spotify
   // only sends the login back to an https:// address (or 127.0.0.1), so CasaOS
   // has to be opened over HTTPS (see the README: Tailscale). Controls need
@@ -1516,11 +1770,13 @@
   var AUTH = STORE + '-auth';
   var SP_API = 'https://api.spotify.com/v1';
   var SP_ACCOUNTS = 'https://accounts.spotify.com';
+  // (the last three are the Web Playback SDK's: a login from before 1.2.0 lacks them)
   var SCOPES = 'user-read-playback-state user-modify-playback-state user-read-currently-playing ' +
-    'playlist-read-private playlist-read-collaborative user-library-read user-library-modify';
+    'playlist-read-private playlist-read-collaborative user-library-read user-library-modify ' +
+    'streaming user-read-email user-read-private';
   var HELP = 'https://github.com/UsuarioDeJava/CasaMODs/tree/main/casaos-music-player-spotify#spotify';
 
-  // { clientId, access, refresh, expires, user: {id, name}, premium, checked, probedOn, likeApi, off: {feature: true} }
+  // { clientId, access, refresh, expires, scope, user: {id, name}, premium, checked, probedOn, likeApi, off: {feature: true} }
   function loadAuth() {
     var a;
     try { a = JSON.parse(localStorage.getItem(AUTH) || '{}') || {}; } catch (e) { a = {}; }
@@ -1536,6 +1792,7 @@
     if (e.key !== AUTH) return;
     auth = loadAuth();
     if (!connected()) stopSpotify();
+    webSync();
     render();
   });
 
@@ -1590,11 +1847,14 @@
     } catch (e) {
       return;
     }
+    var again = connected();   // connecting again (for the player's new scopes): Spotify asks, not skips
     crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier)).then(function (hash) {
-      location.assign(SP_ACCOUNTS + '/authorize?' + new URLSearchParams({
+      var q = {
         response_type: 'code', client_id: clientId, scope: SCOPES, redirect_uri: redirectUri(), state: st,
         code_challenge_method: 'S256', code_challenge: b64url(hash)
-      }).toString());
+      };
+      if (again) q.show_dialog = 'true';
+      location.assign(SP_ACCOUNTS + '/authorize?' + new URLSearchParams(q).toString());
     });
   }
 
@@ -1615,6 +1875,7 @@
     auth.access = j.access_token;
     auth.expires = Date.now() + (Number(j.expires_in) || 3600) * 1000;
     if (j.refresh_token) auth.refresh = j.refresh_token;
+    if (j.scope) auth.scope = j.scope;   // what the login allows (the player needs "streaming")
     saveAuth();
   }
 
@@ -1640,33 +1901,44 @@
       auth = { clientId: pk.c, off: {} };
       keepTokens(j);
       state.showSettings = false;
+      web.failed = '';
       say('');
       loadMe();
       poll();
+      webSync();
     }, function (e) {
       console.warn(TAG, 'Spotify login:', e.message);
       say(t('spError'), true);
     });
   }
 
-  // A valid access token, renewed a minute before it ends (once, for every caller)
+  // A valid access token, renewed a minute before it ends (once, for every
+  // caller). not: a token that won't do (the player never takes the same twice)
   var refreshing = null;
-  function fresh() {
-    if (auth.access && Date.now() < auth.expires - 60000) return Promise.resolve(auth.access);
+  function fresh(not) {
+    if (auth.access && auth.access !== not && Date.now() < auth.expires - 60000) return Promise.resolve(auth.access);
     var stored = loadAuth();   // another tab may have renewed it already
-    if (stored.refresh && stored.access && Date.now() < stored.expires - 60000) {
+    if (stored.refresh && stored.access && stored.access !== not && Date.now() < stored.expires - 60000) {
       auth = stored;
       return Promise.resolve(auth.access);
     }
+    if (stored.refresh && stored.refresh !== auth.refresh) auth = stored;   // its newer refresh token
     if (!auth.refresh) return Promise.reject(spError(401, 'LOGIN'));
     if (!refreshing) {
-      refreshing = tokenRequest({ grant_type: 'refresh_token', refresh_token: auth.refresh, client_id: auth.clientId })
+      var used = auth.refresh;
+      refreshing = tokenRequest({ grant_type: 'refresh_token', refresh_token: used, client_id: auth.clientId })
         .then(function (j) {
           refreshing = null;
           keepTokens(j);
           return auth.access;
         }, function (e) {
           refreshing = null;
+          // Another tab renewed it at the same time (the old refresh token is spent): its login goes on
+          var now = loadAuth();
+          if (now.refresh && now.refresh !== used) {
+            auth = now;
+            return fresh(not);
+          }
           // The login was revoked or expired for good: connect again
           if (e.status === 400 || e.status === 401) {
             forget();
@@ -1685,7 +1957,10 @@
     sp.playback = sp.playlists = sp.open = sp.devices = sp.liked = null;
     sp.queued = {};
     stopSpotify();
+    web.failed = '';
+    webSync();
     publish();
+    updateSession();
     render();
   }
 
@@ -1760,6 +2035,7 @@
     }
     auth.checked = Date.now();
     saveAuth();
+    webSync();
     render();
   }
 
@@ -1835,6 +2111,7 @@
       checkLiked();
       if (state.showNext && state.source === 'spotify') loadNext();
     }
+    if ((p && p.uri) !== (before && before.uri) || (p && p.playing) !== (before && before.playing)) updateSession();
     if (p && p.device) probe();
     tick();
     render();
@@ -1849,7 +2126,9 @@
   }
 
   // Reading what plays: every 3 s while playing, 10 s paused, right after a
-  // command and when the song ends; nothing in local mode or with the tab hidden
+  // command and when the song ends; nothing in local mode or with the tab
+  // hidden. While it plays in this browser, its player says what plays: only
+  // every 30 s, for a move to another device or the volume set elsewhere.
   var pollTimer = 0, tickTimer = 0;
   function live() { return state.source === 'spotify' && connected() && !document.hidden; }
 
@@ -1862,6 +2141,20 @@
     clearTimeout(pollTimer);
     if (!live()) return;
     api('GET', '/me/player?additional_types=episode').then(function (j) {
+      if (web.active && j && j.device && j.device.id === web.id) {
+        var v = j.device.volume_percent, p = sp.playback;
+        if (v != null && p && p.device && p.device.volume !== v) {
+          p.device.volume = v;
+          state.webVolume = v / 100;
+          if (v > 0) sp.lastVolume = v;
+          save();
+          render();
+        }
+        return later(30000);
+      }
+      // (the Web API can lag a moment behind the player that just started here)
+      if (web.active && Date.now() - web.seen < 5000) return later(3000);
+      web.active = false;   // it moved to another device, or stopped
       setPlayback(j);
       var p = sp.playback, next = p && p.playing ? 3000 : 10000;
       if (p && p.playing && p.duration) next = Math.min(next, p.duration - position() + 300);
@@ -1934,33 +2227,50 @@
 
   function spToggle() {
     var p = sp.playback;
-    if (!p || !p.device) return openDevices();
-    command('PUT', p.playing ? '/me/player/pause' : '/me/player/play', undefined, function () {
+    // nothing plays anywhere: here, when this browser is a device
+    if (!p || !p.device) return web.ready ? playHere() : openDevices();
+    var show = function () {
       p.position = position();
       p.at = Date.now();
       p.playing = !p.playing;
       tick();
-    });
+    };
+    if (web.active) {
+      // paused here for long: the player may have gone quiet, so the music is moved here again
+      if (!p.playing && Date.now() - web.seen > 600000) return playHere(true);
+      show();
+      render();
+      return webDo(p.playing ? 'resume' : 'pause');
+    }
+    command('PUT', p.playing ? '/me/player/pause' : '/me/player/play', undefined, show);
   }
 
   function spSeek(ms) {
     var p = sp.playback;
     if (!p) return;
     ms = Math.max(0, Math.round(ms));
-    command('PUT', '/me/player/seek?position_ms=' + ms, undefined, function () {
+    var show = function () {
       p.position = ms;
       p.at = Date.now();
-    });
+    };
+    if (web.active) {
+      show();
+      render();
+      return webDo('seek', ms);
+    }
+    command('PUT', '/me/player/seek?position_ms=' + ms, undefined, show);
   }
 
   function spNext() {
     if (!sp.playback) return openDevices();
+    if (web.active) return webDo('nextTrack');
     command('POST', '/me/player/next');
   }
 
   function spPrev() {
     if (!sp.playback) return openDevices();
     if (position() > 3000) return spSeek(0);
+    if (web.active) return webDo('previousTrack');
     command('POST', '/me/player/previous');
   }
 
@@ -1989,6 +2299,12 @@
     if (v > 0) sp.lastVolume = v;
     renderButtons();
     clearTimeout(volumeTimer);
+    if (web.active) {
+      state.webVolume = v / 100;
+      webDo('setVolume', v / 100);
+      volumeTimer = setTimeout(save, 500);
+      return;
+    }
     volumeTimer = setTimeout(function () { command('PUT', '/me/player/volume?volume_percent=' + v); }, 250);
   }
 
@@ -2062,7 +2378,10 @@
 
   function useDevice(id) {
     var p = sp.playback;
-    command('PUT', '/me/player', { device_ids: [id], play: !p || p.playing }, function () { state.showDevices = false; });
+    command('PUT', '/me/player', { device_ids: [id], play: !p || p.playing }, function () {
+      state.showDevices = false;
+      if (id !== web.id) web.active = false;   // the player here goes quiet
+    });
   }
 
   // The library: Liked Songs and your playlists, then a playlist's tracks
@@ -2246,6 +2565,280 @@
     }, 450);
   }
 
+  // ---------------------------------------------------------------------------
+  // Spotify in this browser (the Web Playback SDK): with "Play in this
+  // browser" on, this tab is a Spotify device too ("CasaOS (Chrome)"), in
+  // every Spotify app and in the devices list. Spotify's script plays in a
+  // hidden iframe of its own, protected audio no analyser can hear (the
+  // wallpapers still get what plays: casamods:nowplaying). It needs Premium,
+  // the login's "streaming" scope and "Web Playback SDK" ticked in the
+  // Spotify app. It loads only in Spotify mode with the switch on, and one tab
+  // at a time is the device (the others wait for it: Web Locks). While the
+  // music plays here, the player says what plays and takes the commands.
+  // ---------------------------------------------------------------------------
+  var SDK = 'https://sdk.scdn.co/spotify-player.js';
+  var web = {
+    player: null,          // the page's one Spotify.Player (a second one would never get ready)
+    id: '',                // its device id
+    on: false,             // wanted and started
+    asked: false,          // waiting for the lock (another tab is the device)
+    held: false, release: null,   // the lock, while this tab is the device
+    ready: false,          // a Spotify device now
+    active: false,         // the music plays here (the player has a state)
+    seen: 0,               // the player's last word
+    failed: '',            // drm | scope | account | auth | timeout | load (until switched off and on)
+    given: '',             // the last token handed to the player
+    playHere: null,        // once ready, move the music here (true: playing, false: paused)
+    retried: false,        // reconnected for a device Spotify didn't find
+    restarted: false,      // reconnected after a failed authentication
+    timer: 0
+  };
+  var WEB_SAYS = { drm: 'spWebDrm', scope: 'spWebScope', account: 'spWebFailed', auth: 'spWebFailed', timeout: 'spWebFailed', load: 'spError' };
+  var sdkLoading = null;
+
+  // Protected (EME) audio, over HTTPS
+  function webSupported() { return secure() && !!navigator.requestMediaKeySystemAccess; }
+  // Does the login allow it? (null: unknown, a login from before 1.2.0 until it's renewed)
+  function webScope() { return auth.scope ? /(^|\s)streaming(\s|$)/.test(auth.scope) : null; }
+
+  // The player starts or stops as the switch, the mode and the login say
+  function webSync() {
+    var want = state.web && state.source === 'spotify' && connected() && auth.premium !== false &&
+      webSupported() && !web.failed && webScope() !== false;
+    if (want && !web.on) webStart();
+    else if (!want && web.on) webStop();
+  }
+
+  // The device's name in the Spotify apps
+  function webName() {
+    var ua = navigator.userAgent;
+    var b = /Edg\//.test(ua) ? 'Edge' : /OPR\//.test(ua) ? 'Opera' : /Firefox\//.test(ua) ? 'Firefox' :
+      /Chrome\//.test(ua) ? 'Chrome' : /Safari\//.test(ua) ? 'Safari' : '';
+    return b ? 'CasaOS (' + b + ')' : 'CasaOS';
+  }
+
+  function webStart() {
+    web.on = true;
+    if (web.held || !navigator.locks) webOpen();
+    else if (!web.asked) {
+      web.asked = true;
+      try {
+        navigator.locks.request(STORE + '-player', function () {
+          web.asked = false;
+          if (!web.on) return;   // stopped while waiting
+          web.held = true;
+          webOpen();
+          render();
+          return new Promise(function (done) { web.release = done; });
+        }).then(null, function () { web.asked = false; });
+      } catch (e) {
+        web.asked = false;
+        webOpen();
+      }
+    }
+    render();
+  }
+
+  function webOpen() {
+    loadSdk().then(function () {
+      if (!web.on) return;
+      if (!web.player) webPlayer();
+      clearTimeout(web.timer);
+      web.timer = setTimeout(function () { if (web.on && !web.ready) webFail('timeout'); }, 30000);
+      web.player.connect().then(function (ok) { if (!ok && web.on) webFail('auth'); }, function (e) { if (web.on) webFail('auth', e); });
+    }, function () {
+      if (web.on) webFail('load');
+    });
+  }
+
+  function webStop() {
+    var was = web.ready && sp.playback && sp.playback.device && sp.playback.device.id === web.id;
+    web.on = web.ready = web.active = false;
+    web.playHere = null;
+    clearTimeout(web.timer);
+    webDo('disconnect');
+    if (web.release) {
+      web.release();
+      web.release = null;
+      web.held = false;
+    }
+    if (was) later(1000);   // what plays now, and where
+    render();
+  }
+
+  // Spotify lost this device (after a long idle, say): the same player connects again
+  function webRestart() {
+    web.ready = false;
+    clearTimeout(web.timer);
+    webDo('disconnect');
+    setTimeout(function () { if (web.on) webOpen(); }, 1000);
+    render();
+  }
+
+  function webFail(kind, e) {
+    console.warn(TAG, 'Spotify player in this browser:', kind, (e && e.message) || '');
+    if (kind === 'auth' && !web.restarted && web.player) {
+      web.restarted = true;
+      return webRestart();
+    }
+    web.failed = kind;
+    webStop();
+    say(t(WEB_SAYS[kind]));
+  }
+
+  // A command to the player here (it answers through its events; playback_error if it fails)
+  function webDo(name, arg) {
+    if (!web.player) return;
+    try {
+      var r = web.player[name](arg);
+      if (r && r.then) r.then(null, function (er) { console.warn(TAG, 'Spotify player:', name, er && er.message); });
+    } catch (er) {
+      console.warn(TAG, 'Spotify player:', name, er.message);
+    }
+  }
+
+  // Spotify's script, once (it calls onSpotifyWebPlaybackSDKReady when it's there)
+  function loadSdk() {
+    if (window.Spotify && window.Spotify.Player) return Promise.resolve();
+    if (!sdkLoading) {
+      sdkLoading = new Promise(function (ok, fail) {
+        var before = window.onSpotifyWebPlaybackSDKReady;
+        window.onSpotifyWebPlaybackSDKReady = function () {
+          if (typeof before === 'function') try { before(); } catch (er) { /* another page's */ }
+          ok();
+        };
+        var s = document.createElement('script');
+        s.src = SDK;
+        s.async = true;
+        s.onerror = function () {
+          sdkLoading = null;
+          s.remove();
+          fail(new Error('Spotify\'s player did not load'));
+        };
+        document.head.appendChild(s);
+      });
+    }
+    return sdkLoading;
+  }
+
+  function webPlayer() {
+    var pl = web.player = new window.Spotify.Player({
+      name: webName(),
+      // never the same token twice (the player refuses it): when it asks again, a new one
+      getOAuthToken: function (cb) {
+        fresh(web.given || undefined).then(function (tok) {
+          web.given = tok;
+          cb(tok);
+        }, function () { /* logged out: the player stops */ });
+      },
+      volume: Math.max(0, Math.min(1, state.webVolume)),
+      enableMediaSession: true
+    });
+    pl.addListener('ready', function (d) {
+      web.id = (d && d.device_id) || '';
+      web.ready = !!web.id;
+      web.seen = Date.now();
+      clearTimeout(web.timer);
+      // only Premium accounts become a device: nothing to probe here
+      auth.probedOn = web.id;
+      if (auth.premium !== true) setPremium(true);
+      else {
+        auth.checked = Date.now();
+        saveAuth();
+      }
+      if (web.playHere != null) {
+        var play = web.playHere, again = web.retried;
+        web.playHere = null;
+        web.retried = false;
+        playHere(play, again);
+      }
+      if (state.showDevices) loadDevices();
+      render();
+    });
+    pl.addListener('not_ready', function () {   // offline: it comes back with ready
+      web.ready = false;
+      render();
+    });
+    pl.addListener('player_state_changed', webState);
+    pl.addListener('initialization_error', function (e) { webFail('drm', e); });
+    pl.addListener('authentication_error', function (e) { webFail(/scope/i.test((e && e.message) || '') ? 'scope' : 'auth', e); });
+    pl.addListener('account_error', function (e) { webFail('account', e); });
+    pl.addListener('playback_error', function (e) {
+      console.warn(TAG, 'Spotify player:', (e && e.message) || '');
+      if (web.active) say(t('spError'));
+    });
+    pl.addListener('autoplay_failed', function () { say(t('spWebTap'), true); });
+  }
+
+  // What plays here (only this device's playback; null: it stopped or moved away)
+  function webState(s) {
+    var tr = s && s.track_window && s.track_window.current_track;
+    web.seen = Date.now();
+    if (!tr) {
+      if (web.active) {
+        web.active = false;
+        later(300);   // where it went
+      }
+      return;
+    }
+    web.active = true;
+    if (!s.paused && sp.message === t('spWebTap')) say('');
+    setPlayback({
+      is_playing: !s.paused,
+      progress_ms: s.paused ? s.position : s.position + Math.max(0, Date.now() - (s.timestamp || Date.now())),
+      item: { uri: tr.uri, name: tr.name, duration_ms: s.duration || tr.duration_ms, artists: tr.artists, album: tr.album },
+      context: s.context && s.context.uri ? { uri: s.context.uri } : null,
+      shuffle_state: s.shuffle,
+      repeat_state: ['off', 'context', 'track'][s.repeat_mode] || 'off',
+      device: { id: web.id, name: webName(), volume_percent: Math.round(state.webVolume * 100), supports_volume: true }
+    });
+    later(30000);
+  }
+
+  // The music moves to this browser ("This browser" in the devices, or play
+  // with nothing playing). play: start playing there (default: as it was)
+  function playHere(play, retried) {
+    var p = sp.playback;
+    if (auth.premium === false) {
+      sp.info = true;
+      return render();
+    }
+    if (play == null) play = !p || !p.device || p.playing;
+    state.showDevices = false;
+    if (!state.web || web.failed) {
+      state.web = true;
+      web.failed = '';
+      save();
+    }
+    if (!web.ready) {
+      webSync();
+      // the login lacks the player's scope: the settings say to connect again
+      if (!web.on) state.showSettings = true;
+      else web.playHere = play;
+      return render();
+    }
+    var tries = 0, body = { device_ids: [web.id], play: play };
+    (function go() {
+      api('PUT', '/me/player', body).then(function () {
+        if (auth.premium !== true) setPremium(true);
+        later(1500);
+      }, function (e) {
+        // just ready, Spotify may not know the device yet; after a long idle, not anymore
+        if (e.status === 404 && web.on) {
+          if (++tries < 5) return setTimeout(go, 500 * Math.pow(2, tries - 1));
+          if (!retried) {
+            web.playHere = play;
+            web.retried = true;
+            return webRestart();
+          }
+        }
+        trouble(e);
+        later(400);
+      });
+    })();
+    render();
+  }
+
   function setSource(src) {
     if (src !== 'spotify') src = 'local';
     if (state.source === src) return;
@@ -2261,10 +2854,14 @@
         poll();
       }
     } else {
+      if (web.active) webDo('pause');   // nothing plays over the local files
       stopSpotify();
     }
+    webSync();
     save();
     render();
+    updateSession();
+    updatePlaybackState();
     publish();
   }
 
@@ -2356,6 +2953,8 @@
       '      <button type="button" class="smp-text-btn" data-act="sp-copy"></button>' +
       '    </div>' +
       '    <div class="smp-account"></div>' +
+      '    <label class="smp-check smp-web-row"><input type="checkbox" class="smp-web"> <span></span></label>' +
+      '    <p class="smp-web-note"></p>' +
       '    <div class="smp-folder-btns">' +
       '      <a class="smp-help" target="_blank" rel="noopener"></a>' +
       '      <button type="button" class="smp-text-btn" data-act="sp-disconnect"></button>' +
@@ -2385,8 +2984,8 @@
     el.upnext = root.querySelector('.smp-upnext');
     el.nlist = root.querySelector('.smp-nlist');
     el.settingsBtn = root.querySelector('[data-act="settings"]');
-    ['info', 'pop', 'like', 'device', 'devices', 'spset', 'https', 'cid', 'uri', 'account', 'help', 'controls', 'volume']
-      .forEach(function (k) { el[k] = root.querySelector('.smp-' + k); });
+    ['info', 'pop', 'like', 'device', 'devices', 'spset', 'https', 'cid', 'uri', 'account', 'help', 'controls', 'volume', 'web', 'web-row', 'web-note']
+      .forEach(function (k) { el[k.replace(/-(\w)/g, function (m, c) { return c.toUpperCase(); })] = root.querySelector('.smp-' + k); });
     el.devList = root.querySelector('.smp-dev-list');
     el.spHead = root.querySelector('.smp-sp-head');
     el.spName = root.querySelector('.smp-sp-name');
@@ -2443,6 +3042,14 @@
       if (state.source === 'spotify' && sp.open && el.list.scrollTop + el.list.clientHeight > el.list.scrollHeight - 120) more();
     }, { passive: true });
     el.cid.addEventListener('keydown', function (e) { if (e.key === 'Enter') connect(el.cid.value); });
+    // Play in this browser: at once (switching it off and on also tries again after a failure)
+    el.web.addEventListener('change', function () {
+      state.web = el.web.checked;
+      web.failed = '';
+      save();
+      webSync();
+      render();
+    });
   }
 
   var seeking = false;
@@ -2505,7 +3112,8 @@
       var r = sp.rows[Number(btn.getAttribute('data-i'))];
       if (r) queueRow(r);
     },
-    device: function (btn) { useDevice(btn.getAttribute('data-id')); }
+    device: function (btn) { useDevice(btn.getAttribute('data-id')); },
+    'sp-here': function () { playHere(); }
   };
   var SP_FREE = { settings: 1, info: 1, 'sp-connect': 1, 'sp-copy': 1, 'sp-disconnect': 1 };
 
@@ -2535,6 +3143,8 @@
           state.showList = state.showDevices = state.showNext = false;
           return render();
         }
+        // a click lets the player here make sound (some browsers want it from a click)
+        if (web.player) webDo('activateElement');
         return SP_ACTS[act](btn);
       }
       if (act === 'play') togglePlay();
@@ -2961,18 +3571,24 @@
     el.pop.hidden = !(sp.info && free);
     if (!el.pop.hidden) el.pop.textContent = t('spFreeInfo');
 
-    // Devices
+    // Devices: this browser first (unless another CasaOS tab is it), then Spotify's list
     el.devices.querySelector('.smp-dev-label').textContent = t('spDevices');
+    var canWeb = on && webSupported() && auth.premium !== false;
     if (state.showDevices) {
-      var list = sp.devices || [], cur = p && p.device ? p.device.id : null, html = '';
-      list.forEach(function (d, k) {
+      var here = canWeb && !(web.asked && !web.held), cur = p && p.device ? p.device.id : null, html = '';
+      var list = (sp.devices || []).filter(function (d) { return !web.id || d.id !== web.id; });
+      if (here) html += '<button type="button" class="smp-dir smp-dev smp-here' + (cur && cur === web.id ? ' smp-current' : '') + '" data-act="sp-here">' +
+        icon('device') + '<span></span></button>';
+      list.forEach(function (d) {
         html += '<button type="button" class="smp-dir smp-dev' + (d.id === cur || d.is_active ? ' smp-current' : '') + '" data-act="device" data-id="' +
           String(d.id || '').replace(/[^\w-]/g, '') + '"' + (d.is_restricted || !d.id ? ' disabled' : '') + '>' + icon('device') + '<span></span></button>';
       });
-      el.devList.innerHTML = html || '<div class="smp-dir-info"></div>';
-      var names = el.devList.querySelectorAll('.smp-dev span');
+      if (!list.length) html += '<div class="smp-dir-info"></div>';
+      el.devList.innerHTML = html;
+      if (here) el.devList.querySelector('.smp-here span').textContent = t('spThisBrowser') + (web.on && !web.ready ? ' …' : '');
+      var names = el.devList.querySelectorAll('[data-act="device"] span');
       list.forEach(function (d, k) { if (names[k]) names[k].textContent = d.name || d.type || '?'; });
-      if (!list.length) el.devList.firstChild.textContent = sp.devicesLoading || !sp.devices ? t('spLoading') : t('spNoDevices');
+      if (!list.length) el.devList.querySelector('.smp-dir-info').textContent = sp.devicesLoading || !sp.devices ? t('spLoading') : t('spNoDevices');
     }
 
     // Settings
@@ -2987,9 +3603,25 @@
     el.account.textContent = on && auth.user ? t('spConnectedAs').replace('{name}', auth.user.name) : '';
     el.help.textContent = t('spHelp');
     el.help.href = HELP;
+    // Play in this browser: the switch, and how it goes
+    var noScope = state.web && (web.failed === 'scope' || webScope() === false), note = '';
+    el.webRow.hidden = !canWeb;
+    el.web.checked = state.web;
+    el.web.nextElementSibling.textContent = t('spWeb');
+    if (canWeb) {
+      if (!state.web) note = t('spWebHint');
+      else if (noScope) note = t('spWebScope');
+      else if (web.failed) note = t(WEB_SAYS[web.failed]);
+      else if (web.ready) note = t('spWebReady').replace('{name}', webName());
+      else if (web.asked && !web.held) note = t('spWebOther');
+      else note = t('spWebStarting');
+    }
+    el.webNote.hidden = !note;
+    el.webNote.textContent = note;
+    el.webNote.classList.toggle('smp-warn', canWeb && state.web && (noScope || !!web.failed));
     var connectBtn = root.querySelector('[data-act="sp-connect"]'), disconnectBtn = root.querySelector('[data-act="sp-disconnect"]');
     connectBtn.textContent = t('spConnect');
-    connectBtn.hidden = on;
+    connectBtn.hidden = on && !(canWeb && noScope);   // connecting again gives the player its scope
     connectBtn.disabled = !secure();
     disconnectBtn.textContent = t('spDisconnect');
     disconnectBtn.hidden = !on;
@@ -3039,6 +3671,7 @@
     if (!auth.user) loadMe();
     poll();
   }
+  webSync();
   console.info(TAG, 'loaded');
 
   // For other mods and debugging
@@ -3057,7 +3690,10 @@
       get premium() { return auth.premium; },
       connect: connect,
       disconnect: forget,
-      refresh: poll
+      refresh: poll,
+      // this browser as a Spotify device
+      get here() { return { on: state.web, ready: web.ready, active: web.active, device: web.id, failed: web.failed }; },
+      playHere: function () { playHere(); }
     },
     get nowPlaying() {
       var tr = state.tracks[state.index];
