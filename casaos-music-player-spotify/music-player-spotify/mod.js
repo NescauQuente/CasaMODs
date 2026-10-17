@@ -1718,8 +1718,10 @@
       }
       ms.metadata = m ? new MediaMetadata(m) : null;
       ms.playbackState = m ? (p.playing ? 'playing' : 'paused') : 'none';
+      sessionPosition();
       return;
     }
+    if (ms.setPositionState) try { ms.setPositionState(); } catch (e) { /* older browsers */ }
     var tr = state.tracks[state.index];
     if (!tr) {
       ms.metadata = null;
@@ -1733,26 +1735,40 @@
   function updatePlaybackState() {
     if ('mediaSession' in navigator && state.source !== 'spotify') navigator.mediaSession.playbackState = audio.paused ? 'paused' : 'playing';
   }
+  // Where the Spotify song is, for the browser's and the system's media
+  // controls (the local file's comes from the audio element itself)
+  function sessionPosition() {
+    var ms = navigator.mediaSession, p = sp.playback;
+    if (!ms || !ms.setPositionState || state.source !== 'spotify') return;
+    try {
+      if (p && p.uri && p.duration) ms.setPositionState({ duration: p.duration / 1000, position: Math.min(p.duration, position()) / 1000, playbackRate: 1 });
+      else ms.setPositionState();
+    } catch (e) { /* older browsers */ }
+  }
   audio.addEventListener('play', updatePlaybackState);
   audio.addEventListener('pause', updatePlaybackState);
   if ('mediaSession' in navigator) {
     var ms = navigator.mediaSession;
     try {
-      // (in Spotify mode, the keys that reach this tab go to Spotify)
-      ms.setActionHandler('play', function () {
-        if (state.source !== 'spotify') togglePlay();
-        else if (!(sp.playback && sp.playback.playing)) spToggle();
-      });
-      ms.setActionHandler('pause', function () {
-        if (state.source !== 'spotify') audio.pause();
-        else if (sp.playback && sp.playback.playing) spToggle();
-      });
+      // (in Spotify mode, the keys that reach this tab go to Spotify; play and
+      // pause both toggle there: the browser picks one from this tab's own
+      // audio, which is paused while Spotify plays elsewhere)
+      ms.setActionHandler('play', function () { if (state.source === 'spotify') spToggle(); else togglePlay(); });
+      ms.setActionHandler('pause', function () { if (state.source === 'spotify') spToggle(); else audio.pause(); });
       ms.setActionHandler('nexttrack', function () { if (state.source === 'spotify') spNext(); else step(1, false); });
       ms.setActionHandler('previoustrack', function () { if (state.source === 'spotify') spPrev(); else prev(); });
       ms.setActionHandler('seekto', function (d) {
         if (d.seekTime == null) return;
         if (state.source === 'spotify') spSeek(d.seekTime * 1000);
         else audio.currentTime = d.seekTime;
+      });
+      // the 10 s buttons (the browser's own ones would move the paused local file)
+      ['seekbackward', 'seekforward'].forEach(function (a) {
+        ms.setActionHandler(a, function (d) {
+          var by = ((d && d.seekOffset) || 10) * (a === 'seekbackward' ? -1 : 1);
+          if (state.source === 'spotify') spSeek(position() + by * 1000);
+          else if (audio.duration) audio.currentTime = Math.max(0, Math.min(audio.duration, audio.currentTime + by));
+        });
       });
     } catch (e) { /* older browsers */ }
   }
@@ -1776,7 +1792,8 @@
     'streaming user-read-email user-read-private';
   var HELP = 'https://github.com/UsuarioDeJava/CasaMODs/tree/main/casaos-music-player-spotify#spotify';
 
-  // { clientId, access, refresh, expires, scope, user: {id, name}, premium, checked, probedOn, likeApi, off: {feature: true} }
+  // { clientId, access, refresh, expires, scope, user: {id, name}, at (when the login last changed),
+  //   premium, checked, probedOn, likeApi, off: {feature: true} }
   function loadAuth() {
     var a;
     try { a = JSON.parse(localStorage.getItem(AUTH) || '{}') || {}; } catch (e) { a = {}; }
@@ -1876,7 +1893,9 @@
     auth.expires = Date.now() + (Number(j.expires_in) || 3600) * 1000;
     if (j.refresh_token) auth.refresh = j.refresh_token;
     if (j.scope) auth.scope = j.scope;   // what the login allows (the player needs "streaming")
+    auth.at = Date.now();
     saveAuth();
+    sharedWrite();   // the other browsers get it from the server
   }
 
   // Back from Spotify's login page (only the login this page started)
@@ -1912,48 +1931,74 @@
     });
   }
 
-  // A valid access token, renewed a minute before it ends (once, for every
-  // caller). not: a token that won't do (the player never takes the same twice)
-  var refreshing = null;
+  // A valid access token, renewed 1 to 4 minutes before it ends (once, for
+  // every caller; browsers sharing the login don't all renew at once, and the
+  // later ones find the new one on the server). not: a token that won't do
+  // (the player never takes the same twice)
+  var refreshing = null, LEAD = 60000 + Math.round(Math.random() * 180000);
+  function valid(a, not) { return !!(a.access && a.access !== not && Date.now() < a.expires - LEAD); }
   function fresh(not) {
-    if (auth.access && auth.access !== not && Date.now() < auth.expires - 60000) return Promise.resolve(auth.access);
+    if (valid(auth, not)) return Promise.resolve(auth.access);
     var stored = loadAuth();   // another tab may have renewed it already
-    if (stored.refresh && stored.access && stored.access !== not && Date.now() < stored.expires - 60000) {
+    if (stored.refresh && valid(stored, not)) {
       auth = stored;
       return Promise.resolve(auth.access);
     }
     if (stored.refresh && stored.refresh !== auth.refresh) auth = stored;   // its newer refresh token
-    if (!auth.refresh) return Promise.reject(spError(401, 'LOGIN'));
     if (!refreshing) {
-      var used = auth.refresh;
-      refreshing = tokenRequest({ grant_type: 'refresh_token', refresh_token: used, client_id: auth.clientId })
-        .then(function (j) {
-          refreshing = null;
-          keepTokens(j);
-          return auth.access;
-        }, function (e) {
-          refreshing = null;
-          // Another tab renewed it at the same time (the old refresh token is spent): its login goes on
-          var now = loadAuth();
-          if (now.refresh && now.refresh !== used) {
-            auth = now;
-            return fresh(not);
-          }
-          // The login was revoked or expired for good: connect again
-          if (e.status === 400 || e.status === 401) {
-            forget();
-            say(t('spLoginAgain'), true);
-          }
-          throw spError(401, 'LOGIN');
-        });
+      // another browser may have renewed it: the login on the server first
+      refreshing = sharedPull(true).then(function (changed) {
+        if (changed && !connected()) loggedOut();   // disconnected in another browser
+        if (valid(auth, not)) return auth.access;
+        if (!auth.refresh) throw spError(401, 'LOGIN');
+        return renew(not, true);
+      }).then(function (tok) {
+        refreshing = null;
+        return tok;
+      }, function (e) {
+        refreshing = null;
+        throw e;
+      });
     }
     return refreshing;
   }
 
-  // Disconnect: the login is forgotten in this browser (the Client ID stays)
+  function renew(not, again) {
+    var used = auth.refresh;
+    return tokenRequest({ grant_type: 'refresh_token', refresh_token: used, client_id: auth.clientId }).then(function (j) {
+      keepTokens(j);
+      return auth.access;
+    }, function (e) {
+      // Another tab or browser renewed it at the same time (the old refresh
+      // token is spent): a moment for it to save, then its login goes on
+      return new Promise(function (done) { setTimeout(done, again ? 2500 : 0); }).then(function () {
+        return sharedPull(true);
+      }).then(function () {
+        var now = loadAuth();
+        if (now.refresh && now.refresh !== used && now.refresh !== auth.refresh && (now.at || 0) >= (auth.at || 0)) auth = now;
+        if (auth.refresh && auth.refresh !== used) {
+          if (valid(auth, not)) return auth.access;
+          if (again) return renew(not, false);
+        }
+        // The login was revoked or expired for good: connect again
+        if (e.status === 400 || e.status === 401) {
+          forget();
+          say(t('spLoginAgain'), true);
+        }
+        throw spError(401, 'LOGIN');
+      });
+    });
+  }
+
+  // Disconnect: the login is forgotten, here and on the server (the Client ID stays)
   function forget() {
-    auth = { clientId: auth.clientId, off: {} };
+    auth = { clientId: auth.clientId, off: {}, at: Date.now() };
     saveAuth();
+    sharedWrite();
+    loggedOut();
+  }
+
+  function loggedOut() {
     sp.playback = sp.playlists = sp.open = sp.devices = sp.liked = null;
     sp.queued = {};
     stopSpotify();
@@ -1963,6 +2008,119 @@
     updateSession();
     render();
   }
+
+  // ---------------------------------------------------------------------------
+  // The login is kept on the CasaOS server too, so every browser logged in to
+  // CasaOS has it (one Spotify login for all of them, at any CasaOS address).
+  // It lives outside CasaMOD's mod folder, which is public (served at /mod/
+  // without a login), and goes through CasaOS's file API, which needs the
+  // CasaOS login. "at" says which login is newer: a renewal or a Disconnect
+  // in one browser reaches the others.
+  // ---------------------------------------------------------------------------
+  var SHARED_DIR = '/DATA/AppData/casamod/data';
+  var SHARED = SHARED_DIR + '/music-player-spotify.json';
+  var SHARED_KEYS = ['clientId', 'access', 'refresh', 'expires', 'scope', 'user', 'at'];
+  var sharedMade = false, sharedQueue = Promise.resolve();
+
+  function casa(method, path, body) {
+    var init = { method: method, headers: { Authorization: token(), Accept: 'application/json' }, credentials: 'include' };
+    if (body) {
+      init.headers['Content-Type'] = 'application/json';
+      init.body = JSON.stringify(body);
+    }
+    return fetch(path, init).then(function (r) {
+      return r.json().then(null, function () { return null; }).then(function (j) { return (j && j.success) || r.status; });
+    });
+  }
+
+  // The server's login: an object, null (none saved yet), or a rejection (it couldn't be asked)
+  function sharedRead() {
+    if (!token()) return Promise.reject(new Error('not logged in to CasaOS'));
+    return fetch('/v1/file/content?path=' + encodeURIComponent(SHARED), {
+      headers: { Authorization: token(), Accept: 'application/json' }, credentials: 'include'
+    }).then(function (r) {
+      return r.json().then(function (j) {
+        if (j && j.success === 200) {
+          var v = null;
+          try { v = JSON.parse(j.data || 'null'); } catch (e) { /* not ours */ }
+          return v && typeof v === 'object' ? v : null;
+        }
+        if (j && j.success === 60001) return null;   // the file doesn't exist yet
+        throw new Error('CasaOS ' + r.status);
+      });
+    });
+  }
+
+  // Saves this browser's login on the server (one write at a time, the latest wins)
+  function sharedWrite() {
+    var data = {};
+    SHARED_KEYS.forEach(function (k) { if (auth[k] != null) data[k] = auth[k]; });
+    var text = JSON.stringify(data);
+    var put = function () { return casa('PUT', '/v1/file', { path: SHARED, content: text }); };
+    var make = function () {   // the folder and the file, then its content
+      return casa('POST', '/v1/folder', { path: SHARED_DIR }).then(function () {
+        return casa('POST', '/v1/file', { path: SHARED });
+      }).then(put);
+    };
+    sharedQueue = sharedQueue.then(function () {
+      if (!token()) return;
+      return (sharedMade ? put() : make()).then(function (code) {
+        return code === 200 || !sharedMade ? code : make();   // the file went away: again
+      }).then(function (code) {
+        sharedMade = code === 200;
+        if (!sharedMade) console.warn(TAG, 'the login could not be saved on CasaOS:', code);
+      });
+    }).then(null, function (e) { console.warn(TAG, 'the login could not be saved on CasaOS:', e.message); });
+    return sharedQueue;
+  }
+
+  // A newer login from the server replaces this one (another browser's login,
+  // renewal or Disconnect); true if it did
+  function adopt(v) {
+    if (!v || (v.at || 0) <= (auth.at || 0)) return false;
+    var same = v.refresh && auth.user && v.user && auth.user.id === v.user.id;
+    if (!same) auth = { clientId: auth.clientId, off: {} };   // another account (or none): learned again
+    SHARED_KEYS.forEach(function (k) {
+      if (v[k] != null) auth[k] = v[k];
+      else if (k !== 'clientId') delete auth[k];
+    });
+    saveAuth();
+    return true;
+  }
+
+  // Reads the server's login: a newer one is taken; this browser's, when newer
+  // (or the server has none), is saved there unless keep. true: the login changed
+  function sharedPull(keep) {
+    return sharedRead().then(function (v) {
+      sharedMade = sharedMade || !!v;
+      if (adopt(v)) return true;
+      if (!keep && connected() && (!v || (v.at || 0) < (auth.at || 0) || !auth.at)) {
+        if (!auth.at) {   // a login from before 1.3.0: from now on, everyone's
+          auth.at = Date.now();
+          saveAuth();
+        }
+        sharedWrite();
+      }
+      return false;
+    }, function () { return false; });
+  }
+
+  // After the server's login came in: connected, or not anymore
+  function sharedChanged(changed) {
+    if (!changed) return;
+    if (!connected()) return loggedOut();
+    if (state.source === 'spotify') {
+      if (!auth.user) loadMe();
+      poll();
+    }
+    webSync();
+    render();
+  }
+
+  // Not connected here: a login made in another browser may be there now
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden && root && !connected()) sharedPull().then(sharedChanged);
+  });
 
   // The Web API: JSON in and out; a 401 renews the login once; after a 429
   // nothing is asked until Spotify's Retry-After has passed
@@ -2112,6 +2270,7 @@
       if (state.showNext && state.source === 'spotify') loadNext();
     }
     if ((p && p.uri) !== (before && before.uri) || (p && p.playing) !== (before && before.playing)) updateSession();
+    else sessionPosition();
     if (p && p.device) probe();
     tick();
     render();
@@ -2234,6 +2393,7 @@
       p.at = Date.now();
       p.playing = !p.playing;
       tick();
+      updateSession();
     };
     if (web.active) {
       // paused here for long: the player may have gone quiet, so the music is moved here again
@@ -2252,6 +2412,7 @@
     var show = function () {
       p.position = ms;
       p.at = Date.now();
+      sessionPosition();
     };
     if (web.active) {
       show();
@@ -2640,11 +2801,12 @@
   }
 
   function webOpen() {
+    // Spotify's script, then the device: 45 s at most (it never answered: a failure, not "Starting…" forever)
+    clearTimeout(web.timer);
+    web.timer = setTimeout(function () { if (web.on && !web.ready) webFail('timeout'); }, 45000);
     loadSdk().then(function () {
       if (!web.on) return;
       if (!web.player) webPlayer();
-      clearTimeout(web.timer);
-      web.timer = setTimeout(function () { if (web.on && !web.ready) webFail('timeout'); }, 30000);
       web.player.connect().then(function (ok) { if (!ok && web.on) webFail('auth'); }, function (e) { if (web.on) webFail('auth', e); });
     }, function () {
       if (web.on) webFail('load');
@@ -3592,7 +3754,7 @@
     }
 
     // Settings
-    el.https.hidden = secure();
+    el.https.hidden = secure() || on;
     el.https.textContent = t('spHttps');
     root.querySelector('.smp-cid-label').textContent = t('spClientId');
     root.querySelector('.smp-uri-label').textContent = t('spRedirect');
@@ -3653,7 +3815,11 @@
   function mount() {
     var container = document.querySelector('.ps-container');
     if (!container) return;
-    if (!root) { build(); render(); }
+    if (!root) {
+      build();
+      render();
+      sharedPull().then(sharedChanged);   // the login kept on the CasaOS server
+    }
     if (root.parentNode !== container) container.insertBefore(root, slot(container));
   }
 
